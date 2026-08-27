@@ -194,7 +194,7 @@ declarada igual, porque describe la intención del modelo.
 >
 > El ORM después te deja escribir `usuario.pedidos` y parece que la lista estuviera
 > ahí. **No está: es una consulta** que va a buscar los pedidos cuyo `usuario_id`
-> coincide. Y por eso hay que declararla — otra vez EA-05."""
+> coincide. Y por eso hay que declararla — otra vez EA-05.
 
 ---
 
