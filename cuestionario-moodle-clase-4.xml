@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Banco de preguntas - Clase 4: El despliegue
+     Programacion 3 - UTN FRM - Tecnicatura Universitaria en Programacion
+     Importar en: Banco de preguntas > Importar > Formato XML de Moodle -->
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Clase 4 - El despliegue</text></category>
+    <info format="html"><text><![CDATA[Preguntas autocorregibles derivadas del cap&iacute;tulo 4 del apunte (<i>El despliegue</i>). Cada pregunta lleva retroalimentaci&oacute;n espec&iacute;fica por opci&oacute;n y remite a la secci&oacute;n del apunte.]]></text></info>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-01 La carencia de HTTP/1.0</text></name>
+    <questiontext format="html"><text><![CDATA[La primera versión masiva de HTTP tenía una carencia que hoy parece increíble. ¿Cuál era, y qué consecuencia estructural tenía?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[HTTP/1.1, en 1997, lo resolvió con una decisión mínima y enorme: <b>hizo obligatoria la cabecera Host</b>. La técnica se llama alojamiento virtual y es la que sostiene económicamente a la web tal como la conocemos. <i>(Apunte §4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[La petición no decía a qué sitio iba dirigida, así que cada sitio web del mundo necesitaba su propia dirección IP]]></text><feedback format="html"><text><![CDATA[Correcto. El cliente abría una conexión a una IP y pedía <code>GET /index.html</code>; el servidor no tenía forma de saber si el usuario había escrito empresa-a.com o empresa-b.com. Con 4.300 millones de direcciones y una web creciendo exponencialmente, ese modelo tenía fecha de vencimiento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No soportaba cifrado, así que todo el tráfico viajaba en texto plano]]></text><feedback format="html"><text><![CDATA[Cierto pero no es la carencia que da origen al alojamiento virtual. HTTPS llegó después y trajo su propio problema, que resolvió SNI.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No permitía más de una petición por conexión]]></text><feedback format="html"><text><![CDATA[Ese es el problema que resolvió HTTP/2 multiplexando, en 2015. Otro asunto y otra época.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No incluía códigos de estado para informar errores]]></text><feedback format="html"><text><![CDATA[Los códigos de estado existen desde el principio.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-02 Qué resolvió SNI</text></name>
+    <questiontext format="html"><text><![CDATA[Cuando apareció el cifrado, el alojamiento virtual y HTTPS fueron incompatibles durante años. ¿Por qué, y cómo se resolvió?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[En una conexión HTTPS el nombre viaja <b>dos veces</b>: primero en claro en el SNI, para elegir el certificado; después cifrado, en la cabecera Host. Un desacuerdo entre ambos es una anomalía que los proxies modernos rechazan. <i>(Apunte §4.2 y §4.8.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque el servidor tenía que elegir el certificado antes de poder leer la cabecera Host, que viaja cifrada; SNI hace que el cliente declare el nombre en claro al inicio del saludo]]></text><feedback format="html"><text><![CDATA[Exacto: un problema de huevo y gallina. La extensión SNI se incorporó a TLS en 2003 y es la razón por la que hoy un VPS de diez dólares puede alojar veinte sitios con certificado propio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque los certificados no podían emitirse para más de un dominio]]></text><feedback format="html"><text><![CDATA[Los certificados multi-dominio existen, pero no es el problema: el problema era <i>elegir</i> cuál presentar antes de saber qué pidió el cliente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el cifrado consumía demasiados recursos para varios sitios a la vez]]></text><feedback format="html"><text><![CDATA[Es una cuestión lógica, no de rendimiento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque cada sitio necesitaba su propio puerto además de su propio certificado]]></text><feedback format="html"><text><![CDATA[Todos comparten el 443. La distinción la hace el nombre, no el puerto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-03 Qué es un proxy inverso</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál es la diferencia entre un proxy común y un proxy inverso?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La ventaja no es solo el reparto: al concentrar la terminación TLS en un único lugar, los certificados se gestionan una vez y <b>las aplicaciones internas quedan liberadas de saber nada sobre criptografía</b>. <i>(Apunte §4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Un proxy común representa al cliente ante muchos servidores; un proxy inverso representa a muchos servidores ante todos los clientes]]></text><feedback format="html"><text><![CDATA[Correcto. El proxy inverso ocupa los puertos 80 y 443, termina el cifrado, lee el nombre solicitado y reparte hacia el proceso interno que corresponda.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un proxy inverso solo funciona con HTTPS y el común solo con HTTP]]></text><feedback format="html"><text><![CDATA[Los dos manejan ambos. La diferencia es a quién representan.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un proxy inverso está dentro de la red del cliente y el común en la del servidor]]></text><feedback format="html"><text><![CDATA[Está exactamente al revés.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un proxy inverso cachea respuestas y el común no]]></text><feedback format="html"><text><![CDATA[El cacheo lo pueden hacer los dos; no es lo que los define.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-04 Qué hace distinto a Traefik</text></name>
+    <questiontext format="html"><text><![CDATA[Los proxies inversos clásicos —nginx, Apache— se configuran con archivos que hay que editar y recargar. ¿Qué cambió Traefik?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Quedate con la idea que ordena todo el capítulo: <b>hay un solo proceso atendiendo el 80 y el 443 de tu servidor, y no es tu aplicación. Es Traefik.</b> Todo lo que configures en «Domains &amp; Proxy» no le está hablando a tu aplicación: le está hablando al portero. <i>(Apunte §4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[En lugar de leer un archivo, descubre la configuración observando el entorno: consulta al motor de Docker qué contenedores existen y qué etiquetas tienen]]></text><feedback format="html"><text><![CDATA[Correcto. Con contenedores que nacen y mueren permanentemente, el modelo de archivo no escala. Cuando Easypanel levanta un contenedor nuevo con la etiqueta correcta, nadie edita ni recarga nada: Traefik ya lo vio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reemplazó los archivos de texto por una base de datos de configuración]]></text><feedback format="html"><text><![CDATA[No hay base de datos: hay observación del entorno en tiempo real.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es más rápido porque está escrito en Go en lugar de C]]></text><feedback format="html"><text><![CDATA[El lenguaje no es lo relevante. Lo relevante es el modelo de configuración.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Incluye un certificado comodín preinstalado para cualquier dominio]]></text><feedback format="html"><text><![CDATA[No existe tal cosa. Traefik pide certificados a Let's Encrypt por ACME, dominio por dominio.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C4-05 Los tres componentes de Easypanel</text></name>
+    <questiontext format="html"><text><![CDATA[Easypanel es una interfaz sobre tres componentes que ya existían. Emparejá cada uno con lo que ocurre si falla.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Easypanel no aporta funcionalidad sino una <b>capa de traducción</b>: convierte lo del formulario en etiquetas de Docker, variables de entorno y órdenes de construcción. Su costo es que, cuando falla, el error aparece expresado en el vocabulario del componente subyacente y no en el del formulario que completaste. Diagnosticar es preguntarse: <b>¿esto es problema de Docker, de Traefik o del certificado?</b> <i>(Apunte §4.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Docker]]></text><answer format="html"><text><![CDATA[La construcción no termina]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Traefik]]></text><answer format="html"><text><![CDATA[502, 404, o el dominio directamente no responde]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Let's Encrypt]]></text><answer format="html"><text><![CDATA[El sitio queda sin HTTPS]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-06 El repositorio como única fuente de verdad</text></name>
+    <questiontext format="html"><text><![CDATA[Easypanel no recibe archivos cargados manualmente: clona un repositorio. ¿Por qué es una decisión de arquitectura y no de comodidad?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Si Easypanel no encuentra un Dockerfile intenta deducir el tipo de aplicación con Nixpacks o Buildpacks. Funciona bien para proyectos estándar, pero es una caja negra: cuando falla, no hay archivo que leer. Este proyecto trae sus propios Dockerfile justamente para no depender de eso. <i>(Apunte §4.3.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque no existe ningún estado del servidor producido a mano que no esté en el código: si el servidor se pierde entero, se reconstruye clonando y desplegando]]></text><feedback format="html"><text><![CDATA[Correcto. Es la misma idea de la sección 3.2 —el entorno es un artefacto versionado— llevada al despliegue completo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque subir archivos por FTP es inseguro]]></text><feedback format="html"><text><![CDATA[La seguridad del transporte no es el punto; el punto es la reproducibilidad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Docker solo puede construir desde repositorios Git]]></text><feedback format="html"><text><![CDATA[Docker construye desde cualquier directorio. La restricción la impone Easypanel a propósito.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque así se ahorra espacio en disco en el servidor]]></text><feedback format="html"><text><![CDATA[El repositorio se clona igual en el servidor: no se ahorra nada.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C4-07 El Build path</text></name>
+    <questiontext format="html"><text><![CDATA[El proyecto está en dos repositorios independientes, cada uno con la aplicación en su raíz. ¿Qué valor va en el campo <b>Build path</b> de Easypanel? (escribí solo el valor)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Va <code>/</code>, no <code>/backend</code> ni <code>/frontend</code>. Si seguís una guía escrita para monorepositorio y ponés <code>/backend</code>, Docker va a buscar un directorio que en ese repositorio no existe, y la construcción falla con un mensaje que <b>no menciona el Build path por ningún lado</b>. El Build path es literalmente el contexto de construcción de §3.4.1. <i>(Apunte §4.4 y §4.7.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>/</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>\</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>/ </text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>raiz</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>raíz</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C4-08 El modelo de Traefik</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada concepto del modelo de Traefik con lo que es en este proyecto.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La secuencia es: llega una petición a un punto de entrada, se evalúan los enrutadores hasta encontrar uno cuya regla coincida, se aplican sus middlewares, y se entrega al servicio. Esa cadena explica de forma exacta los dos códigos de error más frecuentes del capítulo. <i>(Apunte §4.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Punto de entrada (entrypoint)]]></text><answer format="html"><text><![CDATA[Un puerto en el que Traefik escucha: el 80 y el 443]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Enrutador (router)]]></text><answer format="html"><text><![CDATA[Una regla que decide qué peticiones toma: Host(api.tudominio.com)]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Middleware]]></text><answer format="html"><text><![CDATA[Una transformación intermedia opcional: la redirección de HTTP a HTTPS]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Servicio (service)]]></text><answer format="html"><text><![CDATA[El destino interno al que se entrega: el contenedor api, puerto 8000]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-09 404 contra 502</text></name>
+    <questiontext format="html"><text><![CDATA[En el modelo de Traefik, ¿qué distingue un <b>404</b> de un <b>502</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Un 502 con el puerto correcto en el formulario apunta a otra cosa: el proceso está escuchando en <code>127.0.0.1</code> en lugar de <code>0.0.0.0</code> (§3.5.5). <i>(Apunte §4.8.1 y §4.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[404: ningún enrutador coincidió, el nombre no está asociado a ningún servicio. 502: el enrutador coincidió y el servicio no contestó o contestó algo inválido]]></text><feedback format="html"><text><![CDATA[Correcto, y no es casual que sean dos errores distintos: cada uno señala una <b>etapa distinta de la cadena</b>. El 404 es un problema de configuración de dominio; el 502, de puerto o de interfaz de escucha.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[404: el archivo no existe en el servidor. 502: el servidor está caído]]></text><feedback format="html"><text><![CDATA[Ese es el significado genérico de HTTP. Acá los emite <b>Traefik</b>, y su significado es más específico: hablan de la cadena de enrutamiento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[404: el certificado no se emitió. 502: el DNS no resuelve]]></text><feedback format="html"><text><![CDATA[Si el DNS no resuelve, no llega ninguna petición y no hay código de estado que ver.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son intercambiables: dependen de la versión de Traefik]]></text><feedback format="html"><text><![CDATA[Confundirlos manda a buscar el problema al lugar equivocado, que es exactamente lo que hay que evitar.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-10 El puerto de Domains &amp; Proxy</text></name>
+    <questiontext format="html"><text><![CDATA[En «Domains &amp; Proxy» se carga el puerto 8000 para la API. ¿Qué significa ese número?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[En el frontend ese valor es <b>80</b>, no 8000, porque nginx escucha en el 80. Es el error más repetido de la clase: se copia la configuración del backend y se cambia solo el dominio. El síntoma es un 502. <i>(Apunte §4.7.3 y §4.9.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Es el puerto <b>interno del contenedor</b>: le dice a Traefik a qué puerto entregar el tráfico, sin abrir nada en el VPS]]></text><feedback format="html"><text><![CDATA[Correcto. Si corrés <code>nmap</code> desde afuera, el 8000 sigue cerrado. Traefik entra por el 443 y reparte por adentro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es el puerto que se abre en el firewall del VPS para ese servicio]]></text><feedback format="html"><text><![CDATA[No se abre ningún puerto. Los únicos abiertos siguen siendo 22, 80 y 443.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es el puerto público por el que los visitantes acceden al servicio]]></text><feedback format="html"><text><![CDATA[Los visitantes entran por el 443. Nadie escribe <code>:8000</code> en la URL.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es el puerto que Docker publica hacia el anfitrión con -p]]></text><feedback format="html"><text><![CDATA[No hay publicación con <code>-p</code>: la comunicación es por la red interna del proyecto.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C4-11 Los desafíos de ACME</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada desafío del protocolo ACME con lo que pide demostrar.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Traefik usa <b>HTTP-01</b>. El DNS-01 es el que se mencionó en §1.12.2 al explicar el certificado comodín: como no requiere conectarse al servidor sino publicar un registro en la zona, es el único que puede validar un nombre con asterisco, y por eso exige credenciales de API del proveedor DNS. <i>(Apunte §4.8.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[HTTP-01]]></text><answer format="html"><text><![CDATA[Control del servidor al que apunta el nombre: servir un archivo por el puerto 80]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[DNS-01]]></text><answer format="html"><text><![CDATA[Control de la zona DNS: publicar un registro TXT con un valor dado]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[TLS-ALPN-01]]></text><answer format="html"><text><![CDATA[Control del servicio TLS: responder el saludo TLS de una forma particular]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-12 Los dos requisitos del certificado</text></name>
+    <questiontext format="html"><text><![CDATA[El certificado no se emite. Antes de tocar un solo botón del panel, ¿qué dos cosas hay que verificar?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los certificados duran <b>90 días</b> y la renovación se intenta a los 60. Esa duración corta es deliberada: obliga a que la renovación esté automatizada. Consecuencia práctica: <b>el puerto 80 tiene que quedar abierto para siempre</b>, no solo el día del despliegue. <i>(Apunte §4.8.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que el dominio resuelva hacia el VPS (Clase 1) y que el puerto 80 esté abierto (Clase 2)]]></text><feedback format="html"><text><![CDATA[Correcto: el 90 % de las veces es una de esas dos, y ninguna se arregla desde Easypanel. <code>nslookup</code> del dominio y <code>nmap</code> del puerto 80. Si esos dos dan bien, entonces sí, mirá los logs de Traefik.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el puerto 443 esté abierto y que el servicio esté corriendo]]></text><feedback format="html"><text><![CDATA[El desafío HTTP-01 se valida por el <b>puerto 80</b>, no por el 443. Y el servicio puede estar caído: el certificado se emite igual.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el registro CAA autorice a Traefik y que el TTL sea bajo]]></text><feedback format="html"><text><![CDATA[El CAA autoriza <i>autoridades certificadoras</i>, no proxies. Y el TTL no interviene en la emisión.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el dominio esté registrado a nombre del titular en el WHOIS]]></text><feedback format="html"><text><![CDATA[Let's Encrypt no consulta el WHOIS: comprueba control técnico, no titularidad registral.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-13 API_URL del frontend</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál de estos valores de <code>API_URL</code> es el correcto para el servicio web?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los tres detalles rompen el despliegue, y ninguno da un mensaje que mencione la variable. <i>(Apunte §4.9.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[<code>https://api.tudominio.com</code>]]></text><feedback format="html"><text><![CDATA[Correcto: con <code>https://</code>, sin barra al final y sin la ruta del endpoint.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[<code>http://api.tudominio.com</code>]]></text><feedback format="html"><text><![CDATA[Con <code>http://</code> el navegador bloquea el pedido por <b>contenido mixto</b>: una página segura no puede consumir un recurso inseguro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[<code>https://api.tudominio.com/</code>]]></text><feedback format="html"><text><![CDATA[La barra final rompe: el JavaScript le concatena <code>/api/calcular</code> y queda una doble barra.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[<code>https://api.tudominio.com/api/calcular</code>]]></text><feedback format="html"><text><![CDATA[Va el dominio pelado, no la ruta del endpoint: el código la agrega.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-14 Qué es un origen</text></name>
+    <questiontext format="html"><text><![CDATA[Según la RFC 6454, ¿qué componentes forman un <b>origen</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Por eso <code>tudominio.com</code> y <code>www.tudominio.com</code> son dos anfitriones distintos, aunque para una persona sean «el mismo sitio». <i>(Apunte §4.10.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El esquema, el anfitrión y el puerto, comparados literalmente]]></text><feedback format="html"><text><![CDATA[Correcto. Dos URL pertenecen al mismo origen si y solo si coinciden los tres. La <b>ruta no forma parte</b> del origen, y la comparación no interpreta nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El dominio y el subdominio, sin importar el esquema]]></text><feedback format="html"><text><![CDATA[El esquema importa: <code>http://</code> y <code>https://</code> son orígenes distintos aunque el dominio coincida.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El esquema, el anfitrión, el puerto y la ruta]]></text><feedback format="html"><text><![CDATA[La ruta <b>no</b> forma parte del origen. <code>/index.html</code> y <code>/api/x</code> son el mismo origen.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La dirección IP del servidor y el puerto]]></text><feedback format="html"><text><![CDATA[Se compara el <i>nombre</i>, no la IP. Dos nombres que resuelven a la misma IP son orígenes distintos.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-15 Por qué existe la política de mismo origen</text></name>
+    <questiontext format="html"><text><![CDATA[¿Contra qué protege la política de mismo origen?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La regla la introdujo Netscape en 1995 y hoy es el pilar de la seguridad del navegador: <b>el código de un origen no puede leer los datos de otro origen</b>. <i>(Apunte §4.10.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Contra que un sitio cualquiera lea, en tu nombre, los datos que otro sitio te devuelve usando tus cookies]]></text><feedback format="html"><text><![CDATA[Exacto: si estás autenticado en tu banco y abrís otra pestaña con un sitio cualquiera, ese sitio podría hacer una petición al banco y el navegador adjuntaría tus cookies automáticamente. La política impide que el código de ese sitio <b>lea la respuesta</b>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Contra que un servidor reciba peticiones de clientes no autorizados]]></text><feedback format="html"><text><![CDATA[La petición muchas veces <i>llega a emitirse</i>. Lo que se bloquea es la lectura de la respuesta por parte del código, del lado del navegador.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Contra la interceptación del tráfico en la red]]></text><feedback format="html"><text><![CDATA[De eso se ocupa TLS. La política de mismo origen es del navegador, sobre contenido ya descifrado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Contra la ejecución de JavaScript malicioso en la página]]></text><feedback format="html"><text><![CDATA[Eso es CSP. La política de mismo origen no impide ejecutar código: impide leer datos ajenos.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-16 Quién otorga el permiso en CORS</text></name>
+    <questiontext format="html"><text><![CDATA[En el mecanismo CORS, ¿quién decide si un origen está autorizado?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[CORS es un mecanismo para <b>relajar de forma controlada</b> una política deliberadamente restrictiva, cuando el acceso entre orígenes es legítimo. <i>(Apunte §4.10.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El servidor de destino, declarándolo en cabeceras de respuesta que el navegador lee y aplica]]></text><feedback format="html"><text><![CDATA[Correcto: el permiso lo otorga el servidor de destino, no el que pide. La API declara qué orígenes están autorizados a leerla; el navegador lee esa declaración y decide.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El navegador, según una lista de dominios confiables del usuario]]></text><feedback format="html"><text><![CDATA[El navegador <i>aplica</i> la política, pero no decide qué orígenes se autorizan: eso lo declara el servidor.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El origen que hace la petición, declarando su identidad]]></text><feedback format="html"><text><![CDATA[Si el que pide pudiera autoautorizarse, el mecanismo no serviría de nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El proxy inverso, en función de la cabecera Host]]></text><feedback format="html"><text><![CDATA[Traefik no interviene en CORS: son cabeceras que emite la aplicación.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-17 Por qué hay dos peticiones</text></name>
+    <questiontext format="html"><text><![CDATA[Al hacer una operación en la calculadora, la pestaña Red muestra <b>dos</b> peticiones: un OPTIONS y después un POST. ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Si el preflight no autoriza explícitamente el origen, el método y las cabeceras solicitadas, <b>la petición real nunca se emite</b>. Que aparezcan exactamente dos, y en ese orden, es la confirmación empírica de que todo está bien. <i>(Apunte §4.10.3 y §4.11.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque el <code>Content-Type: application/json</code> no es uno de los tipos históricos de los formularios HTML, y eso dispara la verificación previa]]></text><feedback format="html"><text><![CDATA[Correcto. Se consideran «simples» —y viajan sin preflight— las peticiones GET, HEAD y POST con uno de los tres tipos de contenido históricos. JSON es «cualquier otra cosa».]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque la primera petición falla y el navegador reintenta automáticamente]]></text><feedback format="html"><text><![CDATA[El OPTIONS no falla: debe dar 200. Son dos peticiones con propósitos distintos, no un reintento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el frontend envía los datos dos veces por seguridad]]></text><feedback format="html"><text><![CDATA[El OPTIONS no lleva los datos: pregunta si la petición real va a ser autorizada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque HTTP/2 multiplexa las peticiones en pares]]></text><feedback format="html"><text><![CDATA[La multiplexación no duplica peticiones. Esto es CORS, no transporte.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-18 Qué cuenta como origen distinto</text></name>
+    <questiontext format="html"><text><![CDATA[El frontend está en <code>https://calculadora.tudominio.com</code>. ¿Cuáles de estos valores en <code>ORIGENES_PERMITIDOS</code> <b>fallarían</b>? (marcá todas las que correspondan)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Las tres fallas son consecuencias directas de la definición literal de origen. <b>No hay excepciones ni tolerancia: la comparación es de cadenas.</b> <i>(Apunte §4.10.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="33.33333" format="html"><text><![CDATA[<code>http://calculadora.tudominio.com</code>]]></text><feedback format="html"><text><![CDATA[Falla: el esquema forma parte del origen. http y https son orígenes distintos.]]></text></feedback></answer>
+    <answer fraction="33.33333" format="html"><text><![CDATA[<code>https://calculadora.tudominio.com/</code>]]></text><feedback format="html"><text><![CDATA[Falla: la barra final. El origen se declara sin barra.]]></text></feedback></answer>
+    <answer fraction="33.33333" format="html"><text><![CDATA[<code>https://www.calculadora.tudominio.com</code>]]></text><feedback format="html"><text><![CDATA[Falla: <code>www.</code> lo convierte en otro anfitrión. Si hacen falta los dos, se declaran ambos separados por comas.]]></text></feedback></answer>
+    <answer fraction="-100.00000" format="html"><text><![CDATA[<code>https://calculadora.tudominio.com</code>]]></text><feedback format="html"><text><![CDATA[Este es el correcto: esquema, anfitrión y puerto implícito coinciden exactamente.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C4-19 CORS protege la API</text></name>
+    <questiontext format="html"><text><![CDATA[Configurar <code>ORIGENES_PERMITIDOS</code> impide que otros consuman tu API.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso, y es el punto que más se malinterpreta. CORS no protege la API.</b> Es una política que el navegador aplica a favor del usuario, para impedir que un sitio cualquiera lea datos de otro en su nombre. No es un control de acceso del servidor.<br/><br/>Un cliente que no sea un navegador —<code>curl</code>, un script de Python, otro servidor— ignora CORS por completo, porque no tiene usuario a quien proteger ni cookies ajenas que adjuntar. Si la API tiene que restringir quién la consume, eso se hace con <b>autenticación y autorización en el servidor</b>, que es un mecanismo completamente distinto. <i>(Apunte §4.10.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Probá un curl con un Origin prohibido: devuelve el resultado igual. curl no es un navegador y no tiene a nadie a quien proteger.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-20 El log dice 200 y el frontend dice que falló</text></name>
+    <questiontext format="html"><text><![CDATA[El log del backend muestra la petición entrando y saliendo con un 200 impecable, y al mismo tiempo el frontend reporta un error de CORS. ¿Quién tiene razón?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es el mismo patrón epistemológico de <code>ufw status</code> en la Clase 2: cada herramienta te informa sobre lo que <i>ella</i> ve. <i>(Apunte §4.10.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Los dos: el servidor contestó correctamente y el navegador descartó la respuesta porque no traía el permiso]]></text><feedback format="html"><text><![CDATA[Exacto. CORS lo aplica el <b>navegador</b>, no el servidor. Por eso, si el <code>fetch</code> falla pero un <code>curl</code> a la misma URL anda, ya sabés dónde mirar. Y no es en el servidor.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El backend: si devolvió 200, el frontend tiene un error de programación]]></text><feedback format="html"><text><![CDATA[El 200 es real y el error del frontend también. No se contradicen: describen momentos distintos del recorrido.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El frontend: el 200 del log corresponde a otra petición]]></text><feedback format="html"><text><![CDATA[Corresponde exactamente a esa petición. El servidor la procesó y respondió.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguno: es un problema de red intermitente]]></text><feedback format="html"><text><![CDATA[No hay nada intermitente: va a fallar todas las veces, de forma perfectamente reproducible.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-21 El redespliegue</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo corrige <code>ORIGENES_PERMITIDOS</code>, guarda, prueba, y sigue fallando igual. ¿Qué falta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Cambiar una variable de entorno <b>no tiene efecto hasta el redespliegue</b>. <i>(Apunte §4.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Redesplegar: las variables de entorno se leen al arrancar el proceso]]></text><feedback format="html"><text><![CDATA[Correcto. Vas a corregir el valor, guardar, probar, seguir fallando y pensar que pusiste mal el valor. No: te faltó el <b>Deploy</b>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Esperar a que expire la caché del navegador]]></text><feedback format="html"><text><![CDATA[El navegador no cachea la política de origen del servidor más allá de <code>Access-Control-Max-Age</code>, y eso solo afecta al preflight.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reiniciar Traefik para que tome la configuración nueva]]></text><feedback format="html"><text><![CDATA[Traefik no interviene en CORS: las cabeceras las emite la aplicación.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Volver a emitir el certificado]]></text><feedback format="html"><text><![CDATA[El certificado no tiene nada que ver con la autorización de orígenes.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-22 HSTS</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué agrega HSTS respecto de una simple redirección de HTTP a HTTPS?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La otra cabecera importante es <b>CSP</b>, que declara de qué orígenes puede el navegador cargar scripts, estilos e imágenes. Su lógica es la misma de todo el capítulo: una lista blanca declarada por el servidor y aplicada por el cliente. <i>(Apunte §4.13.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que el navegador ni siquiera emite la primera petición insegura: la redirección todavía implica una petición que alguien podría interceptar]]></text><feedback format="html"><text><![CDATA[Correcto, y la diferencia es sutil y significativa. Es el mecanismo detrás de la lista de precarga que se mencionó en §1.13 a propósito de los dominios <code>.app</code> y <code>.dev</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que cifra la conexión con un algoritmo más fuerte]]></text><feedback format="html"><text><![CDATA[HSTS no toca la criptografía: es una directiva de política que el navegador recuerda.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que impide que el sitio se sirva por HTTP en el servidor]]></text><feedback format="html"><text><![CDATA[El servidor puede seguir escuchando en el 80 —de hecho debe, para ACME—. Lo que cambia es el comportamiento del <i>navegador</i>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que agrega el dominio automáticamente a la lista de precarga de los navegadores]]></text><feedback format="html"><text><![CDATA[La precarga es un trámite aparte que se solicita explícitamente.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-23 HTTP/3 y el firewall</text></name>
+    <questiontext format="html"><text><![CDATA[Un firewall permite TCP en el 443 pero descarta UDP. ¿Qué le pasa a HTTP/3?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Lo que evolucionó es el <b>transporte</b>; la semántica de HTTP —la cabecera Host, el modelo de orígenes— es la misma, normada hoy en la RFC 9110. Es un buen ejemplo de una separación de capas bien hecha. <i>(Apunte §4.13.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Se degrada silenciosamente: el navegador intenta QUIC, no recibe respuesta y vuelve a HTTP/2 sobre TCP]]></text><feedback format="html"><text><![CDATA[Correcto, y es una consecuencia que sorprende a quien viene de la Clase 2. La página carga igual, un poco más lento, y <b>nada en ningún log dice qué pasó</b>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Se bloquea por completo y el sitio no carga]]></text><feedback format="html"><text><![CDATA[No se bloquea: se degrada. Los navegadores mantienen el camino de respaldo por TCP precisamente para esto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Funciona igual porque HTTP/3 también corre sobre TCP]]></text><feedback format="html"><text><![CDATA[HTTP/3 reemplaza TCP por <b>QUIC</b>, que corre sobre UDP. Ese es todo el cambio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Traefik lo detecta y avisa en sus logs]]></text><feedback format="html"><text><![CDATA[No hay forma de que lo detecte: desde su punto de vista simplemente nunca llegó tráfico QUIC.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-24 Mixed Content</text></name>
+    <questiontext format="html"><text><![CDATA[La consola del navegador informa <code>Mixed Content</code>. ¿Qué pasó?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §4.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El frontend se sirve por HTTPS y <code>API_URL</code> quedó en <code>http://</code>]]></text><feedback format="html"><text><![CDATA[Correcto: una página segura no puede consumir un recurso inseguro. Se corrige la variable a <code>https://</code> y se redespliega.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El certificado del frontend está vencido]]></text><feedback format="html"><text><![CDATA[Un certificado vencido da otro error, y es sobre el propio sitio, no sobre un recurso.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El dominio tiene registros A y AAAA que apuntan a servidores distintos]]></text><feedback format="html"><text><![CDATA[Nada que ver: Mixed Content es sobre el esquema de los recursos que la página carga.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El backend responde con un tipo de contenido incorrecto]]></text><feedback format="html"><text><![CDATA[El tipo de contenido no dispara Mixed Content. El esquema sí.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-25 ERR_CONNECTION_REFUSED hacia 127.0.0.1</text></name>
+    <questiontext format="html"><text><![CDATA[El navegador informa <code>ERR_CONNECTION_REFUSED</code> hacia <code>127.0.0.1</code> al intentar usar la calculadora publicada. ¿Qué ocurrió?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Fijate en la pista: <code>127.0.0.1</code> es <i>la computadora del visitante</i>. Que el frontend intente ir ahí significa que nunca recibió la URL real de la API. <i>(Apunte §4.9.4 y §4.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[<code>config.js</code> no se generó, así que el frontend quedó con un valor por defecto: falta cargar <code>API_URL</code> en el servicio web]]></text><feedback format="html"><text><![CDATA[Correcto. Se verifica en la pestaña Logs del servicio web: debe figurar «config.js generado con API_URL=...». Si aparece el aviso de variable no definida, falta cargarla.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El backend está escuchando en 127.0.0.1 dentro del contenedor]]></text><feedback format="html"><text><![CDATA[Ese error se manifestaría como un <b>502</b> desde Traefik, no como un intento del navegador hacia su propio equipo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El firewall del VPS está bloqueando el puerto 8000]]></text><feedback format="html"><text><![CDATA[El navegador está intentando conectarse a <code>127.0.0.1</code>, que es la máquina del propio visitante. El VPS ni se enteró.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El certificado del backend no se emitió]]></text><feedback format="html"><text><![CDATA[Sería un error de certificado, no de conexión rechazada hacia el bucle local.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-26 El certificado dejó de renovarse</text></name>
+    <questiontext format="html"><text><![CDATA[Todo funcionó tres meses y de golpe el sitio queda sin HTTPS. ¿Cuál es la causa más probable?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es exactamente el tipo de fallo que aparece meses después de que alguien «ordenó» el firewall. <i>(Apunte §4.8.3 y §4.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Se cerró el puerto 80 después del despliegue inicial: la renovación también lo necesita]]></text><feedback format="html"><text><![CDATA[Correcto. Los certificados duran 90 días y la renovación usa el mismo desafío HTTP-01 que la emisión. El puerto 80 tiene que quedar abierto <b>para siempre</b>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Let's Encrypt dio de baja el dominio por inactividad]]></text><feedback format="html"><text><![CDATA[Let's Encrypt no da de baja dominios: emite y renueva mientras se pueda validar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El registro DNS expiró y hay que volver a cargarlo]]></text><feedback format="html"><text><![CDATA[Los registros DNS no expiran solos. El TTL gobierna la caché, no la existencia del registro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Traefik necesita reiniciarse cada 90 días]]></text><feedback format="html"><text><![CDATA[Traefik renueva solo, sin reinicio, si puede completar el desafío.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-27 De dónde partir para diagnosticar</text></name>
+    <questiontext format="html"><text><![CDATA[Casi todos los síntomas de la tabla de errores frecuentes apuntan a un lugar equivocado. ¿Qué criterio propone el capítulo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Sin el modelo del proxy inverso y el de la política de mismo origen, la tabla de diagnóstico es una lista de recetas para memorizar. Con ellos, es una <b>consecuencia</b>. <i>(Apunte §4.1 y §4.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Diagnosticar siempre a partir del mensaje exacto de la consola del navegador, nunca del comportamiento aparente ni de la intuición]]></text><feedback format="html"><text><![CDATA[Correcto. Un 502 <i>parece</i> un problema del servidor y es un número mal puesto en un formulario. Un error de CORS <i>parece</i> un problema de red y es una cadena de texto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Revisar primero los logs de Traefik, que es el componente central]]></text><feedback format="html"><text><![CDATA[Traefik puede no tener nada que ver: si el error es de CORS, sus logs muestran un 200 perfecto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Redesplegar los tres servicios y volver a probar]]></text><feedback format="html"><text><![CDATA[Redesplegar a ciegas a veces «arregla» sin que nadie entienda qué pasaba, y eso garantiza que vuelva a ocurrir.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Empezar por el componente que se tocó más recientemente]]></text><feedback format="html"><text><![CDATA[Es una heurística razonable, pero el capítulo propone algo más fuerte: leer el mensaje exacto, que casi siempre nombra la etapa que falló.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-28 Polirepositorio</text></name>
+    <questiontext format="html"><text><![CDATA[El proyecto usa dos repositorios independientes en lugar de uno solo. ¿Cuál es el argumento del capítulo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La elección entre mono y polirepositorio es una de las discusiones recurrentes de la ingeniería de software y <b>no tiene respuesta universal</b>: depende de si los componentes se despliegan juntos, de si los mantienen los mismos equipos y de qué tan acoplados están sus cambios. <i>(Apunte §4.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que son dos programas independientes que no comparten nada salvo el formato del JSON, y es lo habitual cuando frontend y backend los mantienen equipos distintos]]></text><feedback format="html"><text><![CDATA[Correcto. Meterlos en el mismo repositorio contradiría el mensaje que el README viene dando desde el principio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que un monorepositorio no permite desplegar servicios por separado]]></text><feedback format="html"><text><![CDATA[Sí lo permite, con filtros por ruta. La elección no es técnica sino organizativa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que Easypanel no soporta monorepositorios]]></text><feedback format="html"><text><![CDATA[Los soporta: bastaría con poner <code>/backend</code> en el Build path.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que los repositorios grandes son más lentos de clonar]]></text><feedback format="html"><text><![CDATA[No es el argumento del capítulo, y a esta escala sería irrelevante.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-29 Acceso a los repositorios de GitHub</text></name>
+    <questiontext format="html"><text><![CDATA[Al conectar Easypanel con GitHub, ¿qué repositorios conviene autorizar?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §4.6)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Solo los dos del proyecto, nunca «All repositories»]]></text><feedback format="html"><text><![CDATA[Correcto: es mínimo privilegio (§2.12.1) aplicado acá. Si mañana el servidor queda comprometido, el atacante llega <b>hasta donde vos le dijiste que llegara</b>. Darle acceso a todos tus repositorios para ahorrar dos clics es el tipo de decisión que se lamenta después.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Todos, porque después es engorroso agregar repositorios de a uno]]></text><feedback format="html"><text><![CDATA[Agregar uno más lleva treinta segundos. Recuperarse de una filtración, no.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Solo los públicos, porque los privados no se pueden clonar]]></text><feedback format="html"><text><![CDATA[Los privados se clonan perfectamente: para eso está la autorización.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguno: conviene usar una clave de despliegue por repositorio]]></text><feedback format="html"><text><![CDATA[Es una alternativa válida en otros contextos, pero no es lo que plantea el capítulo para este flujo.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-30 El experimento de /docs</text></name>
+    <questiontext format="html"><text><![CDATA[Abrir <code>https://api.tudominio.com/docs</code> y hacer una operación desde ahí funciona perfecto, sin ningún problema de CORS. ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Guardalo, porque en diez minutos van a ver el mismo endpoint fallando desde el frontend. <i>(Apunte §4.7.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque esa página está servida por el <b>mismo origen</b> que la API: no hay dos orígenes involucrados]]></text><feedback format="html"><text><![CDATA[Exacto, y esa observación es media clase de CORS: el problema nunca fue la API, es la combinación de dos orígenes distintos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque FastAPI desactiva CORS en su documentación interactiva]]></text><feedback format="html"><text><![CDATA[No desactiva nada. Simplemente no hace falta: no hay cruce de orígenes.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque la documentación usa un cliente HTTP distinto al del frontend]]></text><feedback format="html"><text><![CDATA[Usa <code>fetch</code> desde el navegador, igual que el frontend.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el navegador confía en las páginas servidas por HTTPS]]></text><feedback format="html"><text><![CDATA[El esquema no otorga confianza entre orígenes distintos.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C4-31 El dominio predeterminado del panel</text></name>
+    <questiontext format="html"><text><![CDATA[Configurar el dominio propio como dominio predeterminado de Easypanel (Settings → Domain) tiene un efecto que conecta con la Clase 1. ¿Cuál?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §4.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que los dominios autogenerados pasan a ser subdominios del dominio propio, que ningún proveedor filtra, en lugar de subdominios de easypanel.host]]></text><feedback format="html"><text><![CDATA[Correcto: combinado con el registro comodín, elimina de raíz el problema de resolución descrito en §1.9.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se emite un certificado comodín para todos los servicios de una vez]]></text><feedback format="html"><text><![CDATA[Cada servicio sigue pidiendo su propio certificado individual por HTTP-01.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que ya no hace falta cargar el registro comodín en el panel DNS]]></text><feedback format="html"><text><![CDATA[Al contrario: el comodín es lo que hace que esos subdominios resuelvan.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el panel deja de ser accesible por la IP del VPS]]></text><feedback format="html"><text><![CDATA[Eso es un paso aparte de la Clase 2: cerrar el acceso directo por el puerto 3000.]]></text></feedback></answer>
+  </question>
+</quiz>

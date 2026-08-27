@@ -1,0 +1,22 @@
+# Cachés de Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Temporales de Office (los deja abiertos Word/Excel)
+~$*
+*.tmp
+
+# Secretos: nunca al repositorio
+.env
+*.env
+
+# Sistema
+Thumbs.db
+.DS_Store
+
+# Exportaciones de conversaciones (no son material de catedra)
+matysantitorres-*.json

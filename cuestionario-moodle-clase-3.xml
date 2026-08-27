@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Banco de preguntas - Clase 3: Docker
+     Programacion 3 - UTN FRM - Tecnicatura Universitaria en Programacion
+     Importar en: Banco de preguntas > Importar > Formato XML de Moodle -->
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Clase 3 - Docker: la receta reproducible</text></category>
+    <info format="html"><text><![CDATA[Preguntas autocorregibles derivadas del cap&iacute;tulo 3 del apunte (<i>Docker: la receta reproducible</i>). Cada pregunta lleva retroalimentaci&oacute;n espec&iacute;fica por opci&oacute;n y remite a la secci&oacute;n del apunte.]]></text></info>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-01 Qué problema resuelven los contenedores</text></name>
+    <questiontext format="html"><text><![CDATA[«En mi máquina anda». ¿Qué describe exactamente esa frase, y qué vinieron a resolver los contenedores?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La receta pasa a ser la misma en tu máquina y en el servidor: Easypanel va a ejecutar en el VPS exactamente el mismo archivo que corriste en tu notebook. <b>La máquina pasó a ser parte del código.</b> <i>(Apunte §3.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que el programa no es autosuficiente: depende de un contexto —versiones, bibliotecas, variables— que nadie escribió en ninguna parte]]></text><feedback format="html"><text><![CDATA[Exacto. El problema no es el programa: es que su entorno es conocimiento tácito. Los contenedores lo convierten en un artefacto versionado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el programador no probó su código antes de entregarlo]]></text><feedback format="html"><text><![CDATA[El código puede estar perfectamente probado y fallar igual en otro equipo. El problema no es de calidad del código sino de reproducibilidad del entorno.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que faltaba estandarizar el lenguaje de programación entre equipos]]></text><feedback format="html"><text><![CDATA[Ocurre dentro del mismo lenguaje y la misma versión del programa: basta con que difiera una biblioteca del sistema.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que los servidores de producción usan sistemas operativos distintos al de desarrollo]]></text><feedback format="html"><text><![CDATA[Pasa también entre dos equipos con el mismo sistema operativo. La diferencia puede ser un paquete instalado hace meses que nadie recuerda.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-02 Cuál fue el aporte de Docker</text></name>
+    <questiontext format="html"><text><![CDATA[Para 2013 el núcleo de Linux ya tenía todos los mecanismos de aislamiento, documentados y gratis. ¿Cuál fue entonces el aporte de Docker?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Sus tres decisiones de diseño: la receta es un archivo de texto declarativo y versionable; el resultado es una imagen en capas direccionada por contenido; y se reutiliza el núcleo del anfitrión. <i>(Apunte §3.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No fue tecnológico sino de empaquetado y experiencia de uso: receta declarativa, imagen en capas y reutilización del núcleo del anfitrión]]></text><feedback format="html"><text><![CDATA[Correcto, y es importante decirlo con precisión porque explica por qué se impuso tan rápido. Montar namespaces y cgroups a mano exigía un conocimiento profundo del núcleo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Inventó los espacios de nombres y los grupos de control del núcleo de Linux]]></text><feedback format="html"><text><![CDATA[Los cgroups los desarrolló Google desde 2006 y entraron al núcleo en 2008; los namespaces venían generalizando la idea de <code>chroot</code>, que es de 1979.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Creó la primera tecnología capaz de aislar procesos en Unix]]></text><feedback format="html"><text><![CDATA[<code>chroot</code> es de 1979, las <i>jails</i> de FreeBSD de 2000 y las <i>zones</i> de Solaris de 2004. Docker llegó último.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reemplazó a las máquinas virtuales con una tecnología incompatible]]></text><feedback format="html"><text><![CDATA[No compiten: se apilan. El VPS del práctico es una máquina virtual, y adentro corren contenedores.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C3-03 Espacios de nombres</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada espacio de nombres con el efecto observable que produce dentro del contenedor.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El espacio de nombres de red es literalmente la razón del problema de la sección 2.8: para el núcleo, un contenedor <b>es otra máquina</b>. Y el de procesos explica por qué el comando de <code>CMD</code> es el PID 1, con las consecuencias sobre señales de §3.5.6. <i>(Apunte §3.3.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[mnt]]></text><answer format="html"><text><![CDATA[El contenedor tiene su propio árbol de archivos, su propio /]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[pid]]></text><answer format="html"><text><![CDATA[El proceso principal del contenedor es el número 1]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[net]]></text><answer format="html"><text><![CDATA[El contenedor tiene su propia IP, y por eso su tráfico va por FORWARD y no por INPUT]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[uts]]></text><answer format="html"><text><![CDATA[hostname devuelve el identificador del contenedor y no el del servidor]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[user]]></text><answer format="html"><text><![CDATA[Se puede ser root adentro sin serlo afuera]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-04 Qué es un contenedor</text></name>
+    <questiontext format="html"><text><![CDATA[Formalmente, ¿qué <b>es</b> un contenedor?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los espacios de nombres responden «¿qué ve este proceso?»; los grupos de control, «¿cuánto puede consumir?». Nada más. <i>(Apunte §3.3.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Un proceso común y corriente al que se le aplicaron espacios de nombres y grupos de control]]></text><feedback format="html"><text><![CDATA[Correcto, y entender eso disuelve buena parte de la magia aparente: no existe una estructura de datos «contenedor» en el núcleo ni una llamada al sistema que lo cree.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Una máquina virtual liviana con su propio núcleo reducido]]></text><feedback format="html"><text><![CDATA[No tiene núcleo propio: comparte el del anfitrión. Esa es justamente la tercera decisión de diseño de Docker.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Una entidad del núcleo de Linux creada por una llamada al sistema específica]]></text><feedback format="html"><text><![CDATA[No existe tal llamada. Hay <code>clone()</code> con banderas de namespaces y escritura en el sistema de archivos de cgroups, pero ninguna crea «un contenedor».]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un sistema de archivos empaquetado e inmutable]]></text><feedback format="html"><text><![CDATA[Eso es la <b>imagen</b>. El contenedor es una <i>ejecución</i> de una imagen.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-05 Para qué sirven los grupos de control</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué aportan los <i>cgroups</i> que los espacios de nombres no aportan?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Dos familias de mecanismos, dos preguntas distintas: <b>qué ve</b> (namespaces) y <b>cuánto consume</b> (cgroups). <i>(Apunte §3.3.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Limitan y contabilizan cuánto procesador, memoria, disco y red puede consumir el conjunto de procesos]]></text><feedback format="html"><text><![CDATA[Correcto. Sin ellos, un contenedor con una fuga de memoria se llevaría puesto el servidor entero.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Impiden que un contenedor vea los procesos de otro]]></text><feedback format="html"><text><![CDATA[Eso lo hace el espacio de nombres <code>pid</code>. Los cgroups no ocultan nada: miden y limitan.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Le dan al contenedor su propia dirección IP]]></text><feedback format="html"><text><![CDATA[Eso es el espacio de nombres <code>net</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Cifran el sistema de archivos del contenedor]]></text><feedback format="html"><text><![CDATA[No hay cifrado involucrado en el modelo de contenedores.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C3-06 Un secreto borrado en una capa posterior</text></name>
+    <questiontext format="html"><text><![CDATA[Si en un paso del Dockerfile copiaste un archivo con credenciales y en un paso posterior lo borraste, ese archivo ya no está en la imagen.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso, y es grave.</b> Una capa no se puede editar, <b>solo tapar</b>. La capa que contiene el archivo sigue estando en la imagen, es extraíble con herramientas comunes y viaja con la imagen a donde sea que la publiques. Borrar un secreto en una capa siguiente no lo elimina: lo esconde.<br/><br/>Y si eso pasó, borrar el archivo no alcanza: <b>la credencial hay que rotarla</b>. Un secreto que salió de tu máquina es un secreto quemado. <i>(Apunte §3.3.2 y §3.6)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Pensá en cómo se construye una imagen: capas apiladas e inmutables, no un directorio que se edita.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-07 La capa efímera</text></name>
+    <questiontext format="html"><text><![CDATA[Un contenedor escribe un archivo mientras corre. Se elimina el contenedor y se crea otro a partir de la misma imagen. ¿Qué pasó con ese archivo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Sobre las capas de la imagen se agrega al ejecutar una capa de escritura con la técnica de <b>copia al escribir</b>: el archivo original permanece intacto y se copia hacia arriba solo cuando alguien lo toca. <i>(Apunte §3.3.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Se perdió: vivía en la capa de escritura efímera, que se descarta al eliminar el contenedor]]></text><feedback format="html"><text><![CDATA[Correcto. Ese es exactamente el problema que resuelven los volúmenes, y es el contenido de la Clase 5.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Quedó guardado en la imagen y el contenedor nuevo lo encuentra]]></text><feedback format="html"><text><![CDATA[<b>Las imágenes no cambian nunca.</b> De una misma imagen pueden ejecutarse muchos contenedores independientes y ninguno afecta a los demás ni a la imagen.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Se escribió en el sistema de archivos del servidor anfitrión]]></text><feedback format="html"><text><![CDATA[Salvo que haya un volumen o un montaje explícito, el contenedor escribe en su propia capa, no en el anfitrión.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Quedó en la última capa del Dockerfile, tapando la anterior]]></text><feedback format="html"><text><![CDATA[Las capas del Dockerfile se fijan al construir. Lo que el contenedor escribe al ejecutarse va a una capa aparte, efímera.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C3-08 Contenedor frente a máquina virtual</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada característica con la tecnología que le corresponde.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Que el aislamiento del contenedor sea «menor» no significa que sea débil: significa que su superficie de ataque es el núcleo de Linux, que es enorme, en lugar de la interfaz del procesador, que es diminuta. Importa saberlo cuando alguien propone correr código de terceros no confiable: ahí la respuesta ya no es un contenedor. <i>(Apunte §3.3.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Virtualiza el hardware, con un núcleo propio por máquina]]></text><answer format="html"><text><![CDATA[Máquina virtual]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Virtualiza el espacio de nombres del sistema operativo y comparte el núcleo]]></text><answer format="html"><text><![CDATA[Contenedor]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Arranca en decenas de segundos y pesa gigabytes]]></text><answer format="html"><text><![CDATA[Máquina virtual]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Arranca en milisegundos y pesa megabytes]]></text><answer format="html"><text><![CDATA[Contenedor]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Aislamiento fuerte, impuesto por el procesador]]></text><answer format="html"><text><![CDATA[Máquina virtual]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-09 Contenedores Linux sobre Windows</text></name>
+    <questiontext format="html"><text><![CDATA[Un compañero corre contenedores Linux en su notebook con Windows. ¿Qué está pasando realmente?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[«No existen contenedores Linux sobre Windows» en sentido estricto. Es la consecuencia directa de la fila «puede correr otro sistema operativo» de la tabla comparativa. <i>(Apunte §3.3.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Docker Desktop levanta una máquina virtual Linux y corre los contenedores adentro]]></text><feedback format="html"><text><![CDATA[Correcto: las dos tecnologías no compiten, se <b>apilan</b>. Es exactamente lo mismo que pasa en el práctico: el VPS es una máquina virtual y adentro corren contenedores.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Windows puede ejecutar binarios de Linux desde que existe WSL, sin virtualización]]></text><feedback format="html"><text><![CDATA[WSL2 también es virtualización: corre un núcleo Linux real en una máquina virtual liviana.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Docker traduce las llamadas al sistema de Linux a llamadas de Windows]]></text><feedback format="html"><text><![CDATA[No hay traducción de llamadas al sistema. Un contenedor necesita un núcleo Linux de verdad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los contenedores son independientes del sistema operativo por diseño]]></text><feedback format="html"><text><![CDATA[Justo al revés: comparten el núcleo del anfitrión, así que dependen de que ese núcleo sea el correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-10 El punto de docker build</text></name>
+    <questiontext format="html"><text><![CDATA[En <code>docker build .</code>, ¿qué significa exactamente ese punto final?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De acá salen dos comportamientos frecuentes: la construcción no puede acceder a ningún archivo fuera del contexto, y todo lo que esté en el directorio se transfiere aunque ninguna instrucción lo use. <i>(Apunte §3.4.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[«Enviá el contenido de este directorio al motor de construcción»: es el contexto de construcción]]></text><feedback format="html"><text><![CDATA[Correcto, y la operación es una <b>transferencia real</b>, aunque el motor esté en la misma máquina.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[«Construí acá», es decir, dejá la imagen en el directorio actual]]></text><feedback format="html"><text><![CDATA[La imagen no se deja en ningún directorio: queda en el almacén local de Docker.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se use el Dockerfile del directorio actual]]></text><feedback format="html"><text><![CDATA[Eso ocurre por omisión, pero se puede cambiar con <code>-f</code>. El punto indica otra cosa: el contexto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la construcción no use caché]]></text><feedback format="html"><text><![CDATA[Eso es <code>--no-cache</code>, una bandera distinta.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-11 COPY fuera del contexto</text></name>
+    <questiontext format="html"><text><![CDATA[Un <code>COPY ../otro-proyecto/config.json .</code> falla siempre. ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La solución cuando de verdad hace falta compartir archivos entre proyectos es mover el contexto un nivel arriba, o reorganizar el repositorio. <i>(Apunte §3.4.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque ese archivo nunca se envió al motor: está fuera del contexto de construcción]]></text><feedback format="html"><text><![CDATA[Exacto. No es una restricción arbitraria de seguridad: el motor literalmente no tiene ese archivo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Docker prohíbe las rutas relativas por razones de seguridad]]></text><feedback format="html"><text><![CDATA[Las rutas relativas funcionan perfectamente <i>dentro</i> del contexto. El problema es salir de él.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque falta declararlo en el .dockerignore]]></text><feedback format="html"><text><![CDATA[El <code>.dockerignore</code> <i>excluye</i> archivos del contexto; no puede incluir archivos de afuera.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque COPY solo admite archivos, no rutas con directorios]]></text><feedback format="html"><text><![CDATA[COPY admite directorios y rutas anidadas sin problema.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C3-12 EXPOSE</text></name>
+    <questiontext format="html"><text><![CDATA[La instrucción <code>EXPOSE 8000</code> abre el puerto 8000 para que se pueda acceder al contenedor.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso. EXPOSE no abre nada: es documentación.</b> Le avisa a quien lea el archivo, y a herramientas como Easypanel, en qué puerto escucha la aplicación. Si lo borrás, el contenedor funciona exactamente igual.<br/><br/>Que sea metadato no significa que sea inútil: Easypanel lo lee para proponer a qué puerto enrutar, y <code>docker run -P</code> publica automáticamente todos los puertos declarados. Es información que otras herramientas consumen; lo que no hace es actuar por sí misma sobre la red. <i>(Apunte §3.5.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Es una instrucción de metadato: no ejecuta nada y no crea capa.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C3-13 ¿Qué instrucción crea una capa?</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada instrucción del Dockerfile con lo que produce.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Distinguirlas importa por dos motivos. Práctico: solo las que crean capa <b>pesan</b>, y por eso conviene encadenar comandos en un único RUN con <code>&amp;&amp;</code>. Conceptual: las de metadato <b>no ejecutan nada</b> —EXPOSE no abre un puerto, ENV no configura el sistema operativo del anfitrión— y esperar que lo hagan es una fuente clásica de confusión. <i>(Apunte §3.4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[RUN]]></text><answer format="html"><text><![CDATA[Crea capa: ejecuta un comando y guarda el resultado en el sistema de archivos]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[COPY]]></text><answer format="html"><text><![CDATA[Crea capa: agrega archivos al sistema de archivos]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[WORKDIR]]></text><answer format="html"><text><![CDATA[Solo metadato: fija el directorio de trabajo, no ejecuta nada]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[ENV]]></text><answer format="html"><text><![CDATA[Solo metadato: define una variable de entorno de la imagen]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[CMD]]></text><answer format="html"><text><![CDATA[Solo metadato: declara el proceso de arranque]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-14 La regla de invalidación del caché</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué ocurre cuando se invalida una capa intermedia del Dockerfile?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Para la mayoría de las instrucciones la clave del caché es el texto literal más la identidad de la capa anterior; para COPY y ADD incluye además un <b>resumen del contenido</b> de los archivos copiados. <i>(Apunte §3.4.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Todas las capas siguientes se invalidan también, aunque su texto no haya cambiado: el caché es una cadena]]></text><feedback format="html"><text><![CDATA[Correcto. No se puede reutilizar el eslabón número cinco si el cuatro se rompió. Esa propiedad en cascada es la que convierte el orden de las instrucciones en una decisión de ingeniería.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Solo se reconstruye esa capa; las siguientes salen del caché si su texto no cambió]]></text><feedback format="html"><text><![CDATA[Sería así si el caché fuera un conjunto. Es una <b>cadena</b>: la clave de cada capa incluye la identidad de la anterior.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Docker reordena las instrucciones para aprovechar el caché al máximo]]></text><feedback format="html"><text><![CDATA[Docker <b>nunca</b> reordena: ejecuta en el orden escrito. Ordenar bien es trabajo de quien escribe el archivo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Se invalidan también las capas anteriores, para garantizar coherencia]]></text><feedback format="html"><text><![CDATA[Las anteriores no dependen de la que cambió, así que se siguen reutilizando.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-15 El orden de copiado</text></name>
+    <questiontext format="html"><text><![CDATA[El Dockerfile del backend copia <code>requirements.txt</code>, instala las dependencias, y recién después copia <code>main.py</code>. Si se copiara todo junto en un solo COPY, ¿qué cambiaría?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El patrón se repite en toda la ingeniería: <b>lo que cambia poco va arriba, lo que cambia mucho va abajo</b>. Las dependencias cambian una vez por mes; el código, veinte veces por día. <i>(Apunte §3.5.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Cualquier cambio en main.py —incluso una coma— invalidaría esa capa y obligaría a volver a descargar todas las dependencias]]></text><feedback format="html"><text><![CDATA[Exacto. La imagen resultante sería idéntica; lo que cambia es <b>cuánto cuesta producirla la próxima vez</b>. La diferencia es de dos órdenes de magnitud.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La imagen final sería más grande porque tendría una capa más]]></text><feedback format="html"><text><![CDATA[Sería incluso una capa <i>menos</i>. El tamaño no es el problema: el problema es el tiempo de reconstrucción.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No cambiaría nada: Docker detecta qué archivos cambiaron realmente]]></text><feedback format="html"><text><![CDATA[Docker calcula un resumen del <b>conjunto</b> copiado por la instrucción. Si cambia un byte de cualquiera, cambia la clave de esa capa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Fallaría la instalación porque pip no encontraría requirements.txt]]></text><feedback format="html"><text><![CDATA[Lo encontraría perfectamente. El resultado funcional sería idéntico.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-16 Los dos cachés que se confunden</text></name>
+    <questiontext format="html"><text><![CDATA[La opción <code>--no-cache-dir</code> de <code>pip install</code>...]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es un buen ejemplo de por qué conviene leer qué hace cada bandera en vez de copiarla de un tutorial. <i>(Apunte §3.5.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[...impide que pip guarde dentro de la imagen una copia de los paquetes descargados; no tiene nada que ver con el caché de capas de Docker]]></text><feedback format="html"><text><![CDATA[Correcto. Son dos cachés diferentes, con nombres parecidos, que no tienen relación entre sí. Como esos archivos no se van a volver a usar, solo agregarían peso a la capa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[...desactiva el caché de capas de Docker para esa instrucción]]></text><feedback format="html"><text><![CDATA[Eso sería <code>docker build --no-cache</code>, que es otra cosa por completo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[...fuerza a pip a descargar siempre la última versión de cada paquete]]></text><feedback format="html"><text><![CDATA[Las versiones las fija <code>requirements.txt</code>. La bandera solo afecta dónde guarda pip lo que descargó.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[...acelera la instalación al no verificar los paquetes ya instalados]]></text><feedback format="html"><text><![CDATA[No acelera nada: al contrario, si se reinstalara en la misma capa tendría que volver a descargar.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C3-17 La interfaz de escucha dentro del contenedor</text></name>
+    <questiontext format="html"><text><![CDATA[El <code>CMD</code> del backend arranca uvicorn con <code>--host</code>. ¿Qué dirección tiene que ir ahí para que el servicio sea alcanzable desde afuera del contenedor? (escribí solo la dirección)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es el error más frecuente al llevar una API a un contenedor. El contenedor tiene su propio espacio de nombres de red y su propia interfaz de bucle local: escuchar en <code>127.0.0.1</code> es escuchar en un lugar al que nadie más puede llegar, ni siquiera el anfitrión. <i>(Apunte §3.5.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>0.0.0.0</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-18 El fallo que no parece un fallo</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo dejó <code>--host 127.0.0.1</code> en el CMD. ¿Qué van a observar?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es la distinción de interfaces de la sección 2.6.1, ahora adentro del contenedor. <i>(Apunte §3.5.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El contenedor arranca, el log dice «Uvicorn running on http://127.0.0.1:8000», no hay ningún error, y el servicio no contesta nunca]]></text><feedback format="html"><text><![CDATA[Exacto, y por eso es especialmente cruel: no se parece a un fallo. En la Clase 4 se manifiesta como un <b>502 Bad Gateway</b> y manda a buscar el problema a cualquier lado menos al correcto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El contenedor no arranca y el log muestra un error de dirección inválida]]></text><feedback format="html"><text><![CDATA[La dirección es perfectamente válida. El proceso arranca sin la menor queja.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Docker rechaza la construcción de la imagen]]></text><feedback format="html"><text><![CDATA[El CMD ni siquiera se ejecuta al construir: es metadato. Se ejecuta al correr el contenedor.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Funciona igual, porque Docker redirige el tráfico al bucle local del contenedor]]></text><feedback format="html"><text><![CDATA[Docker no redirige nada hacia el bucle local del contenedor. Ese lugar es inalcanzable desde afuera por definición.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-19 Forma de ejecución y forma de intérprete</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál es la consecuencia real de escribir <code>CMD uvicorn main:app</code> (forma de intérprete) en lugar de <code>CMD ["uvicorn", "main:app"]</code> (forma de ejecución)?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La regla: usar siempre la forma de ejecución, salvo que se necesite expresamente una funcionalidad del intérprete —expansión de variables, tuberías, redirecciones—, en cuyo caso lo correcto es escribir un script y llamarlo desde la forma de ejecución. Un contenedor bien escrito se detiene en menos de un segundo. <i>(Apunte §3.5.6)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El proceso número 1 pasa a ser el intérprete de comandos, que no reenvía SIGTERM: la aplicación nunca se entera de que la están apagando]]></text><feedback format="html"><text><![CDATA[Correcto. El síntoma visible es que cada <code>docker stop</code> tarda exactamente diez segundos: es el plazo de gracia venciendo antes del SIGKILL.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La aplicación no puede leer variables de entorno]]></text><feedback format="html"><text><![CDATA[Las lee en las dos formas. De hecho la forma de intérprete <i>agrega</i> expansión de variables.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Docker no puede determinar el puerto de escucha]]></text><feedback format="html"><text><![CDATA[El puerto no sale del CMD: sale de los argumentos de la aplicación y, como documentación, de EXPOSE.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es puramente cosmético: las dos formas se comportan igual]]></text><feedback format="html"><text><![CDATA[Parece cosmético y no lo es. La diferencia está en el apagado, y se manifiesta en cada detención del contenedor.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-20 La función seria del .dockerignore</text></name>
+    <questiontext format="html"><text><![CDATA[El <code>.dockerignore</code> cumple tres funciones. ¿Cuál es la que pertenece a otra categoría que las demás?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La mayoría de los tutoriales lo presenta como una optimización menor. En realidad gobierna qué tan rápido y <b>qué tan seguro</b> es construir. <i>(Apunte §3.6)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Evitar filtraciones: que un archivo <code>.env</code> con credenciales no termine dentro de la imagen]]></text><feedback format="html"><text><![CDATA[Correcto. Las otras dos —reducir el tamaño y preservar el caché— son de rendimiento; esta es de seguridad, y es irreversible: la capa que contiene el secreto viaja con la imagen a donde sea que la publiques.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reducir el tamaño del contexto excluyendo <code>__pycache__/</code> y <code>.venv/</code>]]></text><feedback format="html"><text><![CDATA[Importante, pero es una cuestión de rendimiento: la construcción tarda más.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Preservar el caché evitando que un archivo temporal invalide la capa de COPY]]></text><feedback format="html"><text><![CDATA[También rendimiento: hace que las reconstrucciones sean más lentas de lo necesario.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Impedir que Docker acceda a archivos fuera del directorio del proyecto]]></text><feedback format="html"><text><![CDATA[Eso ya lo impide el propio concepto de contexto de construcción, sin necesidad de <code>.dockerignore</code>.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-21 Por qué el frontend no tiene CMD</text></name>
+    <questiontext format="html"><text><![CDATA[El Dockerfile del frontend no declara ningún <code>CMD</code>. ¿Por qué funciona igual?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Y fijate en algo más grande: el frontend <b>no ejecuta nada en el servidor</b>. El JavaScript de la calculadora corre en la máquina del visitante. Esa observación es la que en la Clase 5 explica por qué el frontend no puede usar la red interna aunque quisiera. <i>(Apunte §3.7)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque la imagen oficial de nginx ya trae el suyo y se hereda: no hace falta cambiar cómo arranca nginx, solo poner archivos donde nginx los busca]]></text><feedback format="html"><text><![CDATA[Correcto. Las instrucciones de metadato se heredan de la imagen base salvo que se sobrescriban.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque las imágenes basadas en Alpine no necesitan comando de arranque]]></text><feedback format="html"><text><![CDATA[La distribución base no tiene nada que ver: todo contenedor necesita un proceso que ejecutar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque los contenedores que solo sirven archivos no ejecutan ningún proceso]]></text><feedback format="html"><text><![CDATA[nginx <b>es</b> un proceso, y es el PID 1 del contenedor. Se puede comprobar con <code>ps aux</code> adentro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Easypanel se lo inyecta al desplegar]]></text><feedback format="html"><text><![CDATA[Easypanel no inyecta comandos de arranque; construye la imagen tal como está escrita.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-22 Por qué el chmod +x</text></name>
+    <questiontext format="html"><text><![CDATA[El Dockerfile del frontend incluye <code>RUN chmod +x /docker-entrypoint.d/40-generar-config.sh</code>. ¿Por qué hace falta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La imagen oficial de nginx ejecuta automáticamente todos los archivos de <code>/docker-entrypoint.d/</code> en orden alfabético —de ahí el prefijo <code>40-</code>— pero <b>solo los que tienen permiso de ejecución</b>. Es una convención de esa imagen, no una regla de Docker. <i>(Apunte §3.7.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque Windows no guarda el permiso de ejecución: sin esa línea, el script se copia sin permiso, nginx lo ignora en silencio y config.js no se genera]]></text><feedback format="html"><text><![CDATA[Correcto. Sin el chmod explícito, este proyecto funciona en Linux y falla en Windows. El contenedor arranca perfecto y la aplicación no anda.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Docker quita los permisos de ejecución a todos los archivos copiados]]></text><feedback format="html"><text><![CDATA[Docker preserva los permisos que traía el archivo en el contexto. El problema es el origen, no Docker.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque nginx exige permisos 777 en su directorio de arranque]]></text><feedback format="html"><text><![CDATA[No exige 777 ni nada parecido: solo ejecuta los archivos que <i>tienen</i> permiso de ejecución.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el script tiene que poder escribir en /usr/share/nginx/html]]></text><feedback format="html"><text><![CDATA[El permiso de escritura sobre el destino es otro asunto; el <code>+x</code> es sobre el propio script.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-23 Configuración en tiempo de arranque</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué <code>config.js</code> se genera al <b>arrancar</b> el contenedor y no al construirlo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es la metodología de los <b>doce factores</b>: la configuración se almacena en el entorno, separada del código; y construcción, publicación y ejecución son tres momentos distintos. <b>Si tenés que reconstruir para cambiar de entorno, algo está mal diseñado.</b> <i>(Apunte §3.7.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Para que una sola imagen sirva para todos los entornos: la URL viene de una variable y no queda grabada adentro]]></text><feedback format="html"><text><![CDATA[Correcto. Si se generara al construir, haría falta una imagen distinta por cada entorno — y eso mezcla configuración con código, y construcción con ejecución.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque al construir todavía no existe el archivo index.html]]></text><feedback format="html"><text><![CDATA[El index.html se copia en la construcción, antes. No es una cuestión de orden.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque nginx no puede leer archivos generados durante la construcción]]></text><feedback format="html"><text><![CDATA[Los lee perfectamente: todo lo que quede en la imagen está disponible al ejecutar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque las variables de entorno no existen durante la construcción]]></text><feedback format="html"><text><![CDATA[Sí existen (con <code>ARG</code> y <code>ENV</code>). El motivo no es técnico sino de diseño.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C3-24 La imagen base del backend</text></name>
+    <questiontext format="html"><text><![CDATA[El backend parte de una variante reducida de Debian con Python ya instalado, de unos 150 MB. Escribí la etiqueta completa de esa imagen base, tal como aparece en el <code>FROM</code>.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La imagen completa <code>python:3.12</code> pesa ~1 GB y trae herramientas de compilación; <code>python:3.12-alpine</code> pesa ~50 MB pero usa <b>musl</b> en lugar de glibc, así que los paquetes binarios precompilados no sirven y pip tiene que compilarlos: construcciones mucho más lentas y a veces fallidas. <i>(Apunte §3.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>python:3.12-slim</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>python:3.12-slim </text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>FROM python:3.12-slim</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-25 Por qué importa la imagen base</text></name>
+    <questiontext format="html"><text><![CDATA[El capítulo dice que la elección de la imagen base es «la decisión de mayor impacto de todo el archivo». ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La regla es la misma que en seguridad: lo que no está, no puede fallar ni ser explotado. <i>(Apunte §3.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque fija el tamaño de partida, las bibliotecas disponibles y —esto se subestima siempre— la superficie de vulnerabilidades heredada]]></text><feedback format="html"><text><![CDATA[Correcto: una imagen base con doscientos paquetes instalados trae las vulnerabilidades de esos doscientos paquetes, se usen o no. Es economía del mecanismo (§2.12.1) aplicada acá: la imagen más chica que alcance.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque determina qué lenguaje de programación se puede usar]]></text><feedback format="html"><text><![CDATA[Se puede instalar cualquier cosa sobre cualquier base. Lo que cambia es cuánto trabajo cuesta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque una vez elegida no se puede cambiar sin rehacer el proyecto]]></text><feedback format="html"><text><![CDATA[Se cambia editando una línea y reconstruyendo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque define el sistema operativo del servidor anfitrión]]></text><feedback format="html"><text><![CDATA[El anfitrión tiene su propio sistema operativo, independiente de la imagen. Lo que sí se comparte es el <i>núcleo</i>.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-26 docker history</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué muestra <code>docker history</code> y para qué sirve?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los otros comandos de inspección: <code>docker ps</code>, <code>docker logs -f</code>, <code>docker exec -it &lt;id&gt; sh</code> y <code>docker inspect</code>. <i>(Apunte §3.8.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Cada capa de la imagen, la instrucción que la creó y cuánto pesa: es la ventana directa al modelo de capas]]></text><feedback format="html"><text><![CDATA[Correcto. Es la herramienta con la que se descubre que una imagen de 900 MB tiene 700 MB en un solo <code>RUN apt-get install</code>, y también con la que se comprueba que un archivo que se creía borrado sigue ahí.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El historial de comandos ejecutados dentro del contenedor]]></text><feedback format="html"><text><![CDATA[Eso sería el historial del intérprete, dentro del contenedor. <code>docker history</code> habla de la <i>imagen</i>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los despliegues anteriores de la imagen en el registro]]></text><feedback format="html"><text><![CDATA[Eso es la lista de etiquetas y digests del registro, otra cosa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los cambios que el contenedor hizo sobre su capa efímera]]></text><feedback format="html"><text><![CDATA[Eso es <code>docker diff</code>.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-27 El estándar OCI</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué significa que hoy se hable de «imagen OCI» y no de «imagen de Docker»?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La Open Container Initiative publica tres especificaciones: imagen, ejecución y distribución. <i>(Apunte §3.9.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que los formatos se estandarizaron en 2015 y la imagen puede ejecutarse con Docker, Podman, containerd o cualquier motor conforme]]></text><feedback format="html"><text><![CDATA[Correcto. El Dockerfile que se escribe en esta clase no ata el proyecto a ninguna empresa, y esa es exactamente la garantía que la estandarización buscaba.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que Docker dejó de existir como producto y fue reemplazado por OCI]]></text><feedback format="html"><text><![CDATA[Docker sigue existiendo perfectamente. Lo que cambió es que el formato ya no le pertenece.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que las imágenes OCI son incompatibles con las de Docker]]></text><feedback format="html"><text><![CDATA[Son lo mismo: «imagen de Docker» es hoy un nombre histórico para una imagen OCI.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que hace falta convertir las imágenes antes de publicarlas en un registro]]></text><feedback format="html"><text><![CDATA[No hay conversión: la especificación de distribución también está estandarizada.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-28 Construcción multietapa</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué problema resuelve una construcción multietapa (varios <code>FROM</code> en el mismo archivo)?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El resultado: la imagen final contiene nginx y los archivos generados — ni Node, ni <code>node_modules</code>, ni el código fuente. <i>(Apunte §3.9.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que las herramientas necesarias para construir —compiladores, empaquetadores— no queden en la imagen final cargando peso y superficie de ataque]]></text><feedback format="html"><text><![CDATA[Correcto: se hace el trabajo pesado en la primera etapa y se copia a la última solo el resultado, con <code>COPY --from=</code>. Este proyecto no la necesita porque el frontend es HTML sin compilación, pero es el patrón que aparece en el primer proyecto con React, Vue o Angular.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se puedan construir imágenes para varios sistemas operativos a la vez]]></text><feedback format="html"><text><![CDATA[Eso es la construcción multiplataforma (<code>buildx</code>), otra funcionalidad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la construcción se paralelice entre varias máquinas]]></text><feedback format="html"><text><![CDATA[Las etapas pueden paralelizarse si son independientes, pero ese no es el objetivo del patrón.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se pueda volver a una etapa anterior si la última falla]]></text><feedback format="html"><text><![CDATA[No hay «volver atrás»: si una etapa falla, la construcción falla.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-29 Por qué latest es una trampa</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál es el problema real de escribir <code>FROM python:latest</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La práctica correcta es fijar la versión y, en contextos que exigen reproducibilidad exacta, fijar el resumen criptográfico (<code>python@sha256:...</code>), que por construcción no puede cambiar. La misma lógica aplica a <code>requirements.txt</code>: versiones exactas con <code>==</code>. <b>Una construcción reproducible no es la que funciona: es la que vuelve a funcionar igual.</b> <i>(Apunte §3.9.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que <code>latest</code> no significa «la más nueva»: es solo la etiqueta por omisión y apunta a lo que el publicador decida, que puede cambiar sin aviso]]></text><feedback format="html"><text><![CDATA[Correcto. Un <code>FROM python:latest</code> puede construir hoy con Python 3.12 y dentro de tres meses con 3.14, rompiendo el proyecto sin que nadie haya tocado una línea.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que descarga siempre la versión más reciente y por eso las construcciones son lentas]]></text><feedback format="html"><text><![CDATA[El problema no es la velocidad sino la <b>imprevisibilidad</b>: no sabés qué te va a tocar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que <code>latest</code> incluye versiones beta e inestables del lenguaje]]></text><feedback format="html"><text><![CDATA[No necesariamente. El punto es que el contenido de esa etiqueta lo decide un tercero.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que Docker Hub cobra por el uso de la etiqueta latest]]></text><feedback format="html"><text><![CDATA[No hay ningún cargo asociado a una etiqueta en particular.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-30 No correr como root</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué conviene agregar <code>USER</code> al Dockerfile, y dónde va?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §3.9.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque es más privilegio del necesario: si un atacante ejecuta código adentro, prefiere encontrar un usuario sin permisos. Va después de las instrucciones que necesitan privilegios y antes del CMD]]></text><feedback format="html"><text><![CDATA[Correcto: es mínimo privilegio (§2.12.1) aplicado adentro de la imagen. Gracias al espacio de nombres de usuario, ser root adentro no equivale a serlo en el anfitrión — pero sigue siendo innecesario.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque sin USER el contenedor tiene privilegios de root sobre el servidor anfitrión]]></text><feedback format="html"><text><![CDATA[No los tiene, justamente por el espacio de nombres <code>user</code>. La razón es de mínimo privilegio, no de escalada directa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Docker se niega a ejecutar contenedores como root desde 2020]]></text><feedback format="html"><text><![CDATA[Por omisión el proceso corre como root dentro del contenedor, y Docker no se queja.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Va al principio del archivo, antes del FROM]]></text><feedback format="html"><text><![CDATA[Antes del FROM no puede ir nada. Y si va antes de instalar paquetes, la instalación falla por falta de permisos.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C3-31 Diagnosticar una construcción fallida</text></name>
+    <questiontext format="html"><text><![CDATA[Falla un <code>docker build</code> y la salida es larga. ¿Por dónde se empieza a leer?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es el mismo criterio que se aplica a cualquier traza de error encadenada: la primera línea que falló es la que explica; las siguientes solo propagan. <i>(Apunte §3.11)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Por el primer error: Docker sigue imprimiendo mensajes después de romperse y el final de la salida suele ser ruido]]></text><feedback format="html"><text><![CDATA[Correcto: el primer error es la <b>causa</b>; el resto es consecuencia. Este consejo, que parece obvio, es el que más tiempo ahorra en la Clase 4.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Por el último error, que es el que finalmente detuvo la construcción]]></text><feedback format="html"><text><![CDATA[El último suele ser un mensaje genérico de «el proceso terminó con código 1», que no dice nada sobre la causa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Por el resumen final que Docker imprime con el conteo de capas]]></text><feedback format="html"><text><![CDATA[Si la construcción falló, no hay resumen de capas.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Por los mensajes en amarillo, que son los importantes]]></text><feedback format="html"><text><![CDATA[Los amarillos son advertencias; el error es lo que rompió la cadena.]]></text></feedback></answer>
+  </question>
+</quiz>

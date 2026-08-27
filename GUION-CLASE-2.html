@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<title>Guión de grabación — Clase 2</title>
+<style>
+  @page { size: A4; margin: 17mm 15mm 15mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Calibri, "Segoe UI", sans-serif; font-size: 10.5pt; line-height: 1.42; color: #1a1a1a; margin: 0; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 22pt; color: #1F4E79; margin: 0 0 2mm 0; line-height: 1.15; }
+  .subtitulo { font-size: 10pt; color: #595959; margin: 0 0 6mm 0; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 15pt; color: #fff; background: #1F4E79; margin: 0 0 4mm 0; padding: 3mm 4mm; border-radius: 2px; line-height: 1.2; }
+  h2 .meta { display: block; font-family: Calibri, sans-serif; font-size: 9.5pt; font-weight: normal; color: #CBDCEC; margin-top: 1.5mm; }
+  .video { break-before: page; }
+  #v1 { break-before: auto; margin-top: 6mm; }
+  .diapo { break-inside: avoid; margin: 0 0 4mm 0; padding-left: 17mm; position: relative; min-height: 12mm; }
+  .num { position: absolute; left: 0; top: 0; width: 13mm; padding: 1.2mm 0; text-align: center; background: #DEEBF7; color: #1F4E79; border-left: 3px solid #2E74B5; font-weight: bold; font-size: 11pt; font-family: Cambria, serif; }
+  .num small { display: block; font-family: Consolas, monospace; font-size: 6.8pt; font-weight: normal; color: #2E74B5; letter-spacing: -0.2px; }
+  .titulo-diapo { font-weight: bold; color: #1F4E79; font-size: 10.5pt; margin: 0 0 1.5mm 0; border-bottom: 1px solid #D6D6D6; padding-bottom: 1mm; }
+  .titulo-diapo .tc { float: right; font-family: Consolas, monospace; font-size: 8.5pt; font-weight: normal; color: #808080; }
+  .diapo p { margin: 0 0 2mm 0; }
+  .diapo p:last-child { margin-bottom: 0; }
+  b, strong { color: #000; }
+  .clave { background: #FFF2CC; padding: 0 1px; font-weight: bold; }
+  .cortable { color: #6E6E6E; }
+  .cortable::before { content: "✂ "; color: #C00000; font-weight: bold; }
+  .nota { background: #F2F2F2; border-left: 3px solid #999; padding: 1.5mm 3mm; font-size: 9pt; color: #404040; margin: 2mm 0 0 0; }
+  .nota b { color: #595959; }
+  .caja { padding: 3mm 4mm; margin: 0 0 4mm 0; break-inside: avoid; border-radius: 2px; }
+  .caja p { margin: 0 0 2mm 0; }
+  .caja p:last-child { margin-bottom: 0; }
+  .caja .tit { font-weight: bold; font-size: 10pt; display: block; margin-bottom: 1.5mm; }
+  .aviso { background: #FDECEA; } .aviso .tit { color: #C00000; }
+  .dato { background: #EFEFEF; } .dato .tit { color: #595959; }
+  .concepto { background: #DEEBF7; } .concepto .tit { color: #2E74B5; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 0 0 4mm 0; break-inside: avoid; }
+  th { background: #D9E2F3; font-weight: bold; text-align: left; }
+  th, td { border: 0.5pt solid #999999; padding: 1.5mm 2.5mm; vertical-align: top; }
+  td.c, th.c { text-align: center; }
+  .cierre { margin-top: 5mm; padding: 3mm 4mm; background: #E2F0DC; border-radius: 2px; font-size: 9.5pt; break-inside: avoid; }
+  .cierre b { color: #538135; }
+  code { font-family: Consolas, monospace; font-size: 9.5pt; background: #EEEEEE; padding: 0 1.5px; }
+  .ej { background: #F3F8EF; border-left: 3px solid #538135; padding: 1.8mm 3mm; margin: 0 0 2mm 0; }
+  .ej::before { content: "EJEMPLO"; display: block; font-family: Consolas, monospace; font-size: 7pt; font-weight: bold; letter-spacing: 0.6px; color: #538135; margin-bottom: 0.8mm; }
+</style>
+</head>
+<body>
+
+<h1>Guión de grabación — Clase 2</h1>
+<p class="subtitulo">
+  <b>La VPS: aprovisionar, entrar y cerrar</b><br>
+  Programación 3 · UTN FRM · Matías Santiago Torres — 29 diapositivas · 3 videos · 15 ejemplos
+</p>
+
+<div class="caja concepto">
+  <span class="tit">Cuánto dura, y por qué son siete minutos y no seis</span>
+  <p>Los tiempos están calculados a <b>165 palabras por minuto</b>, el mismo ritmo con el que se midió
+  la Clase 1. A esa velocidad los tres videos dan <b>6:57 · 7:21 · 7:51</b>, total 22:09. La columna
+  de 145 está para el ritmo pausado: tres minutos más sobre el total.</p>
+  <p><span class="clave">Este capítulo no entra en tres videos de seis minutos, y conviene saber por
+  qué antes de intentarlo.</span> La Clase 1 tenía un solo tema —la resolución de nombres— contado en
+  treinta diapositivas. Esta tiene cuatro que no se deducen entre sí: virtualización, SSH, el modelo
+  de red del núcleo, y el problema de Docker. Cada uno arranca de cero. Achicarlos a seis minutos
+  significaba sacar la teoría de virtualización o la anatomía de netfilter, y sin netfilter el video 3
+  no se puede explicar: se convierte en "acordate de esto porque sí".</p>
+  <p>La palanca para acortar son los pasajes con <span class="cortable">tijera, que van en gris</span>.
+  Sacándolos todos, los tres bajan a <b>6:21 · 6:58 · 7:19</b> y el total a 20:39.
+  <b>Ninguno contiene algo que se evalúe ni que haga falta para entender lo que sigue</b> — y ninguno
+  es un ejemplo.</p>
+  <p>Los timecodes de cada diapositiva son acumulados y salen del conteo real de palabras, no de una
+  estimación. Sirven para corregir el rumbo <i>durante</i> la grabación: si a la diapositiva 15 vas
+  dos minutos arriba, no lo arreglás en las últimas cuatro.</p>
+  <p>Lo <span class="clave">resaltado en amarillo</span> es lo único que no conviene parafrasear: son
+  las frases que después vuelven como criterio de corrección.</p>
+</div>
+
+<div class="caja concepto">
+  <span class="tit">Los quince bloques de EJEMPLO: cómo se dicen</span>
+  <p>Van en verde y valen la misma regla que en la Clase 1: <b>no los leas, contalos.</b> Son el único
+  lugar del guión donde conviene despegar la vista del texto y mirar a cámara — el alumno tiene que
+  notar que cambiaste de registro.</p>
+  <p>Cada uno <b>reemplaza</b> una explicación abstracta que saqué del guión, no se le suma encima. Si
+  te sobra tiempo, el ejemplo no es lo que se corta: cortándolo volvés a la versión aburrida y encima
+  incompleta.</p>
+  <p>El reparto es desparejo a propósito: <b>siete en el video 1 y seis en el 2</b>, que son los que
+  tienen la abstracción pesada, y <b>dos en el 3</b>, que ya es concreto de por sí — ahí el ejemplo es
+  el propio panel de Easypanel expuesto en el 3000.</p>
+</div>
+
+<div class="caja aviso">
+  <span class="tit">⚠️ Lo que el video no hace, y hay que decirlo en clase</span>
+  <p><b>En veintidós minutos no entra el capítulo: entra el hilo del capítulo.</b> El manuscrito de la
+  Clase 2 tiene más de diez mil palabras; este guión tiene tres mil seiscientas. El video sirve para
+  que el alumno sepa <i>qué</i> tiene que entender y <i>por qué</i> importa; el apunte es el que lo
+  explica.</p>
+  <p>Las tablas de riesgos por puerto, de endurecimiento y de errores frecuentes <b>se muestran, no se
+  narran</b>: son de consulta y están en el apunte.</p>
+</div>
+
+<div class="caja aviso">
+  <span class="tit">⚠️ Antes de apretar grabar</span>
+  <p><b>No leas la diapositiva.</b> El alumno la está viendo. El guión está escrito para <i>decir lo
+  que la diapositiva no dice</i>: por qué está ahí, qué error previene, con qué se conecta.</p>
+  <p><b>Grabá los tres por separado, no uno largo cortado.</b> Cada uno abre y cierra solo: si cambia
+  el panel de Hostinger, regrabás el video 1 y los otros dos siguen sirviendo. Nombres sugeridos:
+  <code>C2-V1-vps-y-claves</code>, <code>C2-V2-puertos-y-firewall</code>,
+  <code>C2-V3-docker-y-cierre</code>.</p>
+  <p><b>Este capítulo tiene dos diapositivas que no se pueden apurar:</b> la 15, que es el recorrido
+  del paquete, y la 17, que es el problema de Docker. Todo lo demás se puede contar más rápido; esas
+  dos son la única razón por la que este video existe y no alcanza con leer un tutorial.</p>
+</div>
+
+<table>
+  <tr><th rowspan="2">Video</th><th rowspan="2">Título</th><th class="c" rowspan="2">Diapos</th><th class="c" rowspan="2">Ejem.</th><th class="c" rowspan="2">Palabras</th><th class="c" colspan="2">A 165 p/min</th><th class="c" rowspan="2">A 145 p/min</th></tr>
+  <tr><th class="c">completo</th><th class="c">sin tijeras</th></tr>
+  <tr><td><b>1</b></td><td>La máquina prestada y la llave propia</td><td class="c">1 – 10</td><td class="c">7</td><td class="c">1147</td><td class="c">6:57</td><td class="c">6:21</td><td class="c">7:55</td></tr>
+  <tr><td><b>2</b></td><td>Puertos, sockets y el firewall de verdad</td><td class="c">11 – 16</td><td class="c">6</td><td class="c">1213</td><td class="c">7:21</td><td class="c">6:58</td><td class="c">8:22</td></tr>
+  <tr><td><b>3</b></td><td>Docker se saltea el firewall, y cómo se cierra el servidor</td><td class="c">17 – 29</td><td class="c">2</td><td class="c">1294</td><td class="c">7:51</td><td class="c">7:19</td><td class="c">8:55</td></tr>
+  <tr><td colspan="3"><b>Total</b></td><td class="c"><b>15</b></td><td class="c"><b>3654</b></td><td class="c"><b>22:09</b></td><td class="c"><b>20:39</b></td><td class="c"><b>25:12</b></td></tr>
+</table>
+
+<div class="caja dato">
+  <span class="tit">📌 Por qué el corte cae ahí, y por qué el reparto es desparejo</span>
+  <p>Cada video cierra con una pregunta que el siguiente contesta. El 1 termina en <i>"además de
+  ustedes, ¿quién más puede entrar?"</i>; el 2 responde con los puertos y el firewall, y cierra en
+  <i>"eso es lo que ufw dice; en el video tres vamos a ver si es verdad"</i>; el 3 abre demoliendo esa
+  afirmación. <b>Si reordenás los bloques se pierde el enganche</b>, y el 3 pierde además su motivo.</p>
+  <p>El video 2 tiene seis diapositivas y dura más que el 1, que tiene diez. No es un error de reparto:
+  son las seis diapositivas más densas del capítulo —tupla, interfaces, rangos, netfilter, el recorrido
+  del paquete y ufw— y son las que sostienen todo el video 3. El 3, al revés, tiene trece diapositivas
+  porque las últimas cuatro son de consulta y se muestran en pocos segundos.</p>
+</div>
+
+<!-- ==================== VIDEO 1 ==================== -->
+<div class="video" id="v1">
+<h2>Video 1 — La máquina prestada y la llave propia
+  <span class="meta">Diapositivas 1 a 10 · 1147 palabras · 6:57 (sin tijeras 6:21)</span></h2>
+
+<div class="diapo">
+  <div class="num">1<small>0:00</small></div>
+  <div class="titulo-diapo">Portada <span class="tc">0:00 – 0:14</span></div>
+  <p>Capítulo dos. La clase pasada consiguieron un nombre; hoy consiguen la máquina a la que ese
+  nombre apunta.</p>
+  <p>El título tiene tres verbos: aprovisionar, entrar y cerrar. <span class="clave">El primero
+  lleva cinco minutos; los otros dos son la clase.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">2<small>0:14</small></div>
+  <div class="titulo-diapo">Alcance del capítulo <span class="tc">0:14 – 0:34</span></div>
+  <p>Cuatro bloques, y fíjense en la proporción: uno es crear el servidor, tres son no perderlo.</p>
+  <p>La frase del capítulo: <span class="clave">un servidor recién creado es, por defecto, un
+  objetivo.</span> No cuando tenga usuarios. Desde el minuto cero, con la calculadora vacía adentro.</p>
+  <p>Al terminar: VPS operativo, entrada por claves, firewall puesto y panel con candado.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">3<small>0:34</small></div>
+  <div class="titulo-diapo">Por qué existe un servidor virtual <span class="tc">0:34 – 1:20</span></div>
+  <p>Un VPS no es un tipo de computadora. Es una ilusión, y está construida a propósito.</p>
+  <div class="ej">Reciben lo que parece una máquina entera —su sistema operativo, su IP, su disco— y
+  están compartiendo el hierro con treinta desconocidos. Es un edificio de departamentos: la llave
+  es tuya, las paredes son de verdad, y la bomba de agua es de todos.</div>
+  <p class="cortable">Arrancó por plata. Años sesenta: una computadora central costaba una fortuna y
+  corría un programa por vez. Máquina ociosa es dinero quemado. IBM lo atacó con VM/370 en el 72.</p>
+  <p>La diferencia con el tiempo compartido es la que importa: <span class="clave">ahí los usuarios
+  conviven adentro de un mismo sistema operativo y se ven; en virtualización cada uno tiene el suyo
+  y no sabe que los demás existen.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">4<small>1:20</small></div>
+  <div class="titulo-diapo">Las tres propiedades de Popek y Goldberg <span class="tc">1:20 – 2:05</span></div>
+  <p>1974. Dos tipos definen qué tiene derecho a llamarse virtualizador y les salen tres condiciones
+  que siguen valiendo. <b>Equivalencia:</b> el huésped no se da cuenta de que está adentro.
+  <b>Control:</b> el hipervisor tiene la última palabra. <b>Eficiencia:</b> las instrucciones corren
+  directo sobre el procesador, sin emular.</p>
+  <p>Y acá el dato que explica treinta años de historia: <span class="clave">x86 no cumplía la
+  condición.</span></p>
+  <div class="ej">Por eso esto existía en los mainframes desde el 72 y recién llegó a los servidores
+  comunes en 2006: primero traducción en vivo con VMware, después Xen modificando el huésped, y
+  finalmente Intel y AMD lo metieron adentro del procesador. Eso último es lo que hace que la VPS de
+  ustedes rinda casi como una máquina real y no como un emulador.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">5<small>2:05</small></div>
+  <div class="titulo-diapo">Tipos de hipervisor y consecuencias prácticas <span class="tc">2:05 – 3:12</span></div>
+  <p class="cortable">La tabla es de ubicación: tipo 1 corre sobre el hierro, tipo 2 adentro de un
+  sistema operativo. El VirtualBox que usaron es tipo 2; la VPS de ustedes es tipo 1, casi seguro
+  KVM.</p>
+  <p>Bajen a las tres cajas, que es lo que van a ver con los ojos este cuatrimestre.</p>
+  <div class="ej">Uno: el aislamiento es real, el hierro se comparte. Los proveedores venden más
+  núcleos virtuales que reales apostando a que no todos estarán al mango a la vez. Cuando la apuesta
+  falla aparece el vecino ruidoso: el servidor se pone lento un martes y ustedes no tocaron nada. No
+  están locos, y no es su código.</div>
+  <p>Dos: el estado entero de la máquina es un archivo. Por eso reinstalar tarda tres minutos, y por
+  eso <span class="clave">esa operación borra todo y no tiene deshacer.</span></p>
+  <p>Tres, la que más les va a doler: la responsabilidad se corta en un punto preciso. El proveedor
+  responde por hipervisor, hardware y red. <span class="clave">De la puerta del sistema operativo
+  para adentro es de ustedes</span>, y no es una postura comercial: el proveedor, por diseño, no
+  puede ver adentro.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">6<small>3:12</small></div>
+  <div class="titulo-diapo">Qué es un VPS y dónde se ubica <span class="tc">3:12 – 3:55</span></div>
+  <p>Cuatro filas, un solo eje: <span class="clave">cuánta abstracción hay entre el que programa y
+  la máquina.</span> Cada escalón para arriba te saca trabajo y te saca, en la misma cantidad,
+  visibilidad.</p>
+  <p>Y me lo van a preguntar: si Vercel resuelve el deploy en tres clics, ¿por qué una VPS?</p>
+  <div class="ej">Justamente por eso. Un PaaS no te deja ver la tabla de reglas del firewall, y no
+  porque te la escondan: del lado del cliente esa tabla no existe. Las piezas están —alguien las
+  configuró—, pero no se observan.</div>
+  <p>El PaaS resolvería el despliegue en menos pasos y les ocultaría todo lo que la materia quiere
+  enseñar: red, puertos, proxy inverso, certificados, aislamiento. <span class="clave">Lo que no se
+  observa no se aprende.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">7<small>3:55</small></div>
+  <div class="titulo-diapo">Aprovisionamiento <span class="tc">3:55 – 4:25</span></div>
+  <p>Esta es la única diapositiva donde se crea el servidor: cuatro pasos en hPanel, plantilla
+  Easypanel sobre Ubuntu 24.04, y a esperar.</p>
+  <p>Lo que quiero que entiendan es <i>qué</i> hace ese botón: escribe una imagen de disco ya
+  preparada encima de la que había. Por eso tarda minutos —es copiar un archivo— y por eso
+  <span class="clave">borra todo lo anterior sin deshacer.</span></p>
+  <p class="cortable">Al terminar anoten la IP pública y verifiquen que sea la misma que cargaron en
+  el DNS la clase pasada.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">8<small>4:25</small></div>
+  <div class="titulo-diapo">Acceso remoto: el protocolo SSH <span class="tc">4:25 – 5:20</span></div>
+  <p>SSH nació de un robo. Hasta mediados de los noventa, Telnet y rlogin mandaban <b>la contraseña
+  en texto plano</b>. A Tatu Ylönen le capturaron las credenciales en la red de su universidad y en
+  1995 escribió la primera versión.</p>
+  <p>Las tres capas van en ese orden y el orden dice algo: la de transporte cifra el canal y
+  <span class="clave">autentica al servidor ante el cliente, no al revés.</span> Recién sobre ese
+  canal seguro el cliente demuestra quién es.</p>
+  <div class="ej">De ahí sale el mensaje que todos ven y nadie lee. La primera vez el cliente no
+  puede saber si esa clave de anfitrión es la legítima: pregunta, ustedes aceptan, y la guarda. Es
+  vulnerable exactamente una vez —la primera— y desde ahí detecta cualquier suplantación. Por eso,
+  si les aparece el cartel grande de que la clave cambió, no es un trámite: o reinstalaron el
+  servidor, o hay alguien en el medio.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">9<small>5:20</small></div>
+  <div class="titulo-diapo">Contraseña vs. clave pública <span class="tc">5:20 – 6:17</span></div>
+  <p>Cuatro filas y ninguna habla de comodidad: todas hablan de seguridad.</p>
+  <p>Saquen de la cabeza la frase "se copia la clave al servidor", porque induce a error. Esto es un
+  <b>desafío criptográfico</b>: el servidor manda un dato aleatorio, el cliente lo firma con la
+  privada, el servidor verifica la firma con la pública. <span class="clave">La clave privada nunca
+  se transmite, ni siquiera cifrada.</span></p>
+  <div class="ej">Miren la fila tres, que es la que más rinde. Si mañana les roban el servidor
+  entero, el atacante se lleva las claves públicas de los cuatro y no le sirven para nada: con una
+  pública se verifica una firma, no se firma. Es robarse la cerradura creyendo que es la llave.</div>
+  <p>El comando va <b>en la máquina de ustedes</b>, nunca en el servidor. La que termina en punto pub
+  se comparte; la otra no sale de su computadora jamás.</p>
+  <p class="cortable">Hay bots que escanean GitHub buscando claves privadas subidas por error, y
+  tardan minutos.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">10<small>6:17</small></div>
+  <div class="titulo-diapo">Instalación de claves y cierre de la contraseña <span class="tc">6:17 – 6:57</span></div>
+  <p>Cada integrante instala <b>su propia</b> clave: cuatro accesos independientes, revocables por
+  separado, sin contraseña compartida.</p>
+  <div class="ej">Y no es comodidad, es auditoría. Una contraseña que saben cuatro es una identidad
+  sin dueño: cuando pasa algo, entró "el grupo". Con claves, cada línea tiene nombre y apellido, y
+  sacar a uno es borrar un renglón.</div>
+  <p>Después se cierra la contraseña. Ojo con la segunda directiva: <code>prohibit-password</code>
+  no prohíbe entrar como root, prohíbe entrar como root <b>con contraseña</b>.</p>
+  <p><span class="clave">Verifiquen que las cuatro claves andan ANTES de tocar ese archivo.</span>
+  Segunda terminal, entran con la clave, y recién ahí editan. Si cierran la única sesión que tenían,
+  quedaron afuera de su propio servidor.</p>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 1.</b> Cierre sugerido a cámara: <i>"Ya tienen la máquina y ya tienen la llave.
+  Falta la parte incómoda: además de ustedes, ¿quién más puede entrar? Eso es el video dos."</i>
+</div>
+</div>
+<!-- ==================== VIDEO 2 ==================== -->
+<div class="video">
+<h2>Video 2 — Puertos, sockets y el firewall de verdad
+  <span class="meta">Diapositivas 11 a 16 · 1213 palabras · 7:21 (sin tijeras 6:58)</span></h2>
+
+<div class="diapo">
+  <div class="num">11<small>0:00</small></div>
+  <div class="titulo-diapo">Puertos y sockets: qué significa "escuchar" <span class="tc">0:00 – 1:25</span></div>
+  <p>Video dos. Terminamos con quién puede entrar; ahora vamos a <b>por dónde</b>.</p>
+  <p>La definición corta la saben: la IP identifica una máquina, el puerto identifica un servicio
+  adentro de esa máquina. Pero la formulación precisa es más útil, porque explica cosas que si no
+  parecen magia. <span class="clave">Una conexión establecida no se identifica por un puerto: se
+  identifica por una tupla de cuatro elementos</span> —IP de origen, puerto de origen, IP de destino,
+  puerto de destino—.</p>
+  <div class="ej">¿Cómo hace un servidor con un solo puerto 443 para atender diez mil conexiones a la
+  vez sin mezclarlas? No hay diez mil puertos: hay diez mil tuplas distintas. Es la centralita de una
+  empresa: un solo número de teléfono, y adentro cien conversaciones que no se pisan porque cada una
+  tiene un llamante distinto.</div>
+  <p>Y "escuchar" es una orden concreta al sistema operativo: <i>entregame a mí toda conexión nueva
+  dirigida a este número</i>.</p>
+  <p>Ahora la tabla de la derecha, que parece un detalle de configuración y es una decisión de
+  seguridad de primer orden: un proceso además declara <b>en qué interfaz</b> escucha.</p>
+  <div class="ej">Un servicio que escucha en 127.0.0.1 <span class="clave">es inalcanzable desde
+  internet aunque el firewall esté apagado y el puerto abierto.</span> No hay firewall que valga:
+  simplemente no hay nadie atendiendo del lado de afuera. Es la forma más barata y más robusta de
+  cerrar algo, y vuelve en la Clase 3 y en la Clase 5.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">12<small>1:25</small></div>
+  <div class="titulo-diapo">Rangos de puertos e inspección del estado <span class="tc">1:25 – 2:45</span></div>
+  <p>Sesenta y cinco mil quinientos treinta y cinco puertos, y no son todos iguales. La IANA los parte
+  en tres rangos, normados en la RFC 6335.</p>
+  <p class="cortable">Bien conocidos hasta el 1023, asignados por trámite formal; registrados hasta el
+  49151, trámite simplificado; y de ahí para arriba, efímeros: no los asigna nadie, los toma el
+  sistema operativo.</p>
+  <p>De ahí salen dos consecuencias prácticas. La primera está abajo en negrita:
+  <span class="clave">en Unix, escuchar por debajo del 1024 requiere privilegios de
+  administrador.</span></p>
+  <div class="ej">Es una restricción histórica para que un usuario cualquiera no pudiera hacerse pasar
+  por el servidor web de la máquina. Y es exactamente la razón de algo que van a ver la clase que
+  viene: el backend de ustedes escucha en 3000, o en 8000, y hay un proxy inverso adelante ocupando el
+  80 y el 443. No es una convención estética, es un permiso que el proceso no tiene.</div>
+  <p>La segunda: <b>la asignación es una convención, no una imposición técnica.</b> Nada impide correr
+  SSH en el 2222; lo que se pierde es que las herramientas lo encuentren solas.</p>
+  <p>Y el comando de la derecha es el que van a correr en el servidor. Las cuatro banderas importan,
+  pero la que hace el trabajo conceptual es la <code>-l</code>: pide los sockets en estado LISTEN, los
+  que esperan conexiones nuevas.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">13<small>2:45</small></div>
+  <div class="titulo-diapo">Figura 2.3 — Puertos en escucha en el servidor <span class="tc">2:45 – 3:46</span></div>
+  <p>Esta es la salida real de un servidor recién aprovisionado. Cuatro procesos escuchando: sshd en
+  el 22, Traefik en el 80 y el 443, Easypanel en el 3000.</p>
+  <p>Y la frase del medio es la que quiero que se lleven: <span class="clave">cada puerto abierto es un
+  proceso concreto que alguien decidió levantar, no una propiedad mágica del servidor.</span> No hay
+  puertos que "vienen abiertos": hay programas corriendo.</p>
+  <p>Ahora la pregunta de abajo, y les pido que la contesten antes de que la conteste yo. De estos
+  cuatro, ¿cuáles necesita ver el mundo entero?</p>
+  <div class="nota"><b>🎬 Dirección:</b> dejá dos segundos de silencio real acá. Es la única pregunta
+  del capítulo que se contesta sola si la piensan.</div>
+  <p>El 22 lo necesitan ustedes cuatro, no el mundo. El 3000 no lo necesita nadie desde afuera, y
+  vamos a ver por qué es peligroso. <span class="clave">La respuesta es 80 y 443, y es toda la clase de
+  seguridad resumida en dos números.</span></p>
+  <p class="cortable">Corran después el mismo comando sin la <code>-l</code> y miren cuánto crece la
+  salida: esa diferencia son las conexiones ya establecidas. El socket en escucha es uno, las
+  conversaciones en curso son muchas.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">14<small>3:46</small></div>
+  <div class="titulo-diapo">El firewall: anatomía de netfilter <span class="tc">3:46 – 5:03</span></div>
+  <p>Primera corrección, de vocabulario: <span class="clave">el firewall no es ufw.</span> En Linux el
+  firewall es un subsistema del núcleo llamado netfilter, y iptables, nft y ufw no son el firewall:
+  son formas de escribirle reglas. Parece una distinción de purista, y es la causa exacta del problema
+  del video tres.</p>
+  <p>Netfilter define cinco <b>puntos de enganche</b> en lugares precisos del recorrido que hace un
+  paquete adentro del núcleo. En cada punto se evalúan las reglas que ahí haya registradas.</p>
+  <div class="ej">Pensalo como una aduana con cinco mostradores fijos en el pasillo. El paquete no
+  elige por cuál pasa: el recorrido está marcado. Y si vos pusiste a tu inspector en el mostrador
+  tres, el paquete que va por el pasillo de al lado nunca lo ve. No es que el inspector falle: es que
+  no pasa por ahí.</div>
+  <p>La pieza decisiva está entre PREROUTING y los dos siguientes: <b>la decisión de enrutamiento</b>.
+  Después de PREROUTING el núcleo mira la dirección de destino y se pregunta si el paquete es para él
+  o para otro. Si es para él, sigue por INPUT. Si es para otro, sigue por FORWARD.</p>
+  <p><span class="clave">Son dos caminos excluyentes: un paquete pasa por uno o por el otro, nunca por
+  los dos.</span> Subrayen esa frase; en veinte minutos les explica todo.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">15<small>5:03</small></div>
+  <div class="titulo-diapo">Figura 2.4 — Recorrido de un paquete <span class="tc">5:03 – 6:08</span></div>
+  <p>Esta figura es el corazón del capítulo. Sigan la bifurcación con el dedo mientras hablo.</p>
+  <p>El paquete entra, pasa por PREROUTING, y ahí está el rombo: ¿es para esta máquina o para otra?
+  Para esta máquina, INPUT. Para otra, FORWARD.</p>
+  <p>Y ahora la línea que hay que memorizar, que está escrita arriba: <span class="clave">ufw escribe
+  sus reglas en INPUT; el tráfico hacia los contenedores de Docker pasa por FORWARD.</span></p>
+  <p>Léanla dos veces. Todavía no dije cuál es el problema y ya lo tienen adelante.</p>
+  <p>Las tres cajas de abajo son la otra clasificación: netfilter agrupa las reglas en tablas según
+  para qué sirven. <b>filter</b> acepta o descarta, y ahí viven las reglas de ufw. <b>nat</b> reescribe
+  direcciones, y ahí vive Docker. <b>mangle</b> modifica campos y no lo vamos a tocar.</p>
+  <div class="ej">Esa tabla nat es la que convierte "el puerto 5432 de mi servidor" en "el puerto 5432
+  de aquel contenedor", que tiene otra IP. Es un cambio de sobre: llega dirigido a una dirección y
+  sale dirigido a otra, antes de que nadie decida por qué pasillo va.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">16<small>6:08</small></div>
+  <div class="titulo-diapo">Configuración del firewall con ufw <span class="tc">6:08 – 7:21</span></div>
+  <p>Con el modelo puesto, ufw se vuelve trivial: es una capa de conveniencia que traduce órdenes
+  legibles a reglas de netfilter.</p>
+  <p>Miren el orden de los seis comandos, porque el orden <b>es</b> el contenido. Los dos primeros son
+  la política: <span class="clave">descartar todo lo que entra y permitir todo lo que sale.</span> Eso
+  no es paranoia, es el principio de valores predeterminados seguros que vemos al final del capítulo:
+  lo que no está explícitamente permitido, se niega.</p>
+  <p>Recién después se abren tres puertos. El 22 porque sin eso pierden el acceso; el 443 porque es la
+  aplicación. Y el 80 —esto lo preguntan todos los años— <b>no se puede cerrar aunque todo vaya por
+  HTTPS</b>: Let's Encrypt valida la titularidad del dominio pidiendo un archivo por el puerto 80. Sin
+  80 no hay certificado, y sin certificado no hay HTTPS.</p>
+  <div class="ej">Y la caja de abajo no es un consejo, es una advertencia con víctimas. Si corren
+  <code>ufw enable</code> antes de permitir el 22, el firewall les corta la propia sesión SSH en el
+  acto: están serruchando la rama en la que están sentados. Se recupera por la consola de emergencia
+  de Hostinger, pero es media clase perdida. Permitir primero, habilitar después. Siempre.</div>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 2.</b> Cierre sugerido a cámara: <i>"Con esto, el servidor tiene tres puertos
+  abiertos y todo lo demás cerrado. Eso es lo que ufw dice. En el video tres vamos a ver si es
+  verdad."</i>
+</div>
+</div>
+<!-- ==================== VIDEO 3 ==================== -->
+<div class="video">
+<h2>Video 3 — Docker se saltea el firewall, y cómo se cierra el servidor
+  <span class="meta">Diapositivas 17 a 29 · 1294 palabras · 7:51 (sin tijeras 7:19)</span></h2>
+
+<div class="diapo">
+  <div class="num">17<small>0:00</small></div>
+  <div class="titulo-diapo">El problema: Docker no respeta el firewall <span class="tc">0:00 – 1:07</span></div>
+  <p>Video tres. Esta es la diapositiva más importante del capítulo y la que menos aparece en los
+  tutoriales de despliegue. Sigan las tres cajas en orden.</p>
+  <p>Primera: un contenedor <b>no comparte la pila de red del anfitrión</b>: tiene su propia interfaz y
+  su propia IP privada. <span class="clave">Para el núcleo, un contenedor es otra máquina.</span></p>
+  <p>Segunda, y ya la pueden anticipar: el paquete entra por PREROUTING, donde Docker le reescribe la
+  dirección de destino; llega la decisión de enrutamiento, el núcleo mira el destino ya reescrito y
+  concluye que no es para él; y lo manda por FORWARD. <span class="clave">Nunca pasa por INPUT. Y las
+  reglas de ufw viven en INPUT.</span></p>
+  <p>Tercera, la consecuencia: corren <code>ufw deny 5432</code>, levantan el contenedor con
+  <code>-p 5432:5432</code>, y la base queda accesible desde internet mientras
+  <code>ufw status</code> informa que está bloqueada. Las dos cosas son ciertas: ufw escribió la regla,
+  y esa regla no se evalúa nunca para ese tráfico.</p>
+  <p>Y no es un error de Docker ni una mala configuración de Ubuntu: son dos programas escribiendo
+  reglas en el mismo subsistema, en puntos distintos, sin conocerse.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">18<small>1:07</small></div>
+  <div class="titulo-diapo">Verificación desde el exterior <span class="tc">1:07 – 1:59</span></div>
+  <p>Entonces, ¿cómo sé qué tengo abierto? Desde adentro, no.
+  <span class="clave">La única comprobación confiable es consultar los puertos desde otra máquina</span>,
+  porque cualquier herramienta que corra adentro describe lo que ella cree, y solo una prueba desde
+  afuera atraviesa el camino que atravesaría un atacante.</p>
+  <div class="ej">Y fíjense en la forma del error, porque se repite en toda la ingeniería:
+  <span class="clave">una herramienta te informó sobre sí misma y vos lo leíste como información sobre
+  el sistema.</span> <code>ufw status</code> no dice "el 5432 está cerrado"; dice "yo tengo una regla
+  que lo cierra". Un montón de bases expuestas en todo el mundo están así porque alguien corrió ufw
+  deny y se quedó tranquilo.</div>
+  <p class="cortable">La bandera <code>-Pn</code> le dice a nmap que no pregunte primero con un ping si
+  el anfitrión está vivo: muchos proveedores los descartan, y sin eso nmap ni siquiera escanea.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">19<small>1:59</small></div>
+  <div class="titulo-diapo">Cómo se evita el problema <span class="tc">1:59 – 2:37</span></div>
+  <p>Tres estrategias, en orden de preferencia y no de dificultad.</p>
+  <p>La primera es la que usamos, y es la más aburrida: <b>no publicar el puerto</b>. El que se pregunte
+  cómo hace entonces la API para hablarle a la base, la respuesta es la red interna de Docker, que es el
+  contenido central de la Clase 5.</p>
+  <p>La segunda es lo que vimos con las interfaces: publicar en 127.0.0.1 y llegar por un túnel SSH.</p>
+  <p>Y la frase de abajo conecta el capítulo entero: <span class="clave">la red interna no es una
+  optimización, es la solución a este problema. El puerto más seguro es el que no existe.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">20<small>2:37</small></div>
+  <div class="titulo-diapo">Riesgos de la exposición innecesaria <span class="tc">2:37 – 3:28</span></div>
+  <p>Acá viene la objeción de todos los años: "¿y quién va a querer entrar a mi calculadora?". Nadie.
+  Ese es exactamente el punto.</p>
+  <div class="ej">Las direcciones IPv4 son cuatro mil trescientos millones. Un equipo con conexión
+  doméstica manda un millón de paquetes por segundo: barrer internet entera por un puerto es cosa de
+  una hora, y repartido entre varias máquinas, de minutos. <span class="clave">Escanear internet no es
+  una hazaña, es una tarea programada.</span> Y como el resultado se indexa y se vende —Shodan,
+  Censys—, el atacante ni siquiera escanea: consulta.</div>
+  <p>Por eso el recuadro: un VPS empieza a recibir intentos de acceso dentro de la primera hora de
+  existir.</p>
+  <p class="cortable">De la tabla miren Redis y Mongo: nacieron para una red interna de confianza y
+  arrancaban sin contraseña. Cuando los contenedores volvieron trivial exponerlos, ese predeterminado
+  permisivo se transformó en miles de bases secuestradas.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">21<small>3:28</small></div>
+  <div class="titulo-diapo">Consecuencias que exceden al servidor <span class="tc">3:28 – 3:58</span></div>
+  <p>Y el daño casi nunca se queda en los datos de adentro. <span class="clave">A nadie le interesa su
+  calculadora: les interesa su CPU, su ancho de banda y su IP limpia.</span></p>
+  <p>Minado, que genera la factura. Correo no deseado, que deja la IP en listas negras. Ataques contra
+  terceros, donde el responsable legal es el titular.</p>
+  <p>Y la cuarta, la más subestimada: <span class="clave">un servidor comprometido con claves privadas
+  adentro no es un servidor comprometido, es todo lo que esas claves abren, comprometido.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">22<small>3:58</small></div>
+  <div class="titulo-diapo">Publicación segura del panel <span class="tc">3:58 – 4:40</span></div>
+  <p>Apliquemos todo esto al caso que tienen más cerca. El panel recién instalado queda en el 3000 con
+  los dos problemas juntos: la contraseña de administrador viaja en texto plano, y el puerto lo publicó
+  Docker, así que ufw no lo protege.</p>
+  <p>La solución es un subdominio propio, y noten que <b>no mueve el panel</b>: el proceso sigue
+  escuchando donde estaba, pero ahora hay un proxy inverso adelante que termina el cifrado y enruta por
+  nombre. Mismo patrón que la aplicación entera en la Clase 4.</p>
+  <p><span class="clave">El orden es sagrado: primero verifican que el dominio nuevo entra, después
+  cierran el 3000.</span> Al revés, se quedan sin panel y sin forma de arreglarlo desde el panel.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">23<small>4:40</small></div>
+  <div class="titulo-diapo">Endurecimiento mínimo <span class="tc">4:40 – 5:16</span></div>
+  <p>Siete medidas, ninguna opcional en un entorno real. Las cuatro primeras ya las hicieron en clase.</p>
+  <p>La 7 merece un comentario porque es <span class="clave">la única que sigue trabajando cuando nadie
+  mira.</span> La mayoría de los servidores comprometidos no cae por un ataque sofisticado sino por una
+  vulnerabilidad conocida, publicada y ya parcheada. Entre que se publica y que se explota masivamente
+  pasan horas: un servidor que nadie mira en toda la semana necesita esa automatización más, no menos.</p>
+  <p class="cortable">Y de fail2ban ubiquen qué aporta: no frena un ataque dirigido, encarece el
+  automatizado, que es la inmensa mayoría del tráfico hostil.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">24<small>5:16</small></div>
+  <div class="titulo-diapo">Principios de seguridad <span class="tc">5:16 – 5:52</span></div>
+  <p>Todo lo anterior fueron medidas. Esta diapositiva las explica, y es de 1975.</p>
+  <p><b>Mínimo privilegio:</b> la base no publica puertos porque no necesita ser alcanzable.
+  <b>Predeterminados seguros:</b> lo que no está permitido se niega — es la primera línea del firewall, y
+  es lo que Redis y Mongo hacían al revés. <b>Economía del mecanismo:</b>
+  <span class="clave">"no publicar el puerto" es mejor que "publicarlo y filtrarlo" porque no hay regla
+  que auditar ni herramienta en la que confiar.</span></p>
+  <p>Y abajo, defensa en profundidad: cuatro capas —clave, firewall, no publicar, fail2ban— y cada una
+  supone que las otras pueden fallar.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">25<small>5:52</small></div>
+  <div class="titulo-diapo">nftables y Ed25519 <span class="tc">5:52 – 6:12</span></div>
+  <p>Dos notas de actualización. Desde 2014 iptables tiene reemplazo, nftables, y Ubuntu 24.04 ya lo usa
+  por debajo; para ustedes es invisible porque ufw se ocupa, pero importa al buscar documentación para
+  no mezclar sintaxis.</p>
+  <p>Y Ed25519 en lugar de RSA: claves más cortas, firmas más rápidas y —la que importa—
+  <span class="clave">muchas menos formas de configurarlo mal.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">26<small>6:12</small></div>
+  <div class="titulo-diapo">Verificación <span class="tc">6:12 – 6:33</span></div>
+  <p>Siete comprobaciones, y no son variantes de la misma: las cuatro primeras validan el acceso, las
+  tres últimas el cierre.</p>
+  <p>Pero la que vale es la 5. <span class="clave">Las otras seis describen intenciones; el nmap desde
+  afuera describe hechos.</span> Si devuelve algo más que 22, 80 y 443, tienen un puerto publicado por
+  Docker y ya saben por qué.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">27<small>6:33</small></div>
+  <div class="titulo-diapo">Errores frecuentes <span class="tc">6:33 – 6:49</span></div>
+  <p>Esta tabla no se la voy a leer: es de consulta y está en el apunte. Ténganla abierta durante la
+  clase — las dos primeras filas son las que más pasan, y las dos que se arreglan por la consola de
+  emergencia.</p>
+  <div class="nota"><b>🎬 Dirección:</b> dejala en pantalla en silencio unos segundos para que se pueda
+  pausar. No la narres.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">28<small>6:49</small></div>
+  <div class="titulo-diapo">Actividades <span class="tc">6:49 – 7:10</span></div>
+  <p>Siete actividades. Dos son obligatorias y las quiero documentadas: la 1, inventario de puertos, y
+  la 2, el contraste entre lo que dice ufw y lo que dice nmap desde otra máquina.</p>
+  <p>La 5 —cuántos PostgreSQL hay expuestos en Argentina— no está de relleno: es la que hace que todo
+  esto deje de sonar a paranoia de profesor.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">29<small>7:10</small></div>
+  <div class="titulo-diapo">Síntesis del capítulo <span class="tc">7:10 – 7:51</span></div>
+  <p>Cinco ideas. El VPS es una ilusión sostenida por un hipervisor, y de ahí salen el precio, la
+  reinstalación en tres minutos y el vecino ruidoso. SSH autentica primero al servidor. El firewall no
+  es ufw, es netfilter, y Docker se saltea ufw porque su tráfico va por FORWARD: la única verificación
+  válida es escanear desde afuera. El descubrimiento es automático y no selectivo. Y los tres principios
+  son de 1975.</p>
+  <p><span class="clave">El puerto más seguro es el que nunca se publicó.</span> De ahí sale la red
+  interna de la Clase 5.</p>
+  <p>El desarrollo está en el apunte. Nos vemos en la Clase 3, con Docker. Vengan con el nmap devolviendo
+  tres puertos.</p>
+  <div class="nota"><b>🎬 Cierre:</b> sostené la diapositiva dos o tres segundos después de terminar de
+  hablar, antes de cortar.</div>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 3 y del capítulo.</b> Es el que más diapositivas tiene y el más corto por diapositiva:
+  las últimas cuatro son de consulta y se muestran, no se narran. Si venís pasado de tiempo, el recorte
+  real es la 25 y la 28 — nunca la 17, que es la que justifica todo el capítulo.
+</div>
+</div>
+
+</body>
+</html>

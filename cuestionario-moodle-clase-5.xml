@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Banco de preguntas - Clase 5: Red interna y practicas de desarrollo
+     Programacion 3 - UTN FRM - Tecnicatura Universitaria en Programacion
+     Importar en: Banco de preguntas > Importar > Formato XML de Moodle -->
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Clase 5 - Red interna y practicas de desarrollo</text></category>
+    <info format="html"><text><![CDATA[Preguntas autocorregibles derivadas del cap&iacute;tulo 5 del apunte (<i>Red interna y pr&aacute;cticas de desarrollo</i>). Cada pregunta lleva retroalimentaci&oacute;n espec&iacute;fica por opci&oacute;n y remite a la secci&oacute;n del apunte.]]></text></info>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-01 El problema que resuelve la red interna</text></name>
+    <questiontext format="html"><text><![CDATA[Cada contenedor tiene su propia dirección IP, asignada del rango privado en el orden en que arrancan. ¿Qué problema crea eso?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Fijate que es literalmente el mismo problema del capítulo 1, un piso más abajo: hay una dirección que cambia y un nombre que no. <b>Docker resolvió adentro de un servidor el mismo problema que el DNS resolvió para internet entera, con la misma solución, cuarenta años después.</b> <i>(Apunte §5.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que un contenedor que hoy es 172.17.0.3 puede ser 172.17.0.5 mañana: escribir esa dirección en un archivo de configuración garantiza que el sistema se rompa sin que nadie lo toque]]></text><feedback format="html"><text><![CDATA[Correcto. El aislamiento resuelve un problema y crea inmediatamente otro: si cada contenedor tiene su propia dirección y esa dirección cambia, ¿cómo hace uno para encontrar a otro?]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que las direcciones privadas no son alcanzables desde internet]]></text><feedback format="html"><text><![CDATA[Eso no es un problema: <b>es la propiedad buscada</b>. El problema es la inestabilidad, no la privacidad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se agotan las direcciones disponibles con pocos contenedores]]></text><feedback format="html"><text><![CDATA[El rango <code>172.17.0.0/16</code> da más de 65.000 direcciones. La escasez no es el problema.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que dos contenedores pueden recibir la misma dirección y colisionar]]></text><feedback format="html"><text><![CDATA[Docker no asigna duplicados. El problema es que la dirección de <i>uno</i> cambia entre reinicios.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C5-02 Las tres decisiones del modelo de red</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada decisión de diseño del modelo de red actual de Docker con su consecuencia.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De la confusión entre los dos mecanismos de la tercera fila salen <b>la mitad de las bases de datos expuestas a internet del mundo</b>. El mecanismo anterior, los enlaces (<code>--link</code>) de 2014, está formalmente obsoleto: era unidireccional y estático. <i>(Apunte §5.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Redes definidas por el usuario]]></text><answer format="html"><text><![CDATA[La red deja de ser conectividad y pasa a ser un límite de alcance: una frontera de seguridad]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Descubrimiento de servicios por DNS]]></text><answer format="html"><text><![CDATA[Un servidor DNS embebido en 127.0.0.11 resuelve nombres estables a direcciones cambiantes]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Publicar un puerto es opcional y ortogonal]]></text><answer format="html"><text><![CDATA[La comunicación entre contenedores de una red no requiere publicar nada: -p es solo para exponer hacia afuera]]></text></answer></subquestion>
+  </question>
+  <question type="shortanswer">
+    <name><text>C5-03 El nombre interno del servicio</text></name>
+    <questiontext format="html"><text><![CDATA[El proyecto se llama <code>calculadora</code> y el servicio de base de datos se llama <code>db</code>. ¿Qué nombre hay que poner como <i>host</i> en la cadena de conexión? (escribilo tal cual)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El formato es <code>&lt;nombre_del_proyecto&gt;_&lt;nombre_del_servicio&gt;</code>. Ese nombre <b>solo existe dentro de esa red</b>: no es un dominio, no está en ninguna zona DNS pública, y consultarlo desde afuera no devuelve nada. Que no resuelva no es una limitación: es la propiedad buscada. <i>(Apunte §5.4.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>calculadora_db</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-04 Quién ejecuta el código</text></name>
+    <questiontext format="html"><text><![CDATA[«Si el frontend y la API están en el mismo servidor, ¿por qué la API tiene que estar publicada en internet? ¿No podrían hablarse por adentro?»]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Grabate esta pregunta, porque sirve para toda tu carrera: ¿quién ejecuta este código?</b> Si la respuesta es «el navegador del usuario», está afuera, no confíes en él, y todo lo que necesite tiene que ser público. Si es «un proceso mío en el servidor», está adentro, y ahí sí podés usar la red interna. <i>(Apunte §5.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No pueden: el frontend <b>no se ejecuta en el servidor</b>. El servidor solo entrega el archivo; el código corre en el navegador del visitante, que no está en la red interna]]></text><feedback format="html"><text><![CDATA[Exacto. Cuando un visitante en Córdoba abre la calculadora, el <code>fetch</code> se ejecuta en su máquina. El DNS embebido solo responde a quien está dentro de la red, y el navegador del visitante está a mil kilómetros.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Podrían, pero Easypanel no lo permite por razones de seguridad]]></text><feedback format="html"><text><![CDATA[No es una restricción de Easypanel: es físicamente imposible. No hay configuración que lo arregle.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No pueden porque están en proyectos distintos de Easypanel]]></text><feedback format="html"><text><![CDATA[Están en el mismo proyecto. El problema no es la red del servidor: es que el frontend no corre en el servidor.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Podrían si el frontend usara el nombre interno en lugar del dominio público]]></text><feedback format="html"><text><![CDATA[El navegador del visitante no puede resolver <code>calculadora_api</code>: ese nombre no existe fuera de la red del proyecto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-05 Cuándo aplica la red interna</text></name>
+    <questiontext format="html"><text><![CDATA[¿En cuáles de estos casos <b>sí</b> corresponde usar la red interna? (marcá todas las que correspondan)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La regla es simple y no tiene excepciones: la red interna aplica <b>cuando ambos extremos son procesos del servidor</b>. <i>(Apunte §5.3.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="33.33333" format="html"><text><![CDATA[La API llamando a la base de datos]]></text><feedback format="html"><text><![CDATA[Sí: los dos extremos son procesos del servidor.]]></text></feedback></answer>
+    <answer fraction="33.33333" format="html"><text><![CDATA[La API llamando a una caché o una cola de mensajes]]></text><feedback format="html"><text><![CDATA[Sí: mismo caso, ambos adentro.]]></text></feedback></answer>
+    <answer fraction="33.33333" format="html"><text><![CDATA[La API llamando a otro microservicio del mismo proyecto]]></text><feedback format="html"><text><![CDATA[Sí: ambos son procesos del servidor y comparten la red.]]></text></feedback></answer>
+    <answer fraction="-100.00000" format="html"><text><![CDATA[El navegador del visitante llamando a la API]]></text><feedback format="html"><text><![CDATA[No: requiere dominio público. El navegador está afuera y no hay forma de que esté adentro.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-06 Qué se gana con la red interna</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál de estas ventajas de la red interna es la que la convierte en un mecanismo de <b>seguridad</b> y no solo de conectividad?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Volvé a §2.8, la de Docker salteándose el firewall. <b>La red interna no resuelve ese problema: lo elimina.</b> Un puerto que nunca se publicó no puede quedar mal protegido, porque no hay nada que proteger. Es la diferencia entre poner un candado bueno y no tener puerta. <i>(Apunte §5.4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El aislamiento entre proyectos: dos proyectos en el mismo VPS no se ven entre sí, aunque compartan servidor, núcleo y motor de Docker]]></text><feedback format="html"><text><![CDATA[Correcto: es el principio de mínimo privilegio (§2.12.1) aplicado a la topología de red.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La menor latencia, porque el tráfico no sale del servidor]]></text><feedback format="html"><text><![CDATA[Es una ventaja real, pero de rendimiento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que no consume tráfico público, relevante en planes con cuota]]></text><feedback format="html"><text><![CDATA[También rendimiento y costo, no seguridad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que no pasa por Traefik, evitando la sobrecarga del proxy y de TLS]]></text><feedback format="html"><text><![CDATA[Ventaja de rendimiento. Que no haya TLS entre contenedores de la misma red es aceptable justamente porque esa red es un límite de alcance.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-07 Cómo se configura el servicio de base de datos</text></name>
+    <questiontext format="html"><text><![CDATA[Al crear el servicio <code>db</code> de PostgreSQL, ¿qué se carga en «Domains &amp; Proxy» y qué puerto se publica?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Si necesitás inspeccionar la base con una herramienta de escritorio, se hace por un <b>túnel SSH</b>: <code>ssh -L 5432:calculadora_db:5432 root@tudominio.com</code>. Eso hace pasar la conexión por el canal cifrado de SSH, ya autenticado por clave, sin abrir nada nuevo. Es la segunda estrategia de la tabla de §2.8.3. <i>(Apunte §5.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Nada y ninguno: deliberadamente vacío]]></text><feedback format="html"><text><![CDATA[Correcto, y esas dos filas son el contenido de la clase. Un servicio sin dominio y sin puerto publicado es, desde afuera, <b>inexistente</b>: no hay enrutador de Traefik que lo alcance (§4.8.1) ni regla de traducción de direcciones que lo exponga (§2.8.1). Y sin embargo funciona perfectamente para quien lo necesita.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un subdominio <code>db.tudominio.com</code> y el puerto 5432]]></text><feedback format="html"><text><![CDATA[Eso lo dejaría accesible desde internet. Un PostgreSQL expuesto lo encuentran los escáneres automáticos en cuestión de horas (§2.9.1).]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ningún dominio, pero sí el puerto 5432 para poder administrarlo]]></text><feedback format="html"><text><![CDATA[Publicar el puerto ya lo expone: recordá que ufw no protege los puertos publicados por Docker (§2.8.1).]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un dominio interno terminado en <code>.local</code>]]></text><feedback format="html"><text><![CDATA[El nombre interno no es un dominio ni lleva sufijo: es <code>proyecto_servicio</code>, y lo resuelve el DNS embebido.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-08 La cadena de conexión</text></name>
+    <questiontext format="html"><text><![CDATA[En <code>DATABASE_URL=postgres://usuario:clave@calculadora_db:5432/calculadora</code>, ¿qué hay que notar sobre el host y el puerto?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Esta cadena es también un buen ejemplo del principio de configuración de §3.7.2: la misma imagen del backend funciona con base de datos y sin ella, en la notebook y en producción, y lo único que cambia es una variable. <i>(Apunte §5.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El host es un nombre interno que solo existe en esa red, y el puerto 5432 es interno: no está publicado]]></text><feedback format="html"><text><![CDATA[Correcto. Si escribís <code>calculadora_db</code> en el navegador no resuelve, y <b>está bien que no resuelva</b>: esa es exactamente la propiedad que queremos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El host debe ser el dominio público del servicio de base de datos]]></text><feedback format="html"><text><![CDATA[El servicio de base de datos no tiene dominio público, y no debe tenerlo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El puerto 5432 tiene que abrirse en ufw para que la API pueda conectarse]]></text><feedback format="html"><text><![CDATA[ufw filtra tráfico que <i>entra al servidor</i>. La comunicación entre contenedores de la misma red no pasa por ahí.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El host puede ser la IP del contenedor, que es más rápida de resolver]]></text><feedback format="html"><text><![CDATA[Es exactamente lo que hay que evitar: esa IP cambia entre redespliegues. Para eso existe el nombre.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-09 Degradación elegante</text></name>
+    <questiontext format="html"><text><![CDATA[La API está diseñada para que <code>DATABASE_URL</code> sea <b>opcional</b>: sin ella funciona igual, solo que sin historial. ¿Cómo se llama ese patrón y por qué se eligió?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Tres razones concretas: el desarrollo local no necesita levantar un Postgres para tocar una línea; las Clases 1 a 4 siguen siendo válidas y el despliegue de la semana pasada no se rompe; y es el patrón correcto. <b>Si la base se cae, la calculadora tiene que seguir calculando.</b> <i>(Apunte §5.6.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Degradación elegante: ante la falla de un componente el sistema no deja de funcionar, sino que reduce su funcionalidad de forma controlada y previsible]]></text><feedback format="html"><text><![CDATA[Correcto. Su contrario es el <b>fallo en cascada</b>, en el que la caída de una dependencia secundaria arrastra al servicio entero.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Tolerancia a fallos por redundancia: se replica la base para que nunca falte]]></text><feedback format="html"><text><![CDATA[No hay réplica: hay una funcionalidad que se apaga sola cuando su dependencia no está.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Inyección de dependencias: la base se pasa como parámetro configurable]]></text><feedback format="html"><text><![CDATA[La inyección de dependencias es un patrón de diseño de código, no de comportamiento ante fallas.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Arranque perezoso: la conexión se establece solo cuando se necesita]]></text><feedback format="html"><text><![CDATA[Eso describe <i>cuándo</i> se conecta, no qué pasa si no puede.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-10 Por qué 503 y no 500</text></name>
+    <questiontext format="html"><text><![CDATA[Sin base de datos, <code>/api/historial</code> devuelve <b>503</b>. ¿Por qué ese código y no 500?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La diferencia entre familias de códigos es <b>información de diagnóstico</b>. Es el mismo criterio que en la Clase 1 separaba NXDOMAIN de un timeout. <i>(Apunte §5.6.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque 503 afirma «el servicio existe, sé lo que me pedís, y no puedo dártelo ahora porque una dependencia no está disponible» — y eso es verdad; 500 afirma «algo se rompió y no sé qué», que no lo es]]></text><feedback format="html"><text><![CDATA[Correcto. Un cliente que recibe 503 sabe que tiene sentido reintentar más tarde; uno que recibe 500 no sabe nada. <b>El código de estado debe decir la verdad.</b>]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque 500 está reservado para errores de sintaxis del servidor]]></text><feedback format="html"><text><![CDATA[500 es el error genérico de servidor: cubre cualquier fallo inesperado, no solo de sintaxis.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque 503 hace que el navegador reintente automáticamente]]></text><feedback format="html"><text><![CDATA[El navegador no reintenta solo. Lo que cambia es la <i>información</i> que recibe quien consume la API.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque 500 dispararía una alerta en el monitoreo y 503 no]]></text><feedback format="html"><text><![CDATA[Los dos deberían monitorearse. La diferencia es semántica, no operativa.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-11 Un health check útil</text></name>
+    <questiontext format="html"><text><![CDATA[El control de salud pasa a devolver <code>{"estado":"ok","persistencia":true}</code> en lugar de solo <code>{"estado":"ok"}</code>. ¿Por qué importa?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §5.6.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque un health check que solo dice «estoy vivo» sirve de poco: el que sirve es el que informa de qué depende y cómo está cada dependencia]]></text><feedback format="html"><text><![CDATA[Correcto. Cuando tengas monitoreo, esa es la URL que se consulta cada treinta segundos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque permite al frontend ocultar el botón de historial]]></text><feedback format="html"><text><![CDATA[Podría usarse para eso, pero no es la razón por la que la práctica es estándar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Easypanel lo usa para decidir si reinicia el contenedor]]></text><feedback format="html"><text><![CDATA[Si el health check fallara por la base, Easypanel reiniciaría un servicio que está sano. Justamente por eso <code>estado</code> sigue en <code>ok</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque es un requisito del protocolo HTTP para los endpoints de estado]]></text><feedback format="html"><text><![CDATA[HTTP no define ningún endpoint de estado: es una convención de la industria.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-12 Por qué el guardado no puede tumbar el cálculo</text></name>
+    <questiontext format="html"><text><![CDATA[Si la base no está disponible, la operación se calcula, se responde correctamente y el fallo queda en el log. ¿Cuál es el razonamiento?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es un criterio de diseño que vale para todo lo que hagas de acá en adelante. Si por no poder guardar una fila la calculadora deja de calcular, el diseño está mal. <i>(Apunte §5.6.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Análisis de dependencias: la base no es crítica —es un registro de lo que ya se hizo— y tratarla como crítica ataría la disponibilidad del servicio principal a la del secundario]]></text><feedback format="html"><text><![CDATA[Correcto. <b>Una funcionalidad secundaria nunca puede romper la principal.</b> Guardar el historial es secundario; calcular es lo que la aplicación hace.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que los errores de base de datos son siempre transitorios y no vale la pena reportarlos]]></text><feedback format="html"><text><![CDATA[No son siempre transitorios, y sí se reportan: quedan en el log del servidor.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el usuario no debe enterarse nunca de los errores internos]]></text><feedback format="html"><text><![CDATA[No es ocultamiento: es que ese fallo <i>no afecta</i> lo que el usuario pidió.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que FastAPI captura automáticamente las excepciones de la capa de datos]]></text><feedback format="html"><text><![CDATA[No las captura solo: es una decisión explícita de cómo se escribió el código.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-13 Consultas parametrizadas</text></name>
+    <questiontext format="html"><text><![CDATA[En <code>cur.execute("INSERT ... VALUES (%s, %s)", (a, b))</code>, ¿qué son esos <code>%s</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Esa clase de falla se llama <b>inyección</b> y encabeza desde hace veinte años todas las listas de vulnerabilidades más frecuentes. No es exótica: es la más común y la más barata de evitar. Cuando escribas SQL, mirá qué separa los datos de la instrucción: si el valor se pegó al texto con un <code>+</code>, un <code>%</code> o un <code>f"..."</code>, eso es inyección esperando a alguien que la encuentre. <i>(Apunte §5.6.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Marcadores de posición del controlador: la consulta y los valores viajan por separado y el motor los trata como datos, jamás como instrucciones]]></text><feedback format="html"><text><![CDATA[Correcto, y es el detalle que casi siempre se malinterpreta: <b>no son formato de cadena de Python</b>. No se reemplazan por texto antes de enviar nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Formato de cadena de Python, equivalente a usar el operador %]]></text><feedback format="html"><text><![CDATA[Parece equivalente y <b>es un agujero de seguridad</b>: ahí el valor sí se mezcla con la instrucción antes de salir, y quien controle el valor controla la consulta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Comodines de SQL que el motor expande según el tipo de dato]]></text><feedback format="html"><text><![CDATA[SQL no tiene esa sintaxis. Los marcadores los define el controlador (psycopg, en este caso).]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Placeholders opcionales: escribir una f-string produce el mismo resultado]]></text><feedback format="html"><text><![CDATA[Produce el mismo resultado <i>cuando los datos son inocentes</i>. Con un valor hostil, produce una inyección.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-14 La verificación central de la clase</text></name>
+    <questiontext format="html"><text><![CDATA[El historial funciona perfecto en el navegador y al mismo tiempo <code>nmap -Pn -p 5432 tudominio.com</code> informa el puerto cerrado o filtrado. ¿Qué demuestra eso?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Esta verificación es del mismo tipo que la de §2.8.2 y por el mismo motivo: es la <b>única que constituye evidencia externa</b>. Cualquier comprobación hecha desde adentro del servidor describiría intenciones. <i>(Apunte §5.7.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que la base atiende consultas de la API por la red interna y es simultáneamente inalcanzable desde internet: ambas afirmaciones son ciertas al mismo tiempo]]></text><feedback format="html"><text><![CDATA[Correcto, y si de toda la clase te llevás una sola imagen, que sea esta: las dos ventanas lado a lado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que nmap no puede detectar puertos protegidos por Docker]]></text><feedback format="html"><text><![CDATA[nmap detecta perfectamente los puertos publicados por Docker — ese fue todo el problema de §2.8. Acá está cerrado porque <b>nunca se publicó</b>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el firewall está filtrando correctamente el puerto 5432]]></text><feedback format="html"><text><![CDATA[El firewall no tiene nada que filtrar: no hay ningún proceso publicado en ese puerto hacia afuera.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la API está usando una base de datos externa, no la del proyecto]]></text><feedback format="html"><text><![CDATA[Usa la del proyecto, alcanzándola por su nombre interno.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-15 Por qué la base necesita un volumen</text></name>
+    <questiontext format="html"><text><![CDATA[Sin volumen, cada redespliegue vaciaría la base. ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De ahí sale la distinción entre servicios <b>sin estado</b> (api, web: se destruyen y recrean sin consecuencias, lo importante vive en el repositorio) y <b>con estado</b> (db: no sin perder datos, lo importante vive en el volumen). <i>(Apunte §5.7.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque todo lo que un contenedor escribe va a su capa efímera, que se descarta al eliminarlo; un volumen es un punto del árbol que no pertenece a esa capa]]></text><feedback format="html"><text><![CDATA[Correcto: la razón está en el modelo de §3.3.2. El volumen es almacenamiento gestionado por Docker que existe fuera del sistema de archivos del contenedor y sobrevive a su destrucción.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque PostgreSQL borra sus datos al recibir SIGTERM]]></text><feedback format="html"><text><![CDATA[PostgreSQL cierra ordenadamente y conserva todo. El problema es dónde estaba escribiendo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Easypanel recrea la base de datos en cada despliegue]]></text><feedback format="html"><text><![CDATA[Easypanel no toca los datos: recrea el <i>contenedor</i>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque la imagen de PostgreSQL no incluye almacenamiento persistente]]></text><feedback format="html"><text><![CDATA[Ninguna imagen lo incluye: las imágenes son inmutables por definición.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C5-16 Servicios con estado y sin estado</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada afirmación con el tipo de servicio que describe.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La regla operativa la enuncia la metodología de los doce factores como <b>procesos sin estado</b>: la aplicación no guarda nada localmente y todo el estado vive en servicios de respaldo declarados como dependencias. Eso es lo que permite redesplegar la API veinte veces por día sin ninguna consecuencia.<br/><br/>Y ahora pensá lo que implica: <b>a partir del momento en que hay un volumen con datos, existe algo que se puede perder.</b> Ahí las copias de seguridad dejan de ser un tema teórico. <i>(Apunte §5.7.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Se puede destruir y recrear sin consecuencias]]></text><answer format="html"><text><![CDATA[Sin estado (api, web)]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Se puede escalar a varias copias trivialmente]]></text><answer format="html"><text><![CDATA[Sin estado (api, web)]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[No se puede recrear sin perder datos]]></text><answer format="html"><text><![CDATA[Con estado (db)]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Lo importante vive en un volumen, no en el repositorio]]></text><answer format="html"><text><![CDATA[Con estado (db)]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-17 Un secreto versionado por error</text></name>
+    <questiontext format="html"><text><![CDATA[Alguien subió una contraseña al repositorio y en el commit siguiente la borró. ¿Alcanza?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Un secreto que salió de tu máquina es un secreto quemado. <i>(Apunte §5.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No: queda en el historial y es recuperable por cualquiera que clone. La única respuesta correcta es <b>rotar la credencial</b>]]></text><feedback format="html"><text><![CDATA[Correcto. Es el mismo fenómeno que las capas de Docker (§3.3.2): un artefacto inmutable y encadenado no se edita, se tapa. Reescribir el historial es un parche, no una solución.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí, si el repositorio es privado y solo lo ven los integrantes del grupo]]></text><feedback format="html"><text><![CDATA[Un repositorio privado hoy puede volverse público mañana, y cualquier integrante que ya clonó tiene el historial completo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí, siempre que se haga un force push para reescribir el historial]]></text><feedback format="html"><text><![CDATA[Reescribir el historial es un parche: los clones existentes lo conservan, y los servicios que lo indexaron también.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No hace falta hacer nada si la contraseña era de un entorno de prueba]]></text><feedback format="html"><text><![CDATA[Los entornos de prueba suelen compartir credenciales con producción más de lo que nadie admite. Se rota igual.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-18 .gitignore y .dockerignore</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué son dos archivos distintos y no uno solo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Ojo con un detalle del proyecto: hasta esta clase el <code>.gitignore</code> estaba en el directorio superior, <b>que no es un repositorio</b>. O sea: no protegía nada. Que no haya basura versionada es casualidad, no diseño. <i>(Apunte §5.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque deciden cosas distintas: uno qué entra al control de versiones y el otro qué se envía al contexto de construcción. Un archivo puede estar bien excluido de uno y filtrarse por el otro]]></text><feedback format="html"><text><![CDATA[Correcto, y esa última frase es la que importa: son dos superficies de filtración independientes.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Git y Docker usan sintaxis de patrones incompatibles]]></text><feedback format="html"><text><![CDATA[La sintaxis es muy parecida. El motivo es de propósito, no de formato.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el .dockerignore es opcional y el .gitignore obligatorio]]></text><feedback format="html"><text><![CDATA[Los dos son opcionales técnicamente, y los dos hacen falta en la práctica.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el .dockerignore solo funciona en el directorio raíz del repositorio]]></text><feedback format="html"><text><![CDATA[Ubicación aparte, eso no explica por qué no podrían unificarse.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-19 Separación de dependencias</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué conviene separar <code>requirements-dev.txt</code> de <code>requirements.txt</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §5.8.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque cada paquete instalado en la imagen de producción es peso y superficie de vulnerabilidades heredada: una herramienta de pruebas no tiene razón para correr en un servidor expuesto]]></text><feedback format="html"><text><![CDATA[Correcto, y es exactamente el mismo argumento con que se eligió la imagen base en §3.5.1. No es solo prolijidad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque pytest entra en conflicto con uvicorn en tiempo de ejecución]]></text><feedback format="html"><text><![CDATA[No hay conflicto: simplemente no hace falta que esté.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque así la construcción de la imagen es más rápida]]></text><feedback format="html"><text><![CDATA[Es un efecto secundario menor. El argumento del capítulo es de superficie de ataque.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque GitHub Actions solo lee archivos que terminan en -dev.txt]]></text><feedback format="html"><text><![CDATA[Lee cualquier archivo que se le indique en el flujo.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-20 Por qué integración continua</text></name>
+    <questiontext format="html"><text><![CDATA[La integración continua se formuló en los años noventa con una premisa contraintuitiva para la época. ¿Cuál?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Un beneficio adicional que suele pasarse por alto: el flujo instala las dependencias en una <b>máquina limpia</b>, distinta de la de cualquier integrante. Eso detecta las dependencias que alguien tiene instaladas localmente y se olvidó de declarar — el mismo problema que motivó los contenedores en §3.2. <i>(Apunte §5.9)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que si integrar el trabajo de varias personas es doloroso, la respuesta no es integrar menos seguido sino mucho más seguido, en fragmentos chicos y con verificación automática]]></text><feedback format="html"><text><![CDATA[Correcto: el dolor de integrar crece con el tamaño del cambio; achicando el cambio, desaparece.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que las pruebas debían escribirse después del código para no condicionar el diseño]]></text><feedback format="html"><text><![CDATA[Es casi lo opuesto a lo que propone la programación extrema, de donde viene la práctica.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que cada equipo debía tener su propia rama de larga duración]]></text><feedback format="html"><text><![CDATA[Las ramas de larga duración son justamente lo que la integración continua busca evitar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la integración debía hacerla una persona dedicada a tiempo completo]]></text><feedback format="html"><text><![CDATA[La propuesta es automatizarla, no asignarle una persona.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-21 Informar contra bloquear</text></name>
+    <questiontext format="html"><text><![CDATA[La acción de GitHub por sí sola ejecuta las pruebas y muestra el resultado, pero no impide nada. ¿Por qué hace falta además la regla de protección de rama?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Acá se cierra un círculo que arrancó en la primera clase de la materia: un test que corrés solo cuando te acordás no es una red de seguridad. Un test que corre automáticamente <b>y bloquea la integración</b>, sí. <i>(Apunte §5.9.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque una advertencia que se puede ignorar se ignora, sobre todo bajo presión de entrega, que es precisamente cuando más falta hace. Un control que bloquea no depende de la disciplina de nadie]]></text><feedback format="html"><text><![CDATA[Correcto, y esa distinción entre <b>informar y bloquear</b> es la que hace que el mecanismo funcione.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque sin la regla las pruebas no llegan a ejecutarse]]></text><feedback format="html"><text><![CDATA[Se ejecutan igual: la acción corre en cada push y en cada pull request. Lo que falta es la consecuencia.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque GitHub cobra por las acciones si no hay protección de rama]]></text><feedback format="html"><text><![CDATA[El cobro depende de los minutos de ejecución, no de las reglas de protección.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque la protección de rama es lo que dispara el despliegue automático]]></text><feedback format="html"><text><![CDATA[El despliegue lo dispara el webhook, que es otra cosa.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-22 Entrega continua y despliegue continuo</text></name>
+    <questiontext format="html"><text><![CDATA[Los dos términos se usan como sinónimos y no lo son. ¿Cuál es la diferencia?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §5.9.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Entrega continua: todo cambio integrado queda listo para desplegar y el despliegue lo dispara una persona. Despliegue continuo: se despliega solo]]></text><feedback format="html"><text><![CDATA[Correcto. Lo que se configura en esta clase con el webhook es <b>despliegue continuo</b>, que es apropiado para un práctico y para muchos productos reales, y que exige más confianza en la verificación automática.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Entrega continua es para bibliotecas y despliegue continuo para aplicaciones web]]></text><feedback format="html"><text><![CDATA[La distinción no es por tipo de producto sino por quién dispara el despliegue.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Entrega continua incluye las pruebas y despliegue continuo no]]></text><feedback format="html"><text><![CDATA[Los dos se apoyan en la verificación automática. Sin ella, ninguno de los dos tiene sentido.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son efectivamente sinónimos en la práctica moderna]]></text><feedback format="html"><text><![CDATA[La industria los distingue con precisión, y la diferencia importa a la hora de decidir cuánta confianza depositás en la automatización.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-23 El orden correcto</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué el capítulo insiste en configurar primero la integración continua y recién después el despliegue automático?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §5.9.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque conectar el despliegue automático sin pruebas corriendo solo automatiza la llegada de errores a producción, más rápido y con menos supervisión]]></text><feedback format="html"><text><![CDATA[Exacto. <b>La automatización sin verificación no es una mejora.</b>]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el webhook de Easypanel necesita que la acción exista para funcionar]]></text><feedback format="html"><text><![CDATA[Son independientes: el webhook responde a los push, sin saber nada de las acciones.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque GitHub no permite configurar un webhook sin flujos definidos]]></text><feedback format="html"><text><![CDATA[Lo permite perfectamente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el orden inverso duplicaría los despliegues]]></text><feedback format="html"><text><![CDATA[No hay duplicación. El problema es de calidad de lo que llega a producción, no de cantidad.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-24 Lo que falta y ya está vencido</text></name>
+    <questiontext format="html"><text><![CDATA[De todo lo que este despliegue todavía no tiene, ¿cuál es lo <b>único que ya es urgente</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Y la parte que más se descuida no es hacer la copia sino <b>probar la restauración</b>: una copia que nunca se restauró no es una copia de seguridad, es una suposición.<br/><br/>Ninguna de estas cosas hacía falta para aprender el flujo. Todas hacen falta el día que alguien dependa de que esto funcione — y <b>esa transición no se anuncia</b>. <i>(Apunte §5.10)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Las copias de seguridad: desde que existe la base, una pérdida de datos es definitiva]]></text><feedback format="html"><text><![CDATA[Correcto. La regla clásica es <b>3-2-1</b>: tres copias, en dos medios distintos, con una fuera del sitio. En este despliegue hay una copia, en un medio, en el mismo lugar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La supervisión, porque sin ella no se detecta una caída]]></text><feedback format="html"><text><![CDATA[Importante, pero pasa a ser urgente <i>cuando alguien dependa del servicio</i>. La pérdida de datos, en cambio, ya es irreversible hoy.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La limitación de tasa, porque cualquiera puede saturar la API]]></text><feedback format="html"><text><![CDATA[Pasa a ser urgente cuando cada petición tenga un costo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El entorno de pruebas, porque hoy se prueba en producción]]></text><feedback format="html"><text><![CDATA[Pasa a ser urgente cuando haya usuarios reales.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-25 could not translate host name</text></name>
+    <questiontext format="html"><text><![CDATA[La API arranca y el log muestra <code>could not translate host name</code>. ¿Qué pasó?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Distinguí los dos síntomas: <b>no se pudo resolver el nombre</b> (está mal escrito) contra <b>conexión rechazada</b> (se resolvió, pero nadie atiende todavía). Es la misma distinción entre NXDOMAIN y un timeout de la Clase 1. <i>(Apunte §5.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El nombre de host interno está mal escrito en la cadena de conexión]]></text><feedback format="html"><text><![CDATA[Correcto. Conviene copiar la cadena que muestra el propio panel de Easypanel al crear el servicio: los nombres varían según la versión y ese valor siempre es el vigente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La base de datos todavía no terminó de arrancar]]></text><feedback format="html"><text><![CDATA[Ese caso da <code>connection refused</code>: el nombre <i>sí</i> se resolvió, y no había nadie escuchando todavía.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Falta abrir el puerto 5432 en el firewall]]></text><feedback format="html"><text><![CDATA[El tráfico entre contenedores de la misma red no pasa por el firewall del anfitrión.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El DNS público no tiene un registro para ese nombre]]></text><feedback format="html"><text><![CDATA[Y no debe tenerlo: ese nombre solo existe dentro de la red del proyecto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-26 persistencia: false con la variable cargada</text></name>
+    <questiontext format="html"><text><![CDATA[Se cargó <code>DATABASE_URL</code> en el servicio api y <code>/api/salud</code> sigue informando <code>persistencia: false</code>. ¿Qué falta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<i>(Apunte §5.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Redesplegar: las variables se leen al arrancar el proceso]]></text><feedback format="html"><text><![CDATA[Correcto. Es exactamente el mismo tropiezo que en la Clase 4 con <code>ORIGENES_PERMITIDOS</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reiniciar el servicio db para que acepte conexiones nuevas]]></text><feedback format="html"><text><![CDATA[La base acepta conexiones desde que arrancó. El que no leyó la variable es el otro servicio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Crear la tabla del historial a mano]]></text><feedback format="html"><text><![CDATA[Si el problema fuera la tabla, la conexión estaría establecida y <code>persistencia</code> sería <code>true</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Agregar el servicio db a la red del proyecto]]></text><feedback format="html"><text><![CDATA[Todo servicio creado dentro de un proyecto ya está en su red.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-27 El historial se vacía en cada despliegue</text></name>
+    <questiontext format="html"><text><![CDATA[Los datos del historial desaparecen cada vez que se redespliega. ¿Cuál es la causa?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Compruébalo al revés: hacé operaciones, redesplegá <b>api</b> y volvé a pedir el historial. Los datos siguen ahí, porque el estado no vive en api. <i>(Apunte §5.7.3 y §5.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El servicio db no tiene volumen: todo se está escribiendo en la capa efímera del contenedor]]></text><feedback format="html"><text><![CDATA[Correcto. Se revisa el almacenamiento del servicio db en el panel.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La API está recreando la tabla en cada arranque]]></text><feedback format="html"><text><![CDATA[Es posible en general, pero el capítulo señala el volumen como causa: es lo que se revisa primero.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[PostgreSQL vacía la base cuando cambia la contraseña]]></text><feedback format="html"><text><![CDATA[No hace nada parecido.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El redespliegue de api borra los datos de db]]></text><feedback format="html"><text><![CDATA[Son contenedores independientes: redesplegar uno no toca al otro.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-28 El nombre interno no resuelve desde otro proyecto</text></name>
+    <questiontext format="html"><text><![CDATA[Un servicio de <i>otro</i> proyecto de Easypanel intenta usar <code>calculadora_db</code> y no resuelve. ¿Es un error?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Dos proyectos en el mismo VPS no se ven entre sí aunque compartan servidor, núcleo y motor de Docker. <i>(Apunte §5.4.2 y §5.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No: es el comportamiento esperado. Son redes distintas, y ese aislamiento es la propiedad buscada. Si de verdad tienen que hablarse, el servicio va movido al mismo proyecto]]></text><feedback format="html"><text><![CDATA[Correcto. Es la fila «aislamiento entre proyectos» de §5.4.2, funcionando.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí: hay que agregar un registro DNS para ese nombre]]></text><feedback format="html"><text><![CDATA[Ese nombre no vive en ninguna zona DNS pública, y no debe vivir.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí: falta abrir el puerto 5432 entre los dos proyectos]]></text><feedback format="html"><text><![CDATA[Publicar el puerto lo expondría a internet, que es exactamente lo que se quiere evitar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No, pero se arregla usando la IP del contenedor en lugar del nombre]]></text><feedback format="html"><text><![CDATA[Además de frágil, tampoco funcionaría: las redes están aisladas a nivel de red, no de resolución de nombres.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-29 Las pruebas pasan en local y fallan en la acción</text></name>
+    <questiontext format="html"><text><![CDATA[Las pruebas pasan en la notebook de un integrante y fallan en GitHub Actions al instalar. ¿Qué está ocurriendo casi siempre?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es el mismo problema que motivó los contenedores en §3.2: «en mi máquina anda». <i>(Apunte §5.9 y §5.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Hay una dependencia instalada solo localmente que nadie declaró en los archivos de requisitos]]></text><feedback format="html"><text><![CDATA[Correcto, y detectar eso es un beneficio del flujo por sí solo: instala en una máquina limpia. <b>Un proyecto que solo se construye en la máquina de quien lo escribió no está terminado.</b>]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La versión de Python de GitHub es incompatible con el proyecto]]></text><feedback format="html"><text><![CDATA[El flujo fija la versión explícitamente con <code>setup-python</code>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Las acciones de GitHub no soportan pytest]]></text><feedback format="html"><text><![CDATA[Lo soportan sin ningún problema.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Falta configurar la protección de rama]]></text><feedback format="html"><text><![CDATA[La protección de rama decide si se puede fusionar, no si la instalación funciona.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C5-30 El patrón que se repite</text></name>
+    <questiontext format="html"><text><![CDATA[El capítulo señala un patrón que aparece dos veces en el módulo, en dos escalas distintas. ¿Cuál es?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es una de las cosas más valiosas que deja el módulo: reconocer una solución conocida en un contexto nuevo. <i>(Apunte §5.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Un nombre estable delante de algo inestable: el DNS lo hizo para internet en 1983, Docker lo hizo adentro de un servidor en 2016]]></text><feedback format="html"><text><![CDATA[Correcto. <b>Cuando veas ese patrón —un nombre estable delante de algo inestable— ya sabés qué problema está resolviendo.</b>]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Una lista blanca declarada por el servidor y aplicada por el cliente]]></text><feedback format="html"><text><![CDATA[Ese patrón también aparece (CORS, CSP, CAA), pero no es el que el capítulo señala acá.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Una capa efímera sobre un artefacto inmutable]]></text><feedback format="html"><text><![CDATA[Aparece en las capas de Docker y en el historial de Git, pero tampoco es el de esta sección.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un control que bloquea en lugar de informar]]></text><feedback format="html"><text><![CDATA[Es la idea de §5.9.1, no la analogía entre el DNS y el DNS embebido.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C5-31 Publicar un puerto y comunicarse por la red interna</text></name>
+    <questiontext format="html"><text><![CDATA[Para que la API pueda conectarse a la base de datos, el servicio <code>db</code> tiene que publicar el puerto 5432.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> La comunicación entre contenedores de una misma red <b>no requiere publicar nada</b>: el mapeo <code>-p</code> sirve exclusivamente para exponer un servicio hacia afuera del anfitrión. Son dos mecanismos distintos y ortogonales que se suelen confundir — y de esa confusión salen la mitad de las bases de datos expuestas a internet del mundo. <i>(Apunte §5.2 y §5.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Publicar es para afuera; hablarse entre contenedores de la misma red no lo necesita.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+</quiz>

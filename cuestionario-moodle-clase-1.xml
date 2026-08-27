@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Banco de preguntas - Clase 1: DNS y dominio propio
+     Programacion 3 - UTN FRM - Tecnicatura Universitaria en Programacion
+     Importar en: Banco de preguntas > Importar > Formato XML de Moodle -->
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Clase 1 - DNS y dominio propio</text></category>
+    <info format="html"><text><![CDATA[Preguntas autocorregibles derivadas del cap&iacute;tulo 1 del apunte (<i>Del navegador al servidor: el sistema de nombres de dominio</i>). Cada pregunta lleva retroalimentaci&oacute;n espec&iacute;fica por opci&oacute;n y remite a la secci&oacute;n del apunte que la justifica.]]></text></info>
+  </question>
+  <question type="shortanswer">
+    <name><text>C1-01 El vestigio de HOSTS.TXT</text></name>
+    <questiontext format="html"><text><![CDATA[El archivo <code>HOSTS.TXT</code> de ARPANET dejó un descendiente que sigue vivo en todos los sistemas operativos y que <b>tiene prioridad sobre cualquier consulta a la red</b>. En un sistema Unix, ¿cuál es su ruta completa? (escribila tal cual)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[En Windows es <code>C:\Windows\System32\drivers\etc\hosts</code>. Que tenga prioridad sobre la red no es un detalle: es la razón por la que un nombre puede resolver distinto en tu máquina que en la del resto del mundo. <i>(Apunte §1.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>/etc/hosts</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>etc/hosts</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>/etc/hosts/</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-02 Por qué colapsó HOSTS.TXT</text></name>
+    <questiontext format="html"><text><![CDATA[<code>HOSTS.TXT</code> era un único archivo de texto mantenido a mano por una oficina en Stanford y descargado por FTP. ¿Cuál de estas <b>no</b> fue una de las causas de su colapso?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Todo sistema centralizado de nombres colapsa por escala. La moraleja no es anecdótica: es el problema que las tres decisiones de 1983 vinieron a resolver. <i>(Apunte §1.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que el protocolo FTP resultó inseguro para transferir el archivo]]></text><feedback format="html"><text><![CDATA[Correcto: esa <b>no</b> fue una causa. El problema nunca fue la seguridad del transporte, sino la escala y la coherencia.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El archivo crecía sin límite y el tráfico para descargarlo se multiplicaba]]></text><feedback format="html"><text><![CDATA[Esa sí fue una causa: es el problema de escala de cualquier lista centralizada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los nombres empezaron a colisionar porque no había autoridad que garantizara unicidad]]></text><feedback format="html"><text><![CDATA[Esa sí fue una causa, y es la que el DNS resuelve distribuyendo la autoridad.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La copia que cada máquina tenía estaba siempre desactualizada respecto de la realidad]]></text><feedback format="html"><text><![CDATA[Esa sí fue una causa: es el problema de coherencia de una lista copiada a mano.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-03 Qué significa coherencia eventual</text></name>
+    <questiontext format="html"><text><![CDATA[El DNS «acepta la coherencia eventual a cambio de escala». ¿Qué quiere decir eso exactamente?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Este compromiso —disponibilidad y escala por encima de consistencia instantánea— es el mismo que van a estudiar después en bases de datos distribuidas. Cada vez que «un cambio no se ve» o «a un compañero le anda y a otro no», están observando una decisión de 1983, no un error. <i>(Apunte §1.2 y §1.8)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que renuncia deliberadamente a que todos vean el mismo dato en el mismo instante, a cambio de que el 99 % de las consultas se responda desde una copia cercana]]></text><feedback format="html"><text><![CDATA[Exacto. Es un compromiso de diseño, no una limitación: disponibilidad y escala por encima de consistencia instantánea.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que los datos terminan siendo coherentes recién cuando el administrador los sincroniza a mano]]></text><feedback format="html"><text><![CDATA[Nadie sincroniza nada a mano. La coherencia llega sola, cuando expiran las copias.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que un cambio se propaga activamente de servidor en servidor hasta llegar a todos]]></text><feedback format="html"><text><![CDATA[El DNS <b>no tiene ningún mecanismo de difusión</b>: nadie notifica a nadie. Lo que ocurre es que cada copia expira por su cuenta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que las respuestas pueden llegar con errores que se corrigen en la siguiente consulta]]></text><feedback format="html"><text><![CDATA[No hay errores: las respuestas son correctas, solo que pueden ser <i>viejas</i>. Son cosas distintas.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C1-04 Las tres decisiones de diseño de 1983</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada decisión de diseño del DNS con la consecuencia que se observa en este práctico.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Nadie posee la base de datos completa, y la unicidad de los nombres queda garantizada <b>por construcción</b>: dentro de <code>utn.edu.ar</code> la universidad decide sin consultarle a nadie, y ningún externo puede crear nombres ahí. <i>(Apunte §1.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Distribuir la autoridad, no los datos]]></text><answer format="html"><text><![CDATA[Los registros se cargan donde apuntan los NS: cargarlos en otro panel no da error, simplemente no hace nada]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Aceptar la coherencia eventual]]></text><answer format="html"><text><![CDATA[Un cambio tarda en verse, y a un compañero le anda mientras a otro no]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Registros de recursos tipados y extensibles]]></text><answer format="html"><text><![CDATA[El mismo nombre lleva a la vez A, TXT y CAA; y cuando apareció IPv6 se agregó AAAA sin tocar el protocolo]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-05 El log vacío</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo reporta que su sitio no carga. Entran al servidor y el log del proxy inverso está completamente vacío. ¿Qué información aporta ese log vacío?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Fijate en la consecuencia probatoria: el log del servidor solo puede atestiguar sobre las operaciones 2 a 5. Cuando algo no anda y el servidor no dice nada, el DNS es el primer sospechoso, no el último. <i>(Apunte §1.1 y §1.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que la petición nunca llegó a emitirse hacia el servidor: el fallo ocurrió antes, en la resolución del nombre]]></text><feedback format="html"><text><![CDATA[Exacto. La resolución es previa e independiente de la conexión: si falla la operación 1, las otras cuatro no se ejecutan. El servidor no está «sin actividad»: está ciego.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el servidor está caído y hay que reiniciar el servicio]]></text><feedback format="html"><text><![CDATA[Un servicio caído igual deja rastro: el sistema registra que no pudo atender. Un log <i>vacío</i> dice algo más fuerte: que nadie golpeó la puerta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el certificado TLS no se emitió correctamente]]></text><feedback format="html"><text><![CDATA[Un fallo de TLS ocurre en la operación 3, cuando la conexión ya se estableció. Deja rastro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el firewall está descartando los paquetes entrantes]]></text><feedback format="html"><text><![CDATA[Es plausible y también daría log vacío — pero el capítulo señala al DNS como <b>primer</b> sospechoso, porque es el único tramo que no ocurre ni en el servidor ni en el código.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-06 Alojamiento virtual</text></name>
+    <questiontext format="html"><text><![CDATA[Un mismo VPS, con una única dirección IP, atiende <code>calculadora.tudominio.me</code> y <code>api.tudominio.me</code>. ¿Qué mecanismo lo hace posible?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es la técnica que hace posible que el VPS del práctico aloje varios dominios con una sola IP. <i>(Apunte §1.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[La cabecera <code>Host</code> del pedido HTTP, que el proxy inverso lee para decidir a qué servicio interno entregar la petición]]></text><feedback format="html"><text><![CDATA[Correcto: es el alojamiento virtual (<i>virtual hosting</i>). Sin él, cada sitio web del mundo necesitaría una IP exclusiva, algo imposible dada la escasez de direcciones IPv4.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El registro comodín <code>*</code> del panel DNS]]></text><feedback format="html"><text><![CDATA[El comodín hace que los dos nombres <i>resuelvan</i> a la misma IP. Pero una vez que el paquete llegó, algo tiene que decidir cuál de los dos servicios responde: eso es otra cosa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que cada servicio escucha en un puerto distinto]]></text><feedback format="html"><text><![CDATA[Los dos se sirven por el 443. Si dependiera del puerto, el usuario tendría que escribirlo en la URL.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La extensión SNI de TLS, que enruta la petición al servicio correcto]]></text><feedback format="html"><text><![CDATA[SNI le dice al servidor <i>qué certificado presentar</i>, en la operación 3. El enrutamiento al servicio interno lo decide el proxy leyendo <code>Host</code>, en la operación 4.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-07 El nombre antes del cifrado</text></name>
+    <questiontext format="html"><text><![CDATA[Durante la negociación TLS el navegador declara el nombre del sitio <b>en texto plano</b>, antes de que exista canal cifrado. ¿Por qué es inevitable?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Es un detalle que reaparece en la Clase 4, cuando cada servicio obtenga su propio certificado. <i>(Apunte §1.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque el servidor necesita saber qué certificado presentar, y el certificado es justamente el material con el que se establece el canal cifrado]]></text><feedback format="html"><text><![CDATA[Exacto: es un problema de huevo y gallina que la extensión SNI resuelve enviando el nombre en claro.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el protocolo TLS todavía no soporta cifrar esa parte del saludo]]></text><feedback format="html"><text><![CDATA[No es una carencia técnica pendiente: es una dependencia lógica. Sin saber el nombre no se puede elegir el certificado, y sin certificado no hay cifrado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el nombre ya viajó en claro en la consulta DNS, así que da igual]]></text><feedback format="html"><text><![CDATA[Que ya haya viajado en claro no explica <i>por qué</i> TLS lo necesita. Son dos momentos independientes.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque la cabecera <code>Host</code> se envía antes que el saludo TLS]]></text><feedback format="html"><text><![CDATA[Al revés: <code>Host</code> viaja en la operación 4, ya dentro del canal cifrado. SNI viaja en la 3.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-08 Dominio y zona</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál es la diferencia entre <b>dominio</b> y <b>zona</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La delegación es el acto administrativo que corta el árbol en zonas. De esta distinción sale toda la sección de delegación. <i>(Apunte §1.4.1 y §1.7)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El dominio es un subárbol completo; la zona es la porción que una organización administra efectivamente, y termina donde empieza una delegación]]></text><feedback format="html"><text><![CDATA[Correcto. El operador de <code>com</code> no administra los registros de <code>tudominio.com</code>: su zona contiene apenas la anotación de a quién le delegó ese subárbol.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son sinónimos: «zona» es el término técnico y «dominio» el comercial]]></text><feedback format="html"><text><![CDATA[No son sinónimos, y confundirlos es lo que lleva a cargar registros en el panel equivocado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El dominio es lo que se compra al registrador; la zona es lo que se paga aparte]]></text><feedback format="html"><text><![CDATA[No hay nada que pagar aparte. La distinción es estructural, no comercial.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La zona incluye los subdominios y el dominio no]]></text><feedback format="html"><text><![CDATA[Justo al revés en cuanto a alcance: el dominio, en sentido amplio, incluye todo el subárbol. La zona <i>corta</i> ese subárbol donde hay una delegación.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-09 Los 13 servidores raíz</text></name>
+    <questiontext format="html"><text><![CDATA[Se dice que la raíz del DNS tiene «13 servidores». ¿Qué significa eso con precisión?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Anycast es una técnica de enrutamiento donde muchas máquinas comparten la misma dirección IP y la red entrega cada consulta a la instancia más cercana. <i>(Apunte §1.4.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Son 13 identidades lógicas, cada una replicada hoy en cientos de instancias físicas distribuidas por el mundo mediante anycast]]></text><feedback format="html"><text><![CDATA[Correcto. El número 13 es un límite heredado del tamaño máximo que podía tener una respuesta DNS sobre UDP en el diseño original. Hay instancias en América del Sur, Argentina incluida: consultar «la raíz» no implica cruzar el océano.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son 13 máquinas físicas repartidas entre Estados Unidos y Europa]]></text><feedback format="html"><text><![CDATA[Si fueran 13 máquinas, el DNS mundial sería absurdamente frágil. Son 13 <i>nombres</i>, con cientos de instancias detrás.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son 13 empresas que se reparten la administración del espacio de nombres]]></text><feedback format="html"><text><![CDATA[Hay 12 organizaciones operadoras, pero el 13 no cuenta empresas: cuenta identidades de servidor (<code>a</code> a <code>m</code>.root-servers.net).]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son 13 copias de la base de datos completa de todos los dominios de internet]]></text><feedback format="html"><text><![CDATA[<b>Nadie</b> tiene la base completa. La raíz solo sabe quién administra cada dominio de primer nivel.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-10 Autoritativo y recursivo</text></name>
+    <questiontext format="html"><text><![CDATA[Un servidor autoritativo y un resolver recursivo cumplen funciones opuestas. ¿Cuál es la descripción correcta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El equipo del usuario ejecuta apenas un <b>stub resolver</b>: una pieza mínima del sistema operativo que sabe hacer una sola cosa, delegarle todo el recorrido al recursivo y esperar la respuesta final. <i>(Apunte §1.4.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El autoritativo posee los datos de su zona y responde solo sobre ella; el recursivo no posee ningún dato propio, pero sabe encontrar cualquiera]]></text><feedback format="html"><text><![CDATA[Exacto. El recursivo recorre la jerarquía con consultas iterativas, consolida el recorrido en una única respuesta, la guarda en caché y la devuelve.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El autoritativo atiende a los usuarios finales y el recursivo atiende a otros servidores]]></text><feedback format="html"><text><![CDATA[Es al revés: el usuario final habla con el <i>recursivo</i>, y nunca consulta la jerarquía directamente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El recursivo guarda una copia completa de la zona y el autoritativo la genera]]></text><feedback format="html"><text><![CDATA[El recursivo no guarda zonas: guarda respuestas sueltas en caché, cada una con su TTL.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son el mismo servidor cumpliendo dos roles según quién pregunte]]></text><feedback format="html"><text><![CDATA[Son funciones opuestas y conviene no mezclarlas: uno tiene los datos, el otro sabe buscarlos.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C1-11 Los tres niveles de autoridad</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada nivel de la jerarquía del DNS con lo que efectivamente sabe.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Ninguno de estos niveles es consultado directamente por el navegador. Y ninguno tiene la base completa: cada uno conoce su renglón y a quién le pasó la posta. <i>(Apunte §1.4.2 y §1.4.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Servidores raíz]]></text><answer format="html"><text><![CDATA[Quién administra cada dominio de primer nivel]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Operador del TLD (.com, .ar, .me)]]></text><answer format="html"><text><![CDATA[Qué servidores de nombres administran cada dominio registrado]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Servidor autoritativo de la zona]]></text><answer format="html"><text><![CDATA[Los registros concretos del dominio: las direcciones IP y todo lo demás]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Resolver recursivo]]></text><answer format="html"><text><![CDATA[Ningún dato propio: sabe recorrer la jerarquía y guarda en caché lo que encuentra]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-12 Nombre sin el tipo pedido</text></name>
+    <questiontext format="html"><text><![CDATA[Consultás un registro de tipo TXT en un nombre que <b>existe</b> pero que no tiene ningún TXT cargado. ¿Qué código de respuesta devuelve el servidor?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Leer bien el RCODE convierte la salida de <code>dig</code> de un texto críptico en un informe preciso. <i>(Apunte §1.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[NOERROR, con cero respuestas]]></text><feedback format="html"><text><![CDATA[Correcto, y es la trampa clásica: NOERROR significa que la consulta se procesó correctamente; <b>no</b> garantiza que haya registros en la respuesta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[NXDOMAIN, porque no encontró lo que buscaba]]></text><feedback format="html"><text><![CDATA[NXDOMAIN afirma algo mucho más fuerte: que <i>el nombre no existe</i>. Acá el nombre existe perfectamente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[SERVFAIL, porque no pudo completar la consulta]]></text><feedback format="html"><text><![CDATA[SERVFAIL indica un fallo del servidor: un problema interno, con la zona, o una validación de seguridad que no pasó. Acá no falló nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[REFUSED, porque el tipo de registro no está permitido]]></text><feedback format="html"><text><![CDATA[REFUSED es una negativa por política: el servidor reconoce la consulta como válida y decide no atenderla.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C1-13 Códigos de respuesta (RCODE)</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada código de respuesta del mensaje DNS con su significado exacto.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los RCODE no son una curiosidad de protocolo: son información de diagnóstico de primera calidad. Un resolver que filtra suele contestar NXDOMAIN o REFUSED — <i>rápido</i>, porque tiene la respuesta lista. <i>(Apunte §1.5 y §1.9.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[NOERROR]]></text><answer format="html"><text><![CDATA[La consulta se procesó correctamente — pero puede venir con cero registros]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[SERVFAIL]]></text><answer format="html"><text><![CDATA[El servidor no pudo procesar la consulta: fallo interno, problema con la zona o validación de seguridad que no pasó]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[NXDOMAIN]]></text><answer format="html"><text><![CDATA[El nombre consultado no existe en la zona autoritativa, o eso afirma quien responde]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[REFUSED]]></text><answer format="html"><text><![CDATA[El servidor reconoce la consulta como válida pero decide por política no atenderla]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-14 NXDOMAIN contra timeout</text></name>
+    <questiontext format="html"><text><![CDATA[Diagnosticando un nombre que no anda, ¿cuál es la diferencia entre recibir NXDOMAIN y que la consulta agote el tiempo de espera?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Por eso el procedimiento de diagnóstico empieza con una prueba de control: antes de medir el fenómeno hay que verificar el instrumento. <i>(Apunte §1.5 y §1.9.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[NXDOMAIN es una respuesta —alguien contestó «ese nombre no existe»—; un timeout no es una respuesta: nadie contestó nada]]></text><feedback format="html"><text><![CDATA[Exacto, y separa dos problemas completamente distintos: un resolver que filtra contesta rápido; uno caído o inalcanzable no contesta nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son dos formas de informar lo mismo: que el nombre no se pudo resolver]]></text><feedback format="html"><text><![CDATA[Confundirlos lleva a una explicación técnica perfectamente equivocada de un problema perfectamente real.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[NXDOMAIN indica un problema del servidor y el timeout un problema del nombre]]></text><feedback format="html"><text><![CDATA[Justo al revés en cuanto a quién falla: NXDOMAIN habla del <i>nombre</i>; el timeout habla del <i>resolver</i>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El timeout es más grave porque significa que el dominio fue dado de baja]]></text><feedback format="html"><text><![CDATA[Un timeout no dice absolutamente nada sobre el dominio. Solo dice que el resolver no contestó.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-15 El indicador AA</text></name>
+    <questiontext format="html"><text><![CDATA[En la salida de <code>dig</code>, ¿qué significa que aparezca el indicador <code>aa</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Buscá siempre dos datos en cada salida: el <b>status</b> (¿NOERROR, NXDOMAIN, SERVFAIL?) y <b>quién respondió</b> (la línea SERVER). <i>(Apunte §1.5 y §1.10)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que quien responde es el servidor autoritativo de la zona: el dato viene del origen y no de una caché]]></text><feedback format="html"><text><![CDATA[Correcto (<i>Authoritative Answer</i>). Cuando consultás a un resolver público como 8.8.8.8, ese indicador normalmente <b>no</b> aparece: la respuesta salió de su caché.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la respuesta fue validada criptográficamente con DNSSEC]]></text><feedback format="html"><text><![CDATA[Esa es la flag <code>ad</code> (<i>authenticated data</i>). Son cosas distintas: una habla del origen, la otra de la firma.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el resolver ofrece servicio recursivo]]></text><feedback format="html"><text><![CDATA[Esa es <code>ra</code> (<i>Recursion Available</i>), la confirmación de que el resolver se hace cargo del recorrido completo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la respuesta vino truncada y hay que reintentar por TCP]]></text><feedback format="html"><text><![CDATA[Esa es <code>tc</code> (<i>truncated</i>), que aparece cuando la respuesta no entra en el límite de UDP.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-16 CNAME en el vértice</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo quiere apuntar <code>tudominio.me</code> (el dominio raíz pelado) con un CNAME, y promete no cargar ningún otro registro con ese nombre. ¿Funciona?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La restricción es lógica, no caprichosa: el CNAME afirma «este nombre es, a todos los efectos, aquel otro», y admitir datos propios simultáneos volvería ambigua toda consulta. <i>(Apunte §1.6.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No: el vértice requiere obligatoriamente registros NS y SOA, y un CNAME no puede convivir con ningún otro registro]]></text><feedback format="html"><text><![CDATA[Correcto. La condición «que no haya otros registros» es <b>imposible de cumplir</b> en el vértice. Por eso el dominio raíz siempre se apunta con un registro A.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí, mientras efectivamente no cargue ningún otro registro con ese nombre]]></text><feedback format="html"><text><![CDATA[No depende de su voluntad: NS y SOA existen en el vértice por definición de zona, no porque alguien los cargue.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Sí, pero solo si el proveedor DNS tiene activado el aplanamiento de CNAME]]></text><feedback format="html"><text><![CDATA[Ojo: ALIAS, ANAME y <i>CNAME flattening</i> existen y son válidos, pero son extensiones propietarias que <b>simulan</b> el comportamiento del lado del servidor. No son estándar, y no es que el CNAME «funcione».]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No, porque los CNAME solo se admiten en subdominios de tercer nivel o más]]></text><feedback format="html"><text><![CDATA[No hay una regla de niveles. La restricción es sobre la coexistencia con otros registros.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-17 El certificado que nunca llega</text></name>
+    <questiontext format="html"><text><![CDATA[El DNS resuelve perfecto, el servicio está sano, y sin embargo el certificado nunca se emite. El log de Traefik no dice nada útil. ¿Cuál es el primer sospechoso?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los dominios recién registrados normalmente no traen CAA, así que este caso aparece sobre todo con dominios reutilizados de un proyecto viejo o del trabajo. Se consulta con <code>nslookup -type=CAA tudominio.me</code>. <i>(Apunte §1.6.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Un registro CAA que no incluye a la autoridad certificadora que se está usando]]></text><feedback format="html"><text><![CDATA[Correcto. Toda autoridad certificadora está obligada a consultar los CAA del nombre antes de emitir y a negarse si no figura. Es de los pocos errores que no dejan rastro útil.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un TTL demasiado alto en el registro A]]></text><feedback format="html"><text><![CDATA[Un TTL alto retrasa que se vea un cambio, pero si el DNS «resuelve perfecto» ese cambio ya se ve.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La falta de un registro AAAA para IPv6]]></text><feedback format="html"><text><![CDATA[El AAAA solo hace falta si el VPS tiene IPv6 asignada, y su ausencia no bloquea la emisión.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Caché negativa en el resolver del proveedor]]></text><feedback format="html"><text><![CDATA[La caché negativa haría que el nombre <i>no</i> resolviera. Acá resuelve.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-18 Los dos registros del práctico</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué registros hay que cargar en el panel DNS para que funcione todo el práctico? (marcá todas las que correspondan)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Con esos dos registros, <code>calculadora</code>, <code>api</code>, <code>easypanel</code> y cualquier nombre que se inventen en el futuro resuelven sin tocar el panel. TTL en <b>300</b> durante el práctico. <i>(Apunte §1.12.1 y §1.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="50.00000" format="html"><text><![CDATA[Un registro <b>A</b> con nombre <code>*</code> apuntando a la IP del VPS]]></text><feedback format="html"><text><![CDATA[Sí: el comodín hace que cualquier subdominio resuelva, sin volver a tocar el panel nunca más.]]></text></feedback></answer>
+    <answer fraction="50.00000" format="html"><text><![CDATA[Un registro <b>A</b> con nombre <code>@</code> apuntando a la IP del VPS]]></text><feedback format="html"><text><![CDATA[Sí: el comodín <b>no cubre el dominio raíz</b>, y <code>@</code> significa «el dominio raíz, sin subdominio».]]></text></feedback></answer>
+    <answer fraction="-50.00000" format="html"><text><![CDATA[Un registro <b>CNAME</b> con nombre <code>www</code> apuntando al dominio raíz]]></text><feedback format="html"><text><![CDATA[No hace falta: el comodín ya cubre <code>www</code> y cualquier otro subdominio que se inventen.]]></text></feedback></answer>
+    <answer fraction="-50.00000" format="html"><text><![CDATA[Un registro <b>A</b> por cada subdominio que vaya a publicarse]]></text><feedback format="html"><text><![CDATA[Eso es exactamente lo que el comodín viene a evitar. Un registro explícito solo hace falta si algún subdominio tiene que apuntar a otra dirección.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-19 Dónde se cargan los registros</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo compró el dominio en Namecheap, cargó ahí el registro comodín, lo ve en la tabla con todos los datos correctos, y el dominio no resuelve ni después de tres horas. ¿Qué pasó?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Por eso la verificación previa obligatoria, <b>antes de tocar nada</b>, es <code>nslookup -type=NS tudominio.me</code>. <i>(Apunte §1.7)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Los NS del dominio están delegados a otro proveedor: Namecheap no es autoritativo para esa zona, así que el panel muestra registros que el mundo no consulta]]></text><feedback format="html"><text><![CDATA[Correcto, y es el error número uno del capítulo. Cargar los registros en el lugar equivocado <b>no produce ningún error</b>: simplemente no tiene efecto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Falta esperar a que el cambio propague por la red]]></text><feedback format="html"><text><![CDATA[La «propagación» no existe como proceso, y además un dominio nuevo que nunca fue consultado resuelve casi de inmediato: no hay caché previa que expirar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El TTL quedó demasiado alto y hay que esperar a que expire]]></text><feedback format="html"><text><![CDATA[Un TTL alto retrasa ver un <i>cambio</i>. Si el nombre nunca resolvió, no hay valor viejo cacheado que estorbe.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Namecheap tarda hasta 24 horas en activar los dominios nuevos]]></text><feedback format="html"><text><![CDATA[El registro del dominio y la publicación de sus registros son cosas distintas. Si los NS apuntan a Namecheap, sus registros toman efecto enseguida.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C1-20 Leer los NS para saber dónde cargar</text></name>
+    <questiontext format="html"><text><![CDATA[<code>nslookup -type=NS</code> devuelve estos servidores de nombres. Emparejá cada respuesta con el panel donde hay que cargar los registros.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los registros se cargan <b>en el panel del proveedor al que apuntan los NS</b>, no necesariamente donde se compró el dominio. Registrador y proveedor de DNS son funciones separables, y eso es exactamente lo que los NS expresan. <i>(Apunte §1.7)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[dns1.registrar-servers.com]]></text><answer format="html"><text><![CDATA[Namecheap]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[ns1.dns-parking.com]]></text><answer format="html"><text><![CDATA[Hostinger]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[xxx.ns.cloudflare.com]]></text><answer format="html"><text><![CDATA[Cloudflare]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-21 Registry, registrar y registrant</text></name>
+    <questiontext format="html"><text><![CDATA[La industria separa tres roles que el lenguaje cotidiano mezcla. ¿Cuál es la correspondencia correcta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De esta separación sale la regla operativa central: los registros se cargan donde apuntan los NS. <i>(Apunte §1.7)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Registry = quien opera un TLD completo (Verisign para .com) · Registrar = la empresa minorista donde se compra (Namecheap) · Registrant = quien tiene los derechos sobre el nombre]]></text><feedback format="html"><text><![CDATA[Correcto. La consecuencia clave es que registrador y proveedor de DNS son funciones separables: comprar el dominio en un lugar y administrar sus registros en otro es una configuración perfectamente normal.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Registry = la base de datos WHOIS · Registrar = el servidor autoritativo · Registrant = el resolver del usuario]]></text><feedback format="html"><text><![CDATA[Mezcla roles comerciales con piezas técnicas. Registry, registrar y registrant son los tres <i>organizaciones o personas</i>.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Registry = el titular · Registrar = el operador del TLD · Registrant = el revendedor]]></text><feedback format="html"><text><![CDATA[Están invertidos: el <i>registrant</i> es el titular y el <i>registry</i> el operador del TLD.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los tres nombran a la misma empresa según el trámite que esté haciendo]]></text><feedback format="html"><text><![CDATA[Son tres actores distintos. NIC Argentina opera <code>.ar</code>, vos comprás en un registrador y el titular sos vos.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C1-22 El TTL del práctico</text></name>
+    <questiontext format="html"><text><![CDATA[El práctico pide bajar el TTL de los registros durante la cursada. ¿A cuántos <b>segundos</b>? (escribí solo el número)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Son 5 minutos. Ojo con los paneles: Namecheap no pide el número sino que ofrece una lista desplegable (<i>Automatic, 1 min, 5 min, 30 min</i>), así que los 300 segundos son la opción «5 min». Es la misma magnitud expresada de dos maneras. <i>(Apunte §1.8 y §1.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>300</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-23 La propagación no existe</text></name>
+    <questiontext format="html"><text><![CDATA[«Hay que esperar a que propague.» ¿Por qué la expresión es engañosa?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Dos consecuencias operativas: un dominio nuevo, que nunca fue consultado, resuelve casi de inmediato; y un registro modificado puede tardar hasta el <b>TTL anterior</b> en reflejarse. <i>(Apunte §1.8)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque el DNS no tiene ningún mecanismo de difusión: los autoritativos se actualizan al instante y lo que demora es la expiración de las copias en caché]]></text><feedback format="html"><text><![CDATA[Exacto. La «propagación» no es un proceso: es la suma de millones de expiraciones independientes. Cada resolver descubre el valor nuevo cuando su copia vieja expira.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque en realidad la propagación es instantánea y el problema es el navegador]]></text><feedback format="html"><text><![CDATA[El navegador es solo una de las cuatro capas de caché. También están el sistema operativo, el router doméstico y el resolver del proveedor, que no se puede vaciar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el cambio se difunde de servidor en servidor pero muy lentamente]]></text><feedback format="html"><text><![CDATA[No se difunde en absoluto: <b>nadie notifica a nadie</b>. Esa es toda la diferencia.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque solo propagan los registros de tipo A, y no los demás]]></text><feedback format="html"><text><![CDATA[El TTL y la caché funcionan igual para todos los tipos de registro.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-24 Bajar el TTL antes de un cambio</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo va a mudar su dominio a otra IP y baja el TTL a 300 segundos justo antes de hacer el cambio. ¿Qué va a pasar?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Nótese la lógica temporal: no se puede acelerar retroactivamente algo que ya fue copiado. <i>(Apunte §1.8)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[La reducción del TTL también es un cambio, y las cachés la descubren recién cuando expira el TTL viejo: hay que bajarlo con anticipación]]></text><feedback format="html"><text><![CDATA[Correcto. La técnica estándar es reducir el TTL con al menos un día de anticipación al cambio previsto, y restaurarlo una vez verificado el valor nuevo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El cambio se va a ver en cinco minutos en todo el mundo]]></text><feedback format="html"><text><![CDATA[Los resolvers que ya tenían el registro cacheado con el TTL viejo ni se enteraron de que bajaste el TTL. Siguen con su reloj anterior.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El cambio se va a ver instantáneamente porque bajar el TTL vacía las cachés]]></text><feedback format="html"><text><![CDATA[Nada vacía las cachés ajenas. No existe forma de hacerlo: solo se puede esperar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[No cambia nada, porque el TTL solo afecta a los resolvers públicos]]></text><feedback format="html"><text><![CDATA[El TTL gobierna todas las capas de caché por igual.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-25 Caché negativa</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo consultó <code>api.tudominio.me</code> mientras discutía cómo cargar el registro. Diez minutos después lo crea correctamente, vuelve a consultar, y sigue recibiendo NXDOMAIN. Verifican el panel tres veces y está bien. ¿Qué pasó?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<code>ipconfig /flushdns</code> limpia las capas locales, pero <b>no</b> la del proveedor, que no se puede vaciar. Lo que sí funciona es consultar a otro resolver mientras tanto. <i>(Apunte §1.8 y §1.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Caché negativa: el resolver memorizó que el nombre no existía y lo va a seguir contestando durante el tiempo que fija el SOA de la zona]]></text><feedback format="html"><text><![CDATA[Correcto. Los resolvers no solo recuerdan las respuestas afirmativas: también recuerdan los NXDOMAIN. Consultar «para ver si ya está» antes de tiempo puede, literalmente, demorar el momento en que se lo ve.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El registro se cargó en el panel equivocado]]></text><feedback format="html"><text><![CDATA[Es plausible en general, pero acá el dato clave es la <i>consulta previa a la creación</i>: eso apunta directo a la caché negativa. Se confirma consultando a otro resolver.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Falta esperar a que el registro propague desde el autoritativo]]></text><feedback format="html"><text><![CDATA[El autoritativo ya tiene el dato: se actualiza al instante. Lo que sobra es una copia <i>negativa</i> en el resolver.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El TTL del registro nuevo es demasiado alto]]></text><feedback format="html"><text><![CDATA[El TTL del registro nuevo gobierna cuánto durará la respuesta afirmativa una vez obtenida. Lo que estorba acá es el TTL <i>negativo</i>, que fija el SOA.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-26 Confirmar el filtrado</text></name>
+    <questiontext format="html"><text><![CDATA[Una estudiante corre las cuatro consultas de control desde su casa. Obtiene: <code>google.com</code> <b>resuelve</b> · la zona de la plataforma <b>no resuelve</b> · el nombre autogenerado <b>no resuelve</b> · el mismo nombre contra 8.8.8.8 <b>resuelve</b>. ¿Qué puede afirmar?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El método es el experimental clásico: <b>antes de medir el fenómeno hay que verificar el instrumento</b>. Por eso son cuatro consultas y no dos. <i>(Apunte §1.9.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Filtrado confirmado: el bloqueo está en el resolver de su proveedor, no en el dominio]]></text><feedback format="html"><text><![CDATA[Correcto, y es la única combinación que lo autoriza. La primera consulta prueba que el resolver está vivo; la segunda muestra que el bloqueo alcanza a la zona entera; la cuarta aísla la variable con otro instrumento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que su resolver está caído o es inalcanzable]]></text><feedback format="html"><text><![CDATA[Si estuviera caído, <code>google.com</code> tampoco resolvería. Esa primera consulta es justamente la prueba de control que descarta esta hipótesis.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el dominio de la plataforma fue dado de baja]]></text><feedback format="html"><text><![CDATA[Contra 8.8.8.8 el nombre resuelve perfecto. El dominio existe y funciona.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que hay un problema de caché en su equipo y basta con hacer flush]]></text><feedback format="html"><text><![CDATA[Una caché local no explica que otro resolver, consultado desde el mismo equipo y en el mismo momento, sí responda.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-27 Por qué no alcanza con cambiar el resolver</text></name>
+    <questiontext format="html"><text><![CDATA[«El filtrado se arregla poniendo 8.8.8.8 como DNS en la máquina.» ¿Por qué eso resuelve el síntoma pero no es una solución?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La única variable que está del lado del que publica es la <b>reputación del nombre</b>, y un dominio propio delegado a una zona limpia es la forma de controlarla. Por eso el dominio propio no es un adorno: es un requisito. <i>(Apunte §1.9.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque la aplicación seguiría siendo inaccesible para cualquier visitante cuyo proveedor aplique el mismo filtrado, y quien publica no controla los resolvers de sus visitantes]]></text><feedback format="html"><text><![CDATA[Exacto. El error de razonamiento es confundir la propia experiencia de acceso con la accesibilidad del servicio.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque 8.8.8.8 también termina aplicando el filtrado al cabo de unas semanas]]></text><feedback format="html"><text><![CDATA[Las listas cambian, sí, pero el problema de fondo no es ese: es que la solución solo arregla <i>tu</i> máquina.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque cambiar el resolver rompe la resolución del resto de los dominios]]></text><feedback format="html"><text><![CDATA[No rompe nada: 8.8.8.8 resuelve todo perfectamente. El problema es de alcance, no de funcionamiento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el proveedor puede detectar el cambio y bloquearlo]]></text><feedback format="html"><text><![CDATA[No es lo que el capítulo señala. La cuestión es quién controla qué.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C1-28 Alcance del comodín</text></name>
+    <questiontext format="html"><text><![CDATA[El registro comodín <code>*</code> también hace resolver al dominio raíz pelado (<code>tudominio.me</code>, sin subdominio).]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> <code>*.tudominio.me</code> <b>no incluye</b> a <code>tudominio.me</code>. Por eso el práctico pide dos registros y no uno: el comodín para los subdominios y el registro con nombre <code>@</code> para el vértice. En cambio, el comodín sí cubre nombres de varios niveles: <code>a.b.tudominio.me</code> resuelve, si ningún nombre intermedio existe explícitamente. <i>(Apunte §1.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Ese es justamente el motivo por el que hay que cargar también el registro con nombre @.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-29 Comodín DNS y certificado comodín</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál es la diferencia entre un <b>registro DNS comodín</b> y un <b>certificado TLS comodín</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Si leen la documentación de Easypanel sobre <i>wildcard domains</i> y se frenan pensando que necesitan un <i>certificate resolver</i> con credenciales de API: eso es para el certificado comodín, no para el registro. Con el registro <code>*</code> tipo A alcanza y sobra. <i>(Apunte §1.12)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El registro es un A con nombre <code>*</code>, se carga en el panel y no necesita nada más; el certificado exige el desafío DNS-01 con un token de API del proveedor DNS]]></text><feedback format="html"><text><![CDATA[Correcto. El primero es trivial y se usa en este módulo; el segundo tiene dificultad considerable y <b>no</b> hace falta acá, porque cada servicio de Easypanel pide su propio certificado individual por el desafío HTTP-01, que es automático.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Son dos nombres para lo mismo: el registro comodín genera el certificado comodín]]></text><feedback format="html"><text><![CDATA[Son sistemas distintos que comparten el símbolo <code>*</code>. Confundirlos es la fuente de error más común de la clase.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El certificado comodín se carga en el panel DNS y el registro en Traefik]]></text><feedback format="html"><text><![CDATA[Está invertido: el registro va en el panel DNS; el certificado lo gestiona Traefik.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El registro comodín cubre un solo nivel y el certificado cubre todos]]></text><feedback format="html"><text><![CDATA[Es exactamente al revés: el <b>registro</b> cubre varios niveles (<code>a.b.dominio</code>), y el <b>certificado</b> <code>*.dominio.com</code> cubre un solo nivel de etiqueta.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-30 «A mí me anda»</text></name>
+    <questiontext format="html"><text><![CDATA[Un estudiante dice que el sitio anda y tres compañeros dicen que no. Están todos en la misma aula. ¿Cómo puede ser que los cuatro digan la verdad?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De acá sale la regla operativa: <b>«a mí me anda» no es una verificación</b>. Es una muestra de tamaño uno, tomada desde un solo resolver, con una sola caché. La verificación de verdad es <b>dnschecker.org</b>, que consulta decenas de resolvers del mundo. <i>(Apunte §1.8.1 y §1.10)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque están viendo cachés distintas —hasta cuatro capas, cada una con su propio reloj— y eventualmente resolvers distintos]]></text><feedback format="html"><text><![CDATA[Correcto: navegador, sistema operativo, router doméstico y resolver del proveedor. No las comparten todas. Además, un navegador con DoH activo esquiva el resolver de la red.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Es imposible: si resuelve para uno tiene que resolver para todos]]></text><feedback format="html"><text><![CDATA[El DNS no es una guía telefónica universal: es lo que te dice el que te atiende, y cada uno puede tener una copia distinta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el servidor atiende a algunos usuarios y a otros no según la carga]]></text><feedback format="html"><text><![CDATA[Si el problema fuera del servidor, habría rastro en su log. En este escenario el fallo ocurre antes de llegar ahí.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque los tres que no pueden entrar tienen el navegador desactualizado]]></text><feedback format="html"><text><![CDATA[La versión del navegador no cambia lo que responde un resolver.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C1-31 DNSSEC, DoT y DoH</text></name>
+    <questiontext format="html"><text><![CDATA[¿Cuál de estas afirmaciones sobre las tres extensiones de seguridad del DNS es correcta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Detalle que conecta con los RCODE: cuando la validación DNSSEC falla —firma vencida, cadena rota— el resolver validante responde <b>SERVFAIL</b>. Es otro de los significados posibles de ese código. <i>(Apunte §1.11)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[DNSSEC autentica las respuestas pero no las cifra; DoT y DoH cifran el canal hasta el resolver, que sigue viendo todas las consultas]]></text><feedback format="html"><text><![CDATA[Correcto. Ninguna de las tres elimina al intermediario: <b>redistribuyen la confianza</b>. La pregunta «¿quién ve mis consultas DNS?» nunca tiene respuesta «nadie»: tiene respuesta «el que vos elegiste como resolver».]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[DNSSEC cifra las consultas y por eso impide que el proveedor las lea]]></text><feedback format="html"><text><![CDATA[DNSSEC <b>autentica, no cifra</b>. Las consultas siguen siendo visibles para cualquier observador de la red.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[DoH impide el filtrado del proveedor para todos los visitantes del sitio]]></text><feedback format="html"><text><![CDATA[Un estudiante con DoH esquiva el filtrado <i>de su propia conexión</i>. Pero el que publica un servicio no puede exigirle DoH a sus visitantes.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[DNSSEC impide que un resolver se niegue a responder]]></text><feedback format="html"><text><![CDATA[No lo impide: un resolver siempre puede negarse. Lo que DNSSEC sí impide, en zonas firmadas y ante resolvers que validan, es la variante más grave: la <b>respuesta falsificada</b>.]]></text></feedback></answer>
+  </question>
+</quiz>

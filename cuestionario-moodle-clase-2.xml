@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Banco de preguntas - Clase 2: La VPS, puertos y firewall
+     Programacion 3 - UTN FRM - Tecnicatura Universitaria en Programacion
+     Importar en: Banco de preguntas > Importar > Formato XML de Moodle -->
+<quiz>
+  <question type="category">
+    <category><text>$course$/top/Clase 2 - VPS, puertos y firewall</text></category>
+    <info format="html"><text><![CDATA[Preguntas autocorregibles derivadas del cap&iacute;tulo 2 del apunte (<i>La VPS: aprovisionar, entrar y cerrar</i>). Cada pregunta lleva retroalimentaci&oacute;n espec&iacute;fica por opci&oacute;n y remite a la secci&oacute;n del apunte que la justifica.]]></text></info>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-01 Aislamiento entre VPS</text></name>
+    <questiontext format="html"><text><![CDATA[Dos VPS de clientes distintos conviven en el mismo servidor físico. ¿Qué hace que el aislamiento entre ellos sea <b>real</b> y no una promesa comercial?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El VPS es <b>barato porque compartís hierro</b> y es <b>tuyo porque el aislamiento lo hace cumplir el procesador</b>. Las dos cosas son ciertas al mismo tiempo, y de ahí sale todo lo demás del capítulo. <i>(Apunte §2.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que el procesador hace cumplir por hardware la separación de los espacios de memoria]]></text><feedback format="html"><text><![CDATA[Exacto. Son espacios de memoria separados que el procesador hace cumplir. Lo que sí se comparte es el hierro: procesador físico, disco y placa de red.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un contrato de nivel de servicio (SLA) firmado con el proveedor]]></text><feedback format="html"><text><![CDATA[Un contrato es una promesa, no un mecanismo. El aislamiento del VPS no depende de la buena fe del proveedor: lo impone el hardware.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que cada VPS tiene su propia dirección IP pública]]></text><feedback format="html"><text><![CDATA[La IP pública identifica al servidor en la red, pero no aísla nada. Podrías tener IP propia y compartir memoria con el vecino: serían cosas independientes.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el hipervisor cifra el disco de cada cliente por separado]]></text><feedback format="html"><text><![CDATA[El cifrado de disco protege los datos en reposo, que es otro problema. El aislamiento entre máquinas virtuales lo garantiza la separación de memoria impuesta por el procesador.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-02 Vecino ruidoso</text></name>
+    <questiontext format="html"><text><![CDATA[El VPS se pone notoriamente más lento durante una tarde, sin que el grupo haya cambiado absolutamente nada. ¿Cuál es la explicación más probable según el capítulo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El aislamiento es real, pero <b>los recursos se comparten</b>. Si el servidor se pone lento sin motivo, mirá al vecino. <i>(Apunte §2.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El sobreaprovisionamiento: el proveedor vende más núcleos virtuales que núcleos reales]]></text><feedback format="html"><text><![CDATA[Correcto: es el fenómeno del «vecino ruidoso». Los proveedores apuestan a que no todos los clientes estarán al máximo a la vez; cuando la apuesta falla, lo paga el que está usando el servidor en ese momento.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Una falla del hipervisor que hay que reportar al soporte]]></text><feedback format="html"><text><![CDATA[No hay falla: el sistema está funcionando exactamente como fue diseñado y vendido. El hipervisor está arbitrando recursos escasos, que es su trabajo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La caché negativa del DNS de la Clase 1]]></text><feedback format="html"><text><![CDATA[La caché de DNS afecta la resolución de nombres, no el rendimiento del procesador del servidor. Son capas distintas: si el nombre resuelve, el DNS ya hizo su trabajo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el disco virtual es una imagen y no un disco físico real]]></text><feedback format="html"><text><![CDATA[Que el estado sea un archivo explica por qué reinstalar tarda minutos, no por qué el servidor se pone lento un martes a la tarde.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C2-03 Responsabilidad del proveedor</text></name>
+    <questiontext format="html"><text><![CDATA[Si el VPS queda comprometido, el proveedor puede auditar lo que ocurrió dentro del sistema operativo y ayudar a resolverlo.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> El proveedor responde por el hipervisor, el hardware y la red. Todo lo que pasa dentro del sistema operativo huésped —usuarios, puertos, actualizaciones, servicios expuestos— es del titular. Y el corte no es una postura comercial: es la consecuencia directa de que el proveedor, <b>por diseño, no puede ver adentro</b>. El mismo aislamiento que te protege del vecino le impide mirar a él. <i>(Apunte §2.2 y §2.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Justo al revés: el aislamiento que te protege del vecino es el que le impide ver adentro al proveedor.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-04 El estado es un archivo</text></name>
+    <questiontext format="html"><text><![CDATA[¿Por qué «cambiar el sistema operativo» de un VPS tarda tres minutos y no media hora, y por qué la operación no tiene deshacer?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El estado completo de la máquina es un archivo. De ahí salen la velocidad de reinstalación y el carácter destructivo e irreversible de la operación. <i>(Apunte §2.2 y §2.4)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque el disco virtual es una imagen: no se actualiza nada, se tira la anterior y se escribe otra encima]]></text><feedback format="html"><text><![CDATA[Exacto. El estado completo de la máquina es un archivo, así que destruir y recrear un servidor es una operación de archivos, no de hardware. Por eso es rápido y por eso es irreversible.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el hipervisor mantiene una copia de seguridad automática permanente]]></text><feedback format="html"><text><![CDATA[Si hubiera una copia de seguridad automática, la operación <b>sí</b> tendría deshacer. Justamente no lo tiene.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque Ubuntu se instala más rápido que otros sistemas operativos]]></text><feedback format="html"><text><![CDATA[No se está instalando nada: se está escribiendo una imagen de disco preparada de antemano. Esa es toda la diferencia.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el proveedor tiene el sistema operativo precargado en memoria RAM]]></text><feedback format="html"><text><![CDATA[La RAM se borra al reiniciar. Lo que está preparado de antemano es la <i>imagen de disco</i>, no un contenido en memoria.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-05 Orden de autenticación en SSH</text></name>
+    <questiontext format="html"><text><![CDATA[En una conexión SSH, ¿qué se autentica <b>primero</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El orden es lo que hay que retener: <b>transporte</b> (autentica al servidor) → <b>autenticación</b> (autentica al cliente) → <b>conexión</b>. Todo lo demás ocurre <i>sobre</i> un canal que ya es seguro. <i>(Apunte §2.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[El servidor ante el cliente, presentando su clave de anfitrión]]></text><feedback format="html"><text><![CDATA[Correcto. La capa de transporte (RFC 4253) establece el canal cifrado y autentica al servidor. Recién sobre ese canal ya seguro ocurre todo lo demás.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El cliente ante el servidor, firmando con su clave privada]]></text><feedback format="html"><text><![CDATA[Eso ocurre después, en la capa de autenticación (RFC 4252). Primero tenés que saber con quién estás hablando; recién después le mostrás tus credenciales.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ambos a la vez, en la capa de conexión]]></text><feedback format="html"><text><![CDATA[La capa de conexión (RFC 4254) es la tercera y no autentica a nadie: multiplexa la sesión interactiva, la copia de archivos y los túneles.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguno: SSH solo cifra, y la autenticación la resuelve el sistema operativo]]></text><feedback format="html"><text><![CDATA[SSH autentica en las dos direcciones, y por eso existe el archivo <code>known_hosts</code>.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-06 Modelo TOFU</text></name>
+    <questiontext format="html"><text><![CDATA[SSH usa el modelo de «confianza en el primer uso» (TOFU). ¿Qué significa exactamente?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Todo el valor del modelo está en que <b>la advertencia se lea</b>. Aceptarla por reflejo, o borrar la línea de <code>known_hosts</code> sin verificar el motivo, convierte la única defensa del esquema en un trámite. <i>(Apunte §2.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que es vulnerable exactamente una vez —la primera— y a partir de ahí detecta cualquier suplantación]]></text><feedback format="html"><text><![CDATA[Correcto, y es un compromiso deliberado. Por eso la advertencia posterior de que la clave del anfitrión cambió no es un trámite: o el servidor se reinstaló, o alguien se está interponiendo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la conexión es insegura hasta que se instala un certificado firmado]]></text><feedback format="html"><text><![CDATA[No hay certificado en juego. SSH no usa autoridades certificadoras como HTTPS: guarda la huella del servidor localmente.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la clave del anfitrión se valida contra una autoridad certificadora]]></text><feedback format="html"><text><![CDATA[Ese es el modelo de HTTPS, no el de SSH. Precisamente porque no hay autoridad que consultar es que existe TOFU.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que hay que aceptar la huella cada vez que uno se conecta]]></text><feedback format="html"><text><![CDATA[Se acepta una sola vez y queda guardada en <code>~/.ssh/known_hosts</code>. Si te la vuelve a pedir, algo cambió y hay que investigar antes de aceptar.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-07 Qué viaja en la autenticación por clave</text></name>
+    <questiontext format="html"><text><![CDATA[Cuando te autenticás por clave pública, ¿qué viaja efectivamente por la red?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[De acá sale la propiedad decisiva: si el servidor entero cae en manos ajenas, el atacante obtiene <code>authorized_keys</code> con claves <b>públicas</b>, que solo permiten verificar firmas, no producirlas. No le sirven para nada. <i>(Apunte §2.5.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Nada secreto: el servidor manda un dato aleatorio y el cliente devuelve ese dato firmado]]></text><feedback format="html"><text><![CDATA[Exacto. Es un desafío criptográfico. La clave privada <b>nunca se transmite</b>, ni siquiera cifrada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La clave privada, cifrada con la clave pública del servidor]]></text><feedback format="html"><text><![CDATA[La clave privada no sale nunca de tu máquina. Si viajara —aunque fuese cifrada— el esquema perdería su propiedad más valiosa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La clave privada en texto plano, protegida por el canal TLS]]></text><feedback format="html"><text><![CDATA[Ni en texto plano ni cifrada: no viaja. Además SSH no usa TLS, tiene su propia capa de transporte.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un hash de la contraseña del usuario]]></text><feedback format="html"><text><![CDATA[No hay contraseña involucrada. Ese es precisamente el punto de usar claves.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C2-08 PermitRootLogin prohibit-password</text></name>
+    <questiontext format="html"><text><![CDATA[La directiva <code>PermitRootLogin prohibit-password</code> impide entrar al servidor como <code>root</code>.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> Prohíbe entrar como root <b>con contraseña</b>. El acceso por clave sigue perfectamente permitido: es el valor predeterminado en las distribuciones modernas y es el adecuado para este práctico, donde el trabajo administrativo es constante. El nombre de la directiva dice exactamente lo que hace; hay que leerlo entero. <i>(Apunte §2.5.5)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Leé el nombre completo de la directiva: <i>prohibit-password</i>, no prohibit-login.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-09 Servidor comprometido y claves</text></name>
+    <questiontext format="html"><text><![CDATA[Un atacante toma control total del servidor y se lleva el archivo <code>~/.ssh/authorized_keys</code>. ¿Qué obtuvo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Regla de oro: la clave privada <b>nunca</b> se copia al servidor, ni se manda por WhatsApp, ni se sube a un repositorio. Hay bots que escanean GitHub buscando exactamente eso y tardan minutos. <i>(Apunte §2.5.1, §2.5.2 y §2.9.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Claves públicas, que solo permiten verificar firmas: no le sirven para entrar a ningún lado]]></text><feedback format="html"><text><![CDATA[Correcto. Esa es exactamente la ventaja del esquema frente a la contraseña, donde lo guardado del lado del servidor sí es un secreto reutilizable.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Las claves privadas de los cuatro integrantes del grupo]]></text><feedback format="html"><text><![CDATA[En el servidor no hay ninguna clave privada — y por eso mismo <b>nunca</b> hay que copiarle una. Un servidor comprometido con claves privadas adentro no es un servidor comprometido: es todo lo que esas claves abren, comprometido.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Acceso inmediato a todos los equipos desde los que se conectaron los integrantes]]></text><feedback format="html"><text><![CDATA[Eso sería movimiento lateral, y ocurre cuando hay claves <i>privadas</i> guardadas en el servidor. Con solo las públicas, no.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Las contraseñas cifradas de los usuarios del sistema]]></text><feedback format="html"><text><![CDATA[Las contraseñas del sistema viven en <code>/etc/shadow</code>, no en <code>authorized_keys</code>. Y en este servidor la autenticación por contraseña está deshabilitada.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-10 Por qué Ed25519</text></name>
+    <questiontext format="html"><text><![CDATA[El capítulo elige <code>ssh-keygen -t ed25519</code> en lugar de RSA de 4096 bits. ¿Cuál es la razón <b>más importante en la práctica</b>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Ofrece además claves más cortas con seguridad equivalente o superior y firmas más rápidas, pero lo decisivo es lo otro: <b>menos superficie para equivocarse</b>. <i>(Apunte §2.12.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que tiene un solo tamaño de clave, así que hay muchas menos formas de configurarlo mal]]></text><feedback format="html"><text><![CDATA[Correcto: es economía del mecanismo aplicada a la criptografía. RSA admite tamaños inseguros que siguen siendo aceptados por compatibilidad; Ed25519 no tiene perilla que tocar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que RSA ya fue quebrado criptográficamente y no debe usarse]]></text><feedback format="html"><text><![CDATA[RSA con tamaños adecuados sigue siendo seguro. El problema no es el algoritmo, son las configuraciones débiles que admite.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que Ed25519 es el único algoritmo que soporta OpenSSH]]></text><feedback format="html"><text><![CDATA[OpenSSH soporta varios algoritmos, RSA incluido. Por eso hay que elegir.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que RSA no permite autenticación por desafío criptográfico]]></text><feedback format="html"><text><![CDATA[Sí la permite: el mecanismo de desafío-firma es el mismo. Lo que cambia es el esquema de firma que hay por debajo.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-11 El socket como tupla</text></name>
+    <questiontext format="html"><text><![CDATA[Un servidor web atiende diez mil conexiones simultáneas con un único puerto 443. ¿Cómo es posible que no se confundan entre sí?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[«Un puerto abierto» no es una propiedad del servidor: es un proceso concreto escuchando en una interfaz concreta. <i>(Apunte §2.6.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque una conexión se identifica por una tupla de cuatro elementos, y las diez mil difieren en el par de origen]]></text><feedback format="html"><text><![CDATA[Exacto: dirección de origen, puerto de origen, dirección de destino y puerto de destino. No hay diez mil puertos, hay diez mil tuplas.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el servidor asigna internamente un puerto efímero distinto a cada cliente]]></text><feedback format="html"><text><![CDATA[El puerto efímero lo elige el <i>cliente</i> como puerto de origen. El servidor sigue escuchando en el 443 y no reasigna nada.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el proxy inverso serializa las conexiones y las atiende de a una]]></text><feedback format="html"><text><![CDATA[Se atienden concurrentemente. Si fueran de a una, un sitio con tráfico real sería inusable.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque TCP multiplexa varias conexiones dentro de un mismo socket]]></text><feedback format="html"><text><![CDATA[Cada conexión aceptada genera un <b>socket nuevo</b>, ya completo. El socket en escucha es otro objeto distinto, con el origen todavía vacío.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C2-12 Escuchar en 127.0.0.1</text></name>
+    <questiontext format="html"><text><![CDATA[Un servicio que escucha en <code>127.0.0.1</code> es inalcanzable desde internet <b>aunque el firewall esté apagado</b> y el puerto figure abierto.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Verdadero.</b> No hay firewall que valga porque no hay nada que filtrar: sencillamente no hay nadie escuchando del lado de afuera. Es la forma más barata y más robusta de cerrar algo, y es economía del mecanismo en estado puro — ninguna regla que auditar, nada que se pueda configurar mal. <i>(Apunte §2.6.1 y §2.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="100" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="0" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[La interfaz en la que un proceso escucha es una decisión de seguridad de primer orden, independiente del firewall.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C2-13 Puerto máximo</text></name>
+    <questiontext format="html"><text><![CDATA[Un puerto es un número de 16 bits. Escribí el número de puerto <b>más alto</b> que puede existir (solo el número).]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[16 bits dan 65536 valores (0 a 65535), y el rango utilizable va de 1 a 65535. <i>(Apunte §2.6.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>65535</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>65.535</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C2-14 Rangos de puertos (RFC 6335)</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada rango de puertos con su descripción correcta según la RFC 6335.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Dos consecuencias prácticas: escuchar por debajo de 1024 requiere privilegios de administrador —de ahí que las aplicaciones usen 3000, 5000 u 8000 con un proxy inverso adelante—, y la asignación es una <b>convención</b>, no una imposición técnica. <i>(Apunte §2.6.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[0 &ndash; 1023]]></text><answer format="html"><text><![CDATA[Bien conocidos: los asigna la IANA por trámite formal; hace falta ser administrador para escuchar ahí]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[1024 &ndash; 49151]]></text><answer format="html"><text><![CDATA[Registrados: los asigna la IANA por trámite simplificado (3000, 5432, 6379)]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[49152 &ndash; 65535]]></text><answer format="html"><text><![CDATA[Dinámicos o efímeros: no los asigna nadie, los toma el sistema operativo]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Puerto 22]]></text><answer format="html"><text><![CDATA[Bien conocido, asignado a SSH]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Puerto 443]]></text><answer format="html"><text><![CDATA[Bien conocido, asignado a HTTPS]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-15 Privilegios y puertos</text></name>
+    <questiontext format="html"><text><![CDATA[Un estudiante levanta su API en el puerto 3000 sin ser administrador, pero no logra levantarla en el 80. ¿Por qué?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Esta es exactamente la razón por la que los servidores de aplicaciones escuchan en 8000, 3000 o 5000 y hay un <b>proxy inverso</b> adelante ocupando el 80 y el 443. <i>(Apunte §2.6.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Porque escuchar por debajo del puerto 1024 requiere privilegios de administrador]]></text><feedback format="html"><text><![CDATA[Correcto. Es una restricción histórica pensada para que un usuario cualquiera no pudiera hacerse pasar por el servidor web de la máquina.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el puerto 80 está reservado exclusivamente para Apache y Nginx]]></text><feedback format="html"><text><![CDATA[No hay reserva por programa. Cualquier proceso con privilegios suficientes puede escuchar ahí.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el puerto 80 solo admite tráfico HTTP y su API responde JSON]]></text><feedback format="html"><text><![CDATA[El número de puerto no impone ningún protocolo: es una convención. Podrías correr SSH en el 80 si quisieras.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Porque el firewall bloquea el puerto 80 por defecto]]></text><feedback format="html"><text><![CDATA[El firewall descarta paquetes que llegan de afuera; no impide que un proceso local se ponga a escuchar. Son cosas distintas.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-16 La bandera -l de ss</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué pide exactamente la bandera <code>-l</code> en <code>ss -tlnp</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El socket en escucha es <b>uno</b>; las conversaciones en curso son <b>muchas</b>. Correr el comando con y sin <code>-l</code> y mirar cuánto crece la salida es la mejor forma de ver esa diferencia. <i>(Apunte §2.6.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Únicamente los sockets en estado LISTEN, es decir los que esperan conexiones nuevas]]></text><feedback format="html"><text><![CDATA[Correcto. Sin esa bandera, <code>ss</code> muestra además todas las conexiones ESTABLISHED en curso, que son muchas más y responden otra pregunta.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que se muestren los nombres de los servicios en lugar de los números de puerto]]></text><feedback format="html"><text><![CDATA[Eso es justamente lo contrario de <code>-n</code>, que pide números sin resolver nombres.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Un listado largo, con más columnas de detalle]]></text><feedback format="html"><text><![CDATA[No es una bandera de formato: filtra por estado del socket.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Los sockets locales de dominio Unix del sistema de archivos]]></text><feedback format="html"><text><![CDATA[Esos se piden con <code>-x</code>. Acá <code>-t</code> ya está restringiendo a TCP.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C2-17 Puntos de enganche de netfilter</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada punto de enganche de netfilter con el momento en que se evalúa.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La pieza decisiva está entre PREROUTING y los dos siguientes: <b>la decisión de enrutamiento</b>. El núcleo mira el destino y se pregunta si el paquete es para él (→ INPUT) o para otro (→ FORWARD). Son caminos <b>excluyentes</b>. Toda la sección 2.8 es consecuencia de esto. <i>(Apunte §2.7.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[PREROUTING]]></text><answer format="html"><text><![CDATA[Apenas llega el paquete, antes de decidir a dónde va]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[INPUT]]></text><answer format="html"><text><![CDATA[El paquete va a un proceso de esta misma máquina]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[FORWARD]]></text><answer format="html"><text><![CDATA[El paquete atraviesa la máquina hacia otro destino]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[OUTPUT]]></text><answer format="html"><text><![CDATA[El paquete lo generó un proceso local]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[POSTROUTING]]></text><answer format="html"><text><![CDATA[Justo antes de salir por la placa de red]]></text></answer></subquestion>
+  </question>
+  <question type="shortanswer">
+    <name><text>C2-18 Cadena del tráfico a contenedores</text></name>
+    <questiontext format="html"><text><![CDATA[Un paquete llega desde internet al puerto publicado de un contenedor Docker. Después de la decisión de enrutamiento, ¿por qué punto de enganche de netfilter sigue su recorrido? (escribí solo el nombre)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Docker reescribe el destino en PREROUTING (tabla <code>nat</code>), así que cuando llega la decisión de enrutamiento el paquete <b>ya no es para esta máquina</b>: es para el contenedor. Por eso sigue por <b>FORWARD</b>, donde Docker registró sus cadenas DOCKER y DOCKER-USER. <i>(Apunte §2.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>FORWARD</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>forward</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="shortanswer">
+    <name><text>C2-19 Cadena donde escribe ufw</text></name>
+    <questiontext format="html"><text><![CDATA[¿En qué punto de enganche de netfilter escribe ufw sus reglas de tráfico entrante? (escribí solo el nombre)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[ufw escribe en <b>INPUT</b>. Y como el tráfico hacia los contenedores va por FORWARD —y los dos caminos son excluyentes— las reglas de ufw <b>nunca se evalúan</b> para ese tráfico. Ese es todo el problema de la sección 2.8. <i>(Apunte §2.7.2 y §2.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <usecase>0</usecase>
+    <answer fraction="100" format="moodle_auto_format"><text>INPUT</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>input</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-20 Por qué Docker esquiva a ufw</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo publicó PostgreSQL con <code>-p 5432:5432</code> y corrió <code>sudo ufw deny 5432</code>. Un compañero escanea desde afuera y el puerto le aparece <b>abierto</b>. ¿Cuál es la explicación correcta?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[No es un error de Docker ni una mala configuración de Ubuntu: es la <b>interacción previsible</b> de dos programas que escriben reglas en el mismo subsistema, en puntos de enganche distintos. <i>(Apunte §2.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Tras el DNAT en PREROUTING el destino ya es la IP del contenedor, así que el paquete va por FORWARD y nunca pasa por INPUT, donde viven las reglas de ufw]]></text><feedback format="html"><text><![CDATA[Exacto, y ese es el recorrido completo: PREROUTING (Docker reescribe el destino) → decisión de enrutamiento (no es para esta máquina) → FORWARD → nunca INPUT.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[La regla de ufw quedó mal escrita y hay que volver a cargarla]]></text><feedback format="html"><text><![CDATA[La regla está perfectamente escrita: <code>ufw status</code> la muestra. El problema es que esa regla <b>no se evalúa nunca</b> para ese tráfico.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El escaneo se hizo antes de que la regla tomara efecto]]></text><feedback format="html"><text><![CDATA[Las reglas de netfilter toman efecto de inmediato. Esperar más no cambia el resultado.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Docker desactiva la cadena INPUT del sistema al instalarse]]></text><feedback format="html"><text><![CDATA[INPUT sigue funcionando perfectamente para todo el tráfico dirigido al anfitrión — el SSH del puerto 22, por ejemplo. Lo que ocurre es que el tráfico del contenedor no pasa por ahí.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C2-21 ¿Es un bug?</text></name>
+    <questiontext format="html"><text><![CDATA[Que Docker se saltee ufw es un error conocido de Ubuntu que se corrige actualizando el sistema.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> No es un error de nadie: es la consecuencia previsible del recorrido del paquete. Docker incluso documenta la cadena <code>DOCKER-USER</code> como el lugar previsto para que el administrador intervenga; lo que no hace es avisar que ufw no la usa. Actualizar no cambia absolutamente nada. <i>(Apunte §2.8.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Si fuera un bug, se arreglaría. Lleva años así porque es el comportamiento esperado de dos herramientas que no se conocen entre sí.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-22 Qué evidencia vale</text></name>
+    <questiontext format="html"><text><![CDATA[<code>ufw status</code> dice que el 3000 no está permitido. <code>nmap -Pn</code> desde otra red dice que el 3000 está abierto. ¿Cuál de las dos describe el estado real del servidor?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Fijate en la forma del error, porque se repite en toda la ingeniería: <b>una herramienta te informó sobre sí misma y vos lo leíste como información sobre el sistema</b>. <code>ufw status</code> no dice «el 3000 está cerrado»: dice «yo no tengo ninguna regla que lo abra». <i>(Apunte §2.8 y §2.8.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[nmap, porque es la única que atraviesa el mismo camino que atravesaría un atacante]]></text><feedback format="html"><text><![CDATA[Correcto. Cualquier herramienta que corra <i>dentro</i> del servidor está describiendo lo que ella cree. Solo la prueba desde afuera describe hechos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[ufw status, porque lee la configuración real del firewall del núcleo]]></text><feedback format="html"><text><![CDATA[Lee las reglas <b>de ufw</b>, que son un subconjunto de las reglas del núcleo. Docker escribió otras que ufw no muestra.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Las dos son igual de válidas y hay que promediar el criterio]]></text><feedback format="html"><text><![CDATA[Las dos afirmaciones son ciertas, pero no dicen lo mismo. Solo una responde la pregunta «¿el puerto está accesible?».]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguna: hay que revisar el panel del proveedor]]></text><feedback format="html"><text><![CDATA[El proveedor no ve dentro de tu sistema operativo. El firewall del VPS lo administrás vos.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-23 Estrategia preferida</text></name>
+    <questiontext format="html"><text><![CDATA[Para un PostgreSQL que solo debe ser alcanzable por la API del mismo proyecto, ¿cuál es la estrategia <b>preferida</b> según el capítulo?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Economía del mecanismo: no hay regla que auditar, no hay herramienta en la que confiar, no hay nada que se pueda configurar mal. <b>El puerto más seguro es el que no existe.</b> <i>(Apunte §2.8.3 y §2.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[No declarar ningún mapeo de puertos: no publicarlo en absoluto]]></text><feedback format="html"><text><![CDATA[Correcto. El servicio sigue siendo perfectamente accesible para los demás contenedores del proyecto por la red interna de Docker, que es el contenido de la Clase 5.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Publicarlo con <code>-p 5432:5432</code> y bloquearlo con una regla de ufw]]></text><feedback format="html"><text><![CDATA[Es exactamente lo que <b>no</b> funciona: ufw no ve ese tráfico. Y aunque funcionara, seguirías dependiendo de que una regla esté bien escrita.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Publicarlo y escribir reglas de iptables en la cadena DOCKER-USER]]></text><feedback format="html"><text><![CDATA[Es válido, pero el capítulo lo reserva para casos excepcionales: agrega piezas, reglas que auditar y puntos de fallo.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Publicarlo y protegerlo con una contraseña larga y aleatoria]]></text><feedback format="html"><text><![CDATA[Una contraseña fuerte es deseable, pero deja el servicio expuesto a internet igual: a escaneos, a vulnerabilidades del propio motor y a fuerza bruta continua.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-24 Orden de los comandos de ufw</text></name>
+    <questiontext format="html"><text><![CDATA[Un grupo conectado por SSH corre <code>sudo ufw enable</code> y la terminal se congela. No pueden volver a entrar. ¿Qué pasó y cómo se evitaba?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El síntoma delata la causa: la conexión no da «clave rechazada», se queda <b>colgada</b> hasta el timeout. Nadie contesta, que es exactamente lo que hace un <code>deny</code>. <i>(Apunte §2.7.2 y §2.14)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Habilitaron el firewall antes de permitir el puerto 22: con la política <code>deny incoming</code>, cortó su propia sesión. Se evita permitiendo primero y habilitando después]]></text><feedback format="html"><text><![CDATA[Correcto. Se sale por la consola de emergencia del proveedor, que no pasa por SSH ni por el firewall. Y la regla es simple: <b>permitir primero, habilitar después. Siempre.</b>]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[El firewall bloqueó el puerto 443 y con él la sesión SSH]]></text><feedback format="html"><text><![CDATA[SSH no usa el 443, usa el 22. Lo que cortó la sesión fue la política predeterminada de descartar todo lo entrante.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[ufw reinició el servicio de red y hay que esperar a que vuelva]]></text><feedback format="html"><text><![CDATA[ufw no reinicia la red. El bloqueo es permanente hasta que alguien permita el 22.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Se quedaron sin acceso porque <code>ufw enable</code> deshabilita la autenticación por clave]]></text><feedback format="html"><text><![CDATA[El firewall no toca la configuración de SSH. Son subsistemas independientes.]]></text></feedback></answer>
+  </question>
+  <question type="truefalse">
+    <name><text>C2-25 El puerto 80 con HTTPS</text></name>
+    <questiontext format="html"><text><![CDATA[Si toda la aplicación funciona por HTTPS, el puerto 80 se puede cerrar sin consecuencias.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[<b>Falso.</b> Let's Encrypt valida la titularidad del dominio pidiendo un archivo <b>por el puerto 80</b> (desafío HTTP-01). Sin ese puerto abierto no hay certificado, y sin certificado no hay HTTPS. El 80 no está abierto para servir la aplicación: está abierto para redirigir a HTTPS y para que el certificado se emita y se renueve. <i>(Apunte §2.7.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>1.0000000</penalty>
+    <hidden>0</hidden>
+
+    <answer fraction="0" format="moodle_auto_format"><text>true</text><feedback format="html"><text><![CDATA[Pensá qué necesita Let's Encrypt para comprobar que el dominio es tuyo.]]></text></feedback></answer>
+    <answer fraction="100" format="moodle_auto_format"><text>false</text><feedback format="html"><text><![CDATA[Correcto.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-26 Qué necesita ver el mundo</text></name>
+    <questiontext format="html"><text><![CDATA[En el VPS del práctico están en escucha los puertos 22 (sshd), 80 (Traefik), 443 (Traefik) y 3000 (Easypanel). ¿Cuáles necesita poder alcanzar <b>el público general de internet</b>? (marcá todas las que correspondan)]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[«¿Cuáles de estos necesita ver el mundo entero?» es toda la clase de seguridad resumida en una pregunta. <i>(Apunte §2.6.3 y §2.10)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>false</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="50.00000" format="html"><text><![CDATA[80]]></text><feedback format="html"><text><![CDATA[Sí: redirección a HTTPS y validación del certificado de Let's Encrypt.]]></text></feedback></answer>
+    <answer fraction="50.00000" format="html"><text><![CDATA[443]]></text><feedback format="html"><text><![CDATA[Sí: es por donde viaja todo el tráfico de la aplicación.]]></text></feedback></answer>
+    <answer fraction="-50.00000" format="html"><text><![CDATA[22]]></text><feedback format="html"><text><![CDATA[No. El 22 lo necesitan los integrantes del grupo para administrar, no el público. En este práctico se deja abierto, pero no es «para el mundo».]]></text></feedback></answer>
+    <answer fraction="-50.00000" format="html"><text><![CDATA[3000]]></text><feedback format="html"><text><![CDATA[No. Una vez publicado el panel bajo el dominio propio con HTTPS, el acceso directo por el 3000 tiene que cerrarse: expone la contraseña del administrador en texto plano.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-27 Quién va a querer hackear una calculadora</text></name>
+    <questiontext format="html"><text><![CDATA[«Es una calculadora de la facultad, no tiene datos de nadie. ¿Quién va a querer hackearla?» ¿Cuál es el error de ese razonamiento?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[El espacio IPv4 completo son ~4.300 millones de direcciones y barrerlo entero es cuestión de una hora larga desde un solo equipo. Además el resultado se indexa y se vende (Shodan, Censys): el atacante ni siquiera necesita escanear, le alcanza con consultar. <i>(Apunte §2.9.1, §2.9.2 y §2.9.3)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Que a nadie le interesa la aplicación: les interesan la CPU, el ancho de banda y una dirección IP limpia]]></text><feedback format="html"><text><![CDATA[Exacto. La aplicación es irrelevante; el servidor es el botín. Minado de criptomonedas, envío de spam, ataques de denegación de servicio contra terceros y movimiento lateral hacia otros equipos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguno: efectivamente un servidor sin datos valiosos no es un objetivo]]></text><feedback format="html"><text><![CDATA[Un VPS recién creado empieza a recibir intentos de acceso <b>dentro de la primera hora de existir</b>, sin que nadie conozca su dirección.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que la calculadora sí guarda datos personales de los alumnos]]></text><feedback format="html"><text><![CDATA[No es una cuestión de qué datos hay: aunque no hubiera ninguno, el servidor sigue siendo valioso por sus recursos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Que el ataque vendría de otros estudiantes del curso]]></text><feedback format="html"><text><![CDATA[El descubrimiento es automático y no selectivo. Nadie te ataca a vos en particular: atacan a todos, todo el tiempo, con herramientas automatizadas.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-28 Qué aporta fail2ban</text></name>
+    <questiontext format="html"><text><![CDATA[¿Qué hace fail2ban y qué <b>no</b> hace?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Defensa en profundidad: <b>ninguna capa se asume infalible</b>. En este servidor hay al menos cuatro —clave en vez de contraseña, firewall restrictivo, no publicar puertos internos, fail2ban— y cada una supone que las otras pueden fallar. <i>(Apunte §2.11.1 y §2.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Eleva el costo del ataque automatizado indiscriminado y mantiene legibles los registros, pero no impide un ataque dirigido]]></text><feedback format="html"><text><![CDATA[Correcto. Quien tenga paciencia puede espaciar los intentos por debajo del umbral o rotar direcciones de origen. Es una capa más, no una defensa.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Impide cualquier intento de acceso no autorizado por SSH]]></text><feedback format="html"><text><![CDATA[Ninguna herramienta sola hace eso. Y por eso existe la defensa en profundidad: cuatro capas independientes, cada una suponiendo que las otras pueden fallar.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Reemplaza la necesidad de deshabilitar la autenticación por contraseña]]></text><feedback format="html"><text><![CDATA[Al revés: la medida fuerte es <code>PasswordAuthentication no</code>. fail2ban baja el ruido y el consumo, pero no sustituye a la capa que elimina el problema.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Cifra los intentos de conexión para que no puedan ser interceptados]]></text><feedback format="html"><text><![CDATA[El cifrado ya lo provee SSH en su capa de transporte. fail2ban solo lee registros y bloquea direcciones.]]></text></feedback></answer>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-29 La bandera -Pn de nmap</text></name>
+    <questiontext format="html"><text><![CDATA[¿Para qué sirve la bandera <code>-Pn</code> en <code>nmap -Pn tudominio.com</code>?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Sin <code>-Pn</code>, el grupo puede quedarse creyendo que no hay nada abierto cuando en realidad nmap ni siquiera llegó a mirar. <i>(Apunte §2.8.2)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Para que no intente primero un ping de descubrimiento y escanee directamente]]></text><feedback format="html"><text><![CDATA[Correcto. Muchos proveedores descartan los pings entrantes; sin esa bandera nmap concluiría que el servidor no existe y ni siquiera escanearía.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Para escanear también los puertos UDP además de los TCP]]></text><feedback format="html"><text><![CDATA[Eso se pide con <code>-sU</code>. <code>-Pn</code> no cambia qué protocolo se escanea.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Para omitir los puertos privilegiados por debajo de 1024]]></text><feedback format="html"><text><![CDATA[El rango de puertos se controla con <code>-p</code>. <code>-Pn</code> no filtra puertos.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Para que el escaneo no quede registrado en los logs del servidor destino]]></text><feedback format="html"><text><![CDATA[No oculta nada: el escaneo llega igual y puede registrarse. La bandera solo evita el paso previo de descubrimiento.]]></text></feedback></answer>
+  </question>
+  <question type="matching">
+    <name><text>C2-30 Principios de Saltzer y Schroeder</text></name>
+    <questiontext format="html"><text><![CDATA[Emparejá cada principio de diseño (Saltzer y Schroeder, 1975) con su aplicación concreta en este capítulo.]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[Los tres primeros son de <b>1975</b> y siguen describiendo con exactitud los errores que se cometen hoy. Las herramientas cambian todo el tiempo; los principios prácticamente nunca. <i>(Apunte §2.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <shuffleanswers>true</shuffleanswers>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Algunos emparejamientos no son correctos.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[Revis&aacute; la secci&oacute;n indicada y volv&eacute; a intentarlo.]]></text></incorrectfeedback>
+    <subquestion format="html"><text><![CDATA[Mínimo privilegio]]></text><answer format="html"><text><![CDATA[El contenedor de la base de datos no publica puertos porque no necesita ser alcanzable desde afuera]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Valores predeterminados seguros]]></text><answer format="html"><text><![CDATA[<code>ufw default deny incoming</code>: lo que no está explícitamente permitido, se niega]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Economía del mecanismo]]></text><answer format="html"><text><![CDATA[«No publicar el puerto» es preferible a «publicarlo y filtrarlo»: no hay regla que auditar]]></text></answer></subquestion>
+    <subquestion format="html"><text><![CDATA[Defensa en profundidad]]></text><answer format="html"><text><![CDATA[Se apilan cuatro capas independientes y cada una supone que las otras pueden fallar]]></text></answer></subquestion>
+  </question>
+  <question type="multichoice">
+    <name><text>C2-31 Predeterminados permisivos</text></name>
+    <questiontext format="html"><text><![CDATA[Redis y MongoDB arrancaban históricamente sin autenticación, y eso causó miles de bases secuestradas. ¿Qué principio de diseño violaban?]]></text></questiontext>
+    <generalfeedback format="html"><text><![CDATA[La lección permanece aunque las versiones actuales lo hayan corregido: <b>un predeterminado permisivo se convierte en vulnerabilidad masiva en cuanto cambia el contexto de despliegue</b>. <i>(Apunte §2.9.2 y §2.12.1)</i>]]></text></generalfeedback>
+    <defaultgrade>1.0000000</defaultgrade>
+    <penalty>0.3333333</penalty>
+    <hidden>0</hidden>
+
+    <single>true</single>
+    <shuffleanswers>true</shuffleanswers>
+    <answernumbering>abc</answernumbering>
+    <correctfeedback format="html"><text><![CDATA[Muy bien.]]></text></correctfeedback>
+    <partiallycorrectfeedback format="html"><text><![CDATA[Parcialmente correcto: revis&aacute; las opciones que dejaste sin marcar.]]></text></partiallycorrectfeedback>
+    <incorrectfeedback format="html"><text><![CDATA[No es correcto. Le&eacute; la explicaci&oacute;n y volv&eacute; a la secci&oacute;n indicada.]]></text></incorrectfeedback>
+    <answer fraction="100.00000" format="html"><text><![CDATA[Valores predeterminados seguros: lo que no está explícitamente permitido debe negarse]]></text><feedback format="html"><text><![CDATA[Correcto. Ambos nacieron pensados para correr en una red interna de confianza; cuando la contenerización volvió trivial exponerlos a internet, ese predeterminado se convirtió en la causa del desastre.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Economía del mecanismo: la protección era demasiado compleja]]></text><feedback format="html"><text><![CDATA[El problema no era la complejidad, era la ausencia de protección por defecto.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Mínimo privilegio: los procesos corrían como administrador]]></text><feedback format="html"><text><![CDATA[Aunque corrieran sin privilegios, seguirían aceptando cualquier conexión sin credenciales. El problema era el predeterminado, no los permisos del proceso.]]></text></feedback></answer>
+    <answer fraction="0.00000" format="html"><text><![CDATA[Ninguno: fue un problema de implementación, no de diseño]]></text><feedback format="html"><text><![CDATA[Fue una decisión de diseño explícita —«esto va en una red de confianza»— que dejó de ser válida cuando cambió el contexto de uso.]]></text></feedback></answer>
+  </question>
+</quiz>

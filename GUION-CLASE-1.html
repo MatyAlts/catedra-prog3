@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<title>Guión de grabación — Clase 1</title>
+<style>
+  @page { size: A4; margin: 17mm 15mm 15mm 15mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Calibri, "Segoe UI", sans-serif; font-size: 10.5pt; line-height: 1.42; color: #1a1a1a; margin: 0; }
+  h1 { font-family: Cambria, Georgia, serif; font-size: 22pt; color: #1F4E79; margin: 0 0 2mm 0; line-height: 1.15; }
+  .subtitulo { font-size: 10pt; color: #595959; margin: 0 0 6mm 0; }
+  h2 { font-family: Cambria, Georgia, serif; font-size: 15pt; color: #fff; background: #1F4E79; margin: 0 0 4mm 0; padding: 3mm 4mm; border-radius: 2px; line-height: 1.2; }
+  h2 .meta { display: block; font-family: Calibri, sans-serif; font-size: 9.5pt; font-weight: normal; color: #CBDCEC; margin-top: 1.5mm; }
+  .video { break-before: page; }
+  #v1 { break-before: auto; margin-top: 6mm; }
+  .diapo { break-inside: avoid; margin: 0 0 4mm 0; padding-left: 17mm; position: relative; min-height: 12mm; }
+  .num { position: absolute; left: 0; top: 0; width: 13mm; padding: 1.2mm 0; text-align: center; background: #DEEBF7; color: #1F4E79; border-left: 3px solid #2E74B5; font-weight: bold; font-size: 11pt; font-family: Cambria, serif; }
+  .num small { display: block; font-family: Consolas, monospace; font-size: 6.8pt; font-weight: normal; color: #2E74B5; letter-spacing: -0.2px; }
+  .titulo-diapo { font-weight: bold; color: #1F4E79; font-size: 10.5pt; margin: 0 0 1.5mm 0; border-bottom: 1px solid #D6D6D6; padding-bottom: 1mm; }
+  .titulo-diapo .tc { float: right; font-family: Consolas, monospace; font-size: 8.5pt; font-weight: normal; color: #808080; }
+  .diapo p { margin: 0 0 2mm 0; }
+  .diapo p:last-child { margin-bottom: 0; }
+  b, strong { color: #000; }
+  .clave { background: #FFF2CC; padding: 0 1px; font-weight: bold; }
+  .cortable { color: #6E6E6E; }
+  .cortable::before { content: "✂ "; color: #C00000; font-weight: bold; }
+  .nota { background: #F2F2F2; border-left: 3px solid #999; padding: 1.5mm 3mm; font-size: 9pt; color: #404040; margin: 2mm 0 0 0; }
+  .nota b { color: #595959; }
+  .caja { padding: 3mm 4mm; margin: 0 0 4mm 0; break-inside: avoid; border-radius: 2px; }
+  .caja p { margin: 0 0 2mm 0; }
+  .caja p:last-child { margin-bottom: 0; }
+  .caja .tit { font-weight: bold; font-size: 10pt; display: block; margin-bottom: 1.5mm; }
+  .aviso { background: #FDECEA; } .aviso .tit { color: #C00000; }
+  .dato { background: #EFEFEF; } .dato .tit { color: #595959; }
+  .concepto { background: #DEEBF7; } .concepto .tit { color: #2E74B5; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 0 0 4mm 0; break-inside: avoid; }
+  th { background: #D9E2F3; font-weight: bold; text-align: left; }
+  th, td { border: 0.5pt solid #999999; padding: 1.5mm 2.5mm; vertical-align: top; }
+  td.c, th.c { text-align: center; }
+  .cierre { margin-top: 5mm; padding: 3mm 4mm; background: #E2F0DC; border-radius: 2px; font-size: 9.5pt; break-inside: avoid; }
+  .cierre b { color: #538135; }
+  code { font-family: Consolas, monospace; font-size: 9.5pt; background: #EEEEEE; padding: 0 1.5px; }
+  .ej { background: #F3F8EF; border-left: 3px solid #538135; padding: 1.8mm 3mm; margin: 0 0 2mm 0; }
+  .ej::before { content: "EJEMPLO"; display: block; font-family: Consolas, monospace; font-size: 7pt; font-weight: bold; letter-spacing: 0.6px; color: #538135; margin-bottom: 0.8mm; }
+</style>
+</head>
+<body>
+
+<h1>Guión de grabación — Clase 1</h1>
+<p class="subtitulo">
+  <b>Del navegador al servidor: el sistema de nombres de dominio</b><br>
+  Programación 3 · UTN FRM · Matías Santiago Torres — 30 diapositivas · 3 videos · 15 ejemplos
+</p>
+
+<div class="caja concepto">
+  <span class="tit">Cuánto dura, y por qué no son cinco minutos clavados</span>
+  <p>Los tiempos están calculados a <b>165 palabras por minuto</b> —ritmo de clase con energía, que
+  es como hablás vos—. A esa velocidad los tres videos dan <b>5:57 · 5:50 · 6:01</b>, total 17:49.
+  La tabla trae también la columna a 145, ritmo pausado, para que veas cuánto se estira si vas más
+  lento: dos minutos y medio más sobre el total.</p>
+  <p><span class="clave">Los quince ejemplos cuestan tres minutos y medio, y no hay forma de
+  esquivar ese costo.</span> Un ejemplo que se entiende ocupa treinta segundos; la definición
+  abstracta que reemplaza ocupaba diez. Esa es la cuenta, y vale la pena pagarla: un video de cinco
+  minutos que no se entiende dura cinco minutos y no sirve.</p>
+  <p>Si aun así los querés más cortos, la palanca son los pasajes con
+  <span class="cortable">tijera, que van en gris</span>. Sacándolos todos, los tres bajan a
+  <b>5:25 · 5:24 · 5:45</b> y el total a 16:34. <b>Ninguno contiene algo que se evalúe ni que haga
+  falta para entender lo que sigue</b> — y ninguno es un ejemplo.</p>
+  <p>Los timecodes de cada diapositiva son acumulados a 165 p/min: sirven para corregir el rumbo
+  <i>durante</i> la grabación, no después. Cronometrate la primera antes de grabar las tres y vas a
+  saber en cuál de las dos columnas estás.</p>
+  <p>Lo <span class="clave">resaltado en amarillo</span> es lo único que no conviene parafrasear:
+  son las frases que después vuelven como criterio de corrección.</p>
+</div>
+
+<div class="caja concepto">
+  <span class="tit">Los quince bloques de EJEMPLO: cómo se dicen</span>
+  <p>Van marcados en verde y son el motivo por el que el guión creció. <b>No los leas: contalos.</b>
+  Son lo único del guión donde conviene despegar la vista del texto y mirar a cámara — el alumno
+  tiene que notar que ahí cambiaste de registro, que dejaste la definición y le estás explicando
+  con algo que él conoce.</p>
+  <p>Cada uno reemplaza una explicación abstracta que <b>saqué del guión</b>, no se le sumó encima.
+  Por eso, si te sobra tiempo, el ejemplo no es lo que se corta: si cortás el ejemplo y dejás la
+  definición, volviste a la versión aburrida y encima incompleta.</p>
+  <p>Están donde hacían falta, no repartidos parejo: <b>seis en el video 1 y seis en el 2</b>, que
+  son los teóricos, y <b>tres en el 3</b>, que ya es concreto de por sí — ahí el ejemplo es el caso
+  de Easypanel, las consultas de <code>nslookup</code> y el desplegable de Namecheap.</p>
+</div>
+
+<div class="caja aviso">
+  <span class="tit">⚠️ Lo que el video no hace, y hay que decirlo en clase</span>
+  <p><b>En dieciocho minutos no entra el capítulo: entra el hilo del capítulo.</b> El manuscrito de
+  la Clase 1 tiene diez mil seiscientas palabras; este guión tiene dos mil novecientas. Es una
+  relación de uno a cuatro, y no hay forma de esquivarla. El video sirve para que el alumno sepa
+  <i>qué</i> tiene que entender y <i>por qué</i> importa. El apunte es el que lo explica.</p>
+  <p>Por eso el video 1 abre diciendo que estos videos <b>no reemplazan la lectura del
+  capítulo</b>, y las tablas de tipos de registro y de errores frecuentes se estudian del apunte.</p>
+</div>
+
+<div class="caja aviso">
+  <span class="tit">⚠️ Antes de apretar grabar</span>
+  <p><b>No leas la diapositiva.</b> El alumno la está viendo. Si la leés, el video no agrega nada y
+  se nota en el primer minuto. El guión está escrito para <i>decir lo que la diapositiva no dice</i>:
+  por qué está ahí, qué error previene, con qué se conecta.</p>
+  <p><b>Grabá los tres por separado, no uno largo cortado.</b> Cada uno abre y cierra solo: si en un
+  mes cambia una diapositiva de la parte práctica, regrabás el video 3 y los otros dos siguen
+  sirviendo. Nombres sugeridos: <code>C1-V1-fundamentos</code>, <code>C1-V2-registros</code>,
+  <code>C1-V3-practica</code>.</p>
+</div>
+
+<table>
+  <tr><th rowspan="2">Video</th><th rowspan="2">Título</th><th class="c" rowspan="2">Diapos</th><th class="c" rowspan="2">Ejem.</th><th class="c" rowspan="2">Palabras</th><th class="c" colspan="2">A 165 p/min</th><th class="c" rowspan="2">A 145 p/min</th></tr>
+  <tr><th class="c">completo</th><th class="c">sin tijeras</th></tr>
+  <tr><td><b>1</b></td><td>Por qué existe el DNS y cómo está armado</td><td class="c">1 – 9</td><td class="c">6</td><td class="c">982</td><td class="c">5:57</td><td class="c">5:25</td><td class="c">6:46</td></tr>
+  <tr><td><b>2</b></td><td>Registros, delegación y caché</td><td class="c">10 – 16</td><td class="c">6</td><td class="c">963</td><td class="c">5:50</td><td class="c">5:24</td><td class="c">6:38</td></tr>
+  <tr><td><b>3</b></td><td>El caso argentino y la puesta en práctica</td><td class="c">17 – 30</td><td class="c">3</td><td class="c">994</td><td class="c">6:01</td><td class="c">5:45</td><td class="c">6:51</td></tr>
+  <tr><td colspan="3"><b>Total</b></td><td class="c"><b>15</b></td><td class="c"><b>2939</b></td><td class="c"><b>17:49</b></td><td class="c"><b>16:34</b></td><td class="c"><b>20:16</b></td></tr>
+</table>
+
+<div class="caja dato">
+  <span class="tit">📌 Por qué el corte cae ahí, y por qué el reparto es desparejo</span>
+  <p>Cada video cierra con una pregunta que el siguiente contesta. El 1 termina en <i>"le preguntás
+  a un resolver, que puede cachear, fallar o decidir no contestarte"</i>; el 2 desarrolla el cachear;
+  el 3 abre con el no contestarte. Si reordenás los bloques se pierde ese enganche.</p>
+  <p>El video 3 tiene 14 diapositivas contra 9 del primero y dura lo mismo. No es un error de
+  reparto: las últimas seis son tablas operativas que el alumno vuelve a abrir mientras carga los
+  registros. Ahí el video las <b>muestra</b> — el apunte es el que las explica.</p>
+</div>
+
+<!-- ==================== VIDEO 1 ==================== -->
+<div class="video" id="v1">
+<h2>Video 1 — Por qué existe el DNS y cómo está armado
+  <span class="meta">Diapositivas 1 a 9 · 982 palabras · 5:57 (sin tijeras 5:25)</span></h2>
+
+<div class="diapo">
+  <div class="num">1<small>0:00</small></div>
+  <div class="titulo-diapo">Portada <span class="tc">0:00 – 0:20</span></div>
+  <p>Capítulo uno del módulo de despliegue. Un solo tema: cómo hace un nombre que ustedes escriben
+  en el navegador para convertirse en una dirección de red. Parece un paso previo menor. Es donde se
+  rompe la mitad de los despliegues.</p>
+  <p>Son tres videos de seis minutos. No reemplazan el apunte: le dan el hilo.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">2<small>0:20</small></div>
+  <div class="titulo-diapo">Alcance del capítulo <span class="tc">0:20 – 0:46</span></div>
+  <p>Esto no ocurre en el servidor ni en su código: ocurre antes. Por eso cuesta tanto
+  diagnosticarlo.</p>
+  <p>La frase del capítulo, y la voy a repetir: <span class="clave">cuando la resolución de nombres
+  falla, el servidor no registra absolutamente nada.</span> Van a mirar los logs, no van a ver nada,
+  y van a concluir mal.</p>
+  <p>Al terminar la clase, cada grupo tiene su dominio propio, con los registros cargados y
+  verificados desde dos servidores distintos.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">3<small>0:46</small></div>
+  <div class="titulo-diapo">Por qué existe el DNS: origen histórico <span class="tc">0:46 – 1:26</span></div>
+  <p>Y esto no es historia de adorno: las decisiones de 1983 explican los errores que van a cometer
+  este cuatrimestre.</p>
+  <p>Las redes funcionan con números: hostiles para la memoria e inestables. Hacía falta una capa
+  de indirección.</p>
+  <p>Y la primera implementación fue, literalmente, un archivo.</p>
+  <div class="ej">Se llamaba HOSTS.TXT. Si querías estar en internet, mandabas un mail al Stanford
+  Research Institute pidiendo que te agregaran a mano. Y para tener la lista al día, te bajabas el
+  archivo entero otra vez. Con cientos de máquinas anda. Con miles, no.</div>
+  <p class="cortable">El vestigio sigue vivo: el archivo <i>hosts</i> existe todavía en su máquina, y
+  tiene prioridad sobre cualquier consulta a la red.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">4<small>1:26</small></div>
+  <div class="titulo-diapo">Las tres decisiones de diseño del DNS <span class="tc">1:26 – 2:29</span></div>
+  <p>1983, Paul Mockapetris, RFC 882 y 883, refinadas en el 87 en la 1034 y la 1035. Tres decisiones,
+  y explican todo lo que van a ver después.</p>
+  <p><b>Autoridad distribuida:</b> cada nivel delega la administración de sus subniveles. Nadie tiene
+  la base completa. La unicidad no la garantiza nadie: queda garantizada por construcción.</p>
+  <p><b>Coherencia eventual:</b> cada respuesta lleva un TTL durante el cual cualquier intermediario
+  la puede copiar. Disponibilidad y escala por encima de consistencia instantánea.</p>
+  <div class="ej">El cartelito de precio en la góndola. El sistema ya tiene el precio nuevo, pero el
+  cartel sigue con el viejo hasta que alguien pasa a cambiarlo. El TTL es la fecha en la que ese
+  cartel vence.</div>
+  <p><b>Registros tipados:</b> el DNS no asocia nombres con direcciones, sino con registros de
+  distintos tipos. Por eso sobrevivió cuarenta años.</p>
+  <p>Quédense con la línea de abajo. <span class="clave">Cuando "un cambio no se ve", o "a un
+  compañero le anda y a otro no", no están viendo un error: están viendo la decisión de coherencia
+  eventual de 1983 funcionando como fue diseñada.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">5<small>2:29</small></div>
+  <div class="titulo-diapo">El recorrido completo de una petición HTTPS <span class="tc">2:29 – 2:59</span></div>
+  <p>Apretás Enter y pasan cinco operaciones, sucesivas e independientes. Miren la última columna:
+  cada una la ejecuta un actor distinto, falla por causas propias y se repara con herramientas
+  distintas. <span class="clave">No existe la pregunta "por qué no anda la web": existen cinco
+  preguntas distintas.</span></p>
+  <div class="ej">Pedir un delivery: buscás la dirección, llegás a la puerta, tocás timbre y te
+  identificás, pedís lo que querés, te lo dan. Si te equivocaste de dirección, el problema no se
+  arregla gritando más fuerte en la puerta equivocada.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">6<small>2:59</small></div>
+  <div class="titulo-diapo">Figura 1.1 — Flujo de una petición HTTPS <span class="tc">2:59 – 3:48</span></div>
+  <p>Acá lo ven en el tiempo, y va la idea por segunda vez. Si la operación uno falla, las otras
+  cuatro no se ejecutan, y el servidor no registra nada porque nadie lo contactó.
+  <span class="clave">Un log vacío no significa "no hubo actividad": puede significar "no llegaron
+  ni a encontrarme".</span></p>
+  <div class="ej">En la Clase 4 alguno va a estar mirando los logs de Traefik, vacíos, jurando que el
+  servidor está caído. Y el servidor va a estar impecable. Lo que pasa es que nadie le preguntó nunca
+  cómo llegar hasta él.</div>
+  <p class="cortable">Dos conceptos que vuelven en la Clase 4: <i>virtual hosting</i>, la cabecera
+  Host que permite que un solo servidor con una sola IP atienda muchos dominios; y <i>SNI</i>, el
+  nombre viajando en claro durante el TLS para que el servidor sepa qué certificado presentar.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">7<small>3:48</small></div>
+  <div class="titulo-diapo">El espacio de nombres como árbol <span class="tc">3:48 – 4:37</span></div>
+  <p>El espacio de nombres es un árbol invertido: arriba un nodo raíz sin nombre, de él los TLD, de
+  cada TLD los dominios registrables, de cada dominio los subdominios. Y
+  <span class="clave">se lee de derecha a izquierda.</span></p>
+  <div class="ej">Es una dirección postal escrita al revés. En "Rivadavia 1234, Mendoza, Argentina",
+  el que manda es Argentina, que está al final. En calculadora punto tudominio punto com, el que
+  manda es com.</div>
+  <p>Y dos palabras que se usan como sinónimos y no lo son. Un <b>dominio</b> es un subárbol completo.
+  Una <b>zona</b> es la porción que una organización administra de verdad, y termina donde empieza
+  una delegación. El operador de com no administra los registros de tu dominio: tiene apenas la
+  anotación de a quién le delegó ese subárbol. Guarden esa idea: en el video 2 es el error número
+  uno.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">8<small>4:37</small></div>
+  <div class="titulo-diapo">Los tres niveles de autoridad <span class="tc">4:37 – 4:58</span></div>
+  <p>Tres niveles. La raíz sabe quién administra cada TLD. Los TLD saben qué servidores administran
+  cada dominio registrado. El autoritativo, que es el proveedor donde ustedes van a trabajar, tiene
+  los registros concretos.</p>
+  <p class="cortable">Los trece servidores raíz no son trece máquinas: son trece identidades lógicas
+  replicadas en cientos de instancias físicas por anycast. Hay instancias en Argentina.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">9<small>4:58</small></div>
+  <div class="titulo-diapo">Figura 1.2 — Resolución recursiva e iterativa <span class="tc">4:58 – 5:57</span></div>
+  <p>Y ahora la pieza que más problemas les va a dar. Su navegador nunca consulta la jerarquía:
+  en el medio está el resolver recursivo, que hace todo el trabajo.</p>
+  <p>El sistema operativo tiene un <b>stub resolver</b>: manda la pregunta y espera la respuesta
+  final. El <b>resolver recursivo</b> interroga la jerarquía con consultas iterativas, guarda en
+  caché y devuelve el resultado. El <b>autoritativo</b> responde solo sobre su zona.</p>
+  <div class="ej">El resolver es el conserje del edificio. Vos le preguntás dónde vive alguien y él se
+  encarga: sale, averigua, vuelve y te contesta. Vos nunca saliste. Y si anotó mal hace dos días, te
+  va a dar el dato viejo con total seguridad, sin dudar.</div>
+  <p>Quédense con la frase de abajo, porque explica el resto del capítulo.
+  <span class="clave">Vos nunca le preguntás al dominio. Le preguntás a un resolver.</span> Un
+  intermediario que puede tener la respuesta vieja en caché, puede estar caído, o puede decidir no
+  contestarte.</p>
+  <p>Sobre esas tres cosas trabajamos en el próximo video.</p>
+  <div class="nota"><b>🎬 Cierre:</b> es el corte natural. No agregues saludo ni "nos vemos": la
+  última frase ya empalma con el video 2.</div>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 1.</b> 982 palabras y seis ejemplos. Las tijeras suman 89: sacándolas quedás en
+  5:25. Si te sobra aire, gastalo en la diapositiva 4 —es la que sostiene todo el resto del
+  capítulo— y en el ejemplo del conserje de la 9, que es el que más rinde de todo el video.
+</div>
+</div>
+
+<!-- ==================== VIDEO 2 ==================== -->
+<div class="video">
+<h2>Video 2 — Registros, delegación y caché
+  <span class="meta">Diapositivas 10 a 16 · 963 palabras · 5:50 (sin tijeras 5:24)</span></h2>
+
+<div class="diapo">
+  <div class="num">10<small>0:00</small></div>
+  <div class="titulo-diapo">Resolvers públicos disponibles <span class="tc">0:00 – 0:18</span></div>
+  <p>Habíamos quedado en que uno le pregunta a un resolver. ¿A cuál? Por defecto, al que les asigna
+  su proveedor por DHCP. Pero se puede cambiar: 8.8.8.8 de Google, 1.1.1.1 de Cloudflare, 9.9.9.9 de
+  Quad9. Anótense el 8.8.8.8: lo vamos a usar todo el capítulo como <b>prueba de control</b>.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">11<small>0:18</small></div>
+  <div class="titulo-diapo">Anatomía del mensaje DNS <span class="tc">0:18 – 1:16</span></div>
+  <p>Consulta y respuesta comparten formato: cabecera fija de doce bytes y hasta cuatro secciones.
+  Rescato cuatro indicadores que van a ver todo el tiempo al diagnosticar. QR distingue pregunta de
+  respuesta. RD: el stub pide "hacete cargo de todo el recorrido". RA: el resolver confirma que
+  ofrece ese servicio. Y AA: el dato viene del origen. <b>Si no ven AA, están mirando una
+  copia.</b></p>
+  <p class="cortable">Los códigos: NOERROR procesó bien —y ojo, eso no garantiza que haya registros—,
+  SERVFAIL no pudo procesar, NXDOMAIN el nombre no existe, REFUSED se niega por política.</p>
+  <p>Y abajo, la distinción más importante del capítulo.
+  <span class="clave">NXDOMAIN es una respuesta: rápida y definitiva. Un timeout no es una respuesta:
+  nadie contestó nada.</span></p>
+  <div class="ej">Llamen a un teléfono. NXDOMAIN es "el número que usted marcó no existe": les
+  contestaron, rápido y definitivo. El timeout es que suena, y suena, y no atiende nadie. En las dos
+  no hablaron con nadie — pero una les dio información y la otra no.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">12<small>1:16</small></div>
+  <div class="titulo-diapo">Tipos de registro DNS <span class="tc">1:16 – 1:55</span></div>
+  <p>La unidad de información del DNS es el <b>registro de recurso</b>: nombre, tipo, clase, TTL y
+  datos.</p>
+  <p>Esta tabla se estudia del apunte, no del video. Acá me quedo con dos. El <b>A</b>, que asocia un
+  nombre con una IPv4: es el que van a cargar para apuntar los subdominios al VPS. Y el <b>NS</b>,
+  que define los servidores autoritativos de la zona — subrayen ese, que en la próxima diapositiva
+  vuelve.</p>
+  <div class="ej">En el práctico van a escribir literalmente esto: tipo <code>A</code>, nombre
+  <code>calculadora</code>, valor la IP del VPS. Tres campos. Todo el capítulo existe para que esos
+  tres campos terminen en el panel correcto.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">13<small>1:55</small></div>
+  <div class="titulo-diapo">Restricciones del CNAME y el registro CAA <span class="tc">1:55 – 3:01</span></div>
+  <p>El <b>CNAME</b> declara que un nombre es alias de otro. Como la sustitución es total, impone dos
+  límites: no puede coexistir con otros registros en el mismo nombre, y no se puede usar en el
+  vértice de la zona, que necesita NS y SOA.</p>
+  <p>Fíjense que <span class="clave">la razón es lógica, no caprichosa: si el nombre es alias de otro,
+  cualquier dato adicional ahí contradiría esa afirmación.</span> Por eso el dominio raíz siempre se
+  apunta con un registro A.</p>
+  <div class="ej">Un CNAME es el cartel en la puerta que dice "me mudé al cuarto piso". Por eso no podés
+  dejar además colgados el teléfono y el horario de atención: el cartel ya dijo que en esa puerta no
+  hay nada.</div>
+  <p>El <b>CAA</b> declara qué autoridades pueden emitir certificados para el dominio. Si tienen uno
+  que no incluye a Let's Encrypt, el certificado no sale y sin explicación evidente: el DNS resuelve
+  perfecto, el servicio funciona, y el único síntoma es un certificado que nunca llega.</p>
+  <p class="cortable">Los dominios recién registrados no traen CAA. Si usan uno que ya tenían,
+  revísenlo antes de la Clase 4.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">14<small>3:01</small></div>
+  <div class="titulo-diapo">Delegación: dónde se cargan los registros realmente <span class="tc">3:01 – 3:59</span></div>
+  <p>El error número uno del capítulo. Presten atención a esta diapositiva más que a ninguna otra.</p>
+  <p>El operador del TLD no guarda los registros de cada dominio: guarda los NS, la anotación de
+  quién los administra. Y de ahí sale la regla: <span class="clave">el registrador donde comprás el
+  dominio y el proveedor donde se administran sus registros no son necesariamente el mismo.</span></p>
+  <p>El caso concreto: cargás los registros en Namecheap, los ves ahí con los datos correctos, y el
+  dominio no resuelve nunca. Porque los nameservers estaban delegados a Cloudflare. <b>El panel te
+  muestra los registros que cargaste vos, no los que el mundo consulta.</b></p>
+  <div class="ej">Es anotar en el cuaderno equivocado. Escribís, queda perfecto, lo releés y está
+  bien. Y no sirve para nada, porque el cuaderno que el mundo consulta es otro.</div>
+  <p>Por eso hay una verificación obligatoria antes de cargar nada: <code>nslookup -type=NS</code> y
+  el dominio. Según qué conteste, la tabla dice en qué panel hay que cargar.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">15<small>3:59</small></div>
+  <div class="titulo-diapo">TTL, caché y el concepto erróneo de "propagación" <span class="tc">3:59 – 4:48</span></div>
+  <p>El TTL regula un compromiso. Alto: menos consultas al autoritativo, pero los cambios tardan en
+  verse. Bajo: cambios casi inmediatos, al precio de más tráfico. Trescientos son cinco minutos, y es
+  el que van a usar en el práctico. Muchos paneles traen cuatro horas por defecto.</p>
+  <p>Y ahora la frase que quiero que borren de su vocabulario.
+  <span class="clave">La "propagación" no existe. Nadie le notifica nada a nadie.</span> Lo único
+  que pasa es que las copias en caché se vencen.</p>
+  <div class="ej">No hay nadie mandando avisos por ahí. Es el yogur en la heladera: nadie te notifica
+  que venció, simplemente llega la fecha. El TTL es esa fecha, y ustedes la eligen.</div>
+  <p class="cortable">Por eso, si sabés que vas a cambiar un registro, bajás el TTL a trescientos un
+  día antes. Un día antes, no el mismo día.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">16<small>4:48</small></div>
+  <div class="titulo-diapo">Caché negativa y capas de caché <span class="tc">4:48 – 5:50</span></div>
+  <p>Dos cosas más sobre caché, que explican los dos "esto no tiene sentido" más frecuentes.</p>
+  <p>La <b>caché negativa</b>: los resolvers no solo recuerdan las respuestas afirmativas, también
+  recuerdan los NXDOMAIN. <span class="clave">Consultar "a ver si ya está" antes de tiempo puede,
+  literalmente, demorar el momento en que lo ves.</span></p>
+  <div class="ej">Preguntaste a las seis de la mañana si ya había salido el pan, te dijeron que no, y
+  anotaste "hoy no hay pan". Aunque a las seis y cinco salga del horno, tu anotación sigue diciendo
+  que no hay. Y vos le vas a creer a tu anotación.</div>
+  <p>Y las <b>capas</b>: una consulta atraviesa hasta cuatro cachés — navegador, sistema operativo,
+  router de la casa, y resolver del proveedor. Los tres primeros los pueden vaciar; el del proveedor
+  no, ahí hay que esperar el TTL.</p>
+  <p>Por eso dos equipos en la misma mesa ven valores distintos: no comparten todas las capas. Cuando
+  un compañero jure que el dominio no resuelve y a ustedes les resuelva perfecto, no está mintiendo
+  — está viendo otra caché.</p>
+  <div class="nota"><b>🎬 Cierre:</b> cerrá sin resumen. El video 3 arranca con el caso donde el
+  resolver ya no cachea mal: directamente decide no contestar.</div>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 2.</b> 963 palabras y seis ejemplos. Si te sobra tiempo, estirá la diapositiva
+  14: es el error que más horas de clase cuesta, y el único del capítulo que no da ningún mensaje de
+  error. Y no apures el ejemplo del teléfono de la 11 — esa distinción entre NXDOMAIN y timeout es
+  la que más veces van a necesitar.
+</div>
+</div>
+
+<!-- ==================== VIDEO 3 ==================== -->
+<div class="video">
+<h2>Video 3 — El caso argentino y la puesta en práctica
+  <span class="meta">Diapositivas 17 a 30 · 994 palabras · 6:01 (sin tijeras 5:45)</span></h2>
+
+<div class="diapo">
+  <div class="num">17<small>0:00</small></div>
+  <div class="titulo-diapo">Estudio de caso: cuando el resolver decide no responder <span class="tc">0:00 – 0:36</span></div>
+  <p>Arrancamos con un caso real, que les va a pasar. Easypanel le asigna un subdominio de
+  <code>easypanel.host</code> a todo servicio sin dominio
+  propio. Y desde ciertos proveedores argentinos esos nombres <b>no resuelven</b>: el navegador
+  informa NXDOMAIN aunque el servicio funcione perfecto. Contra un resolver público, el mismo nombre
+  resuelve sin problemas.</p>
+  <p class="cortable">Dos causas probables: listas de reputación —esas zonas gratuitas se usan para
+  phishing y terminan bloqueadas enteras— y protección contra DNS rebinding.</p>
+  <p>Lo que importa: <span class="clave">el filtrado depende del resolver, no del proveedor.</span>
+  El mismo operador puede filtrarlo en la red hogareña y no en la móvil.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">18<small>0:36</small></div>
+  <div class="titulo-diapo">Procedimiento de diagnóstico del filtrado <span class="tc">0:36 – 1:01</span></div>
+  <p>Cuatro consultas, y las dos primeras son la <b>prueba de control</b>. Sin control, cualquier
+  conclusión está mal fundada. Google resuelve, la zona no, con 8.8.8.8 sí: filtrado confirmado. No
+  resuelve ninguno de los suyos pero con 8.8.8.8 sí: resolver caído, no hay filtrado.</p>
+  <p>Y una diferencia que hay que saber leer: <span class="clave">un resolver que filtra contesta
+  rápido; un resolver caído no contesta nada.</span> Una es respuesta, la otra timeout.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">19<small>1:01</small></div>
+  <div class="titulo-diapo">Consecuencia para el práctico <span class="tc">1:01 – 1:42</span></div>
+  <p>Y por eso este capítulo va primero, antes de tocar el servidor. Cambiar el resolver del equipo a
+  8.8.8.8 resuelve el síntoma en esa máquina, pero no es una solución: la aplicación seguiría
+  inalcanzable para cualquier visitante cuyo proveedor filtre igual.</p>
+  <p><span class="clave">Quien publica una aplicación no controla los resolvers de sus visitantes;
+  solo controla la zona que ellos van a consultar.</span> La única variable de su lado es la
+  reputación del nombre. Por eso el dominio propio no es un adorno: es un requisito.</p>
+  <div class="ej">No pueden entrar a la casa de cada visitante a cambiarle la configuración de red.
+  Lo único que eligen es el nombre. Ese nombre es toda su capacidad de decisión.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">20<small>1:42</small></div>
+  <div class="titulo-diapo">Herramientas de diagnóstico <span class="tc">1:42 – 2:10</span></div>
+  <p><code>nslookup</code> está en todos los sistemas operativos; en Unix se prefiere
+  <code>dig</code>, y <code>dig +trace</code> es la figura 1.2 pasando frente a sus ojos. Para
+  verificar desde muchas ubicaciones a la vez, dnschecker.org. Porque
+  <span class="clave">"a mí me anda" no es una verificación: es una muestra de tamaño uno.</span></p>
+  <div class="ej">Es decidir si un negocio abre los domingos preguntándole a una sola persona. Puede
+  tener razón. Pero no lo sabés, y encima le preguntaste al que vive enfrente.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">21<small>2:10</small></div>
+  <div class="titulo-diapo">Seguridad: DNSSEC, DoT y DoH <span class="tc">2:10 – 2:39</span></div>
+  <p>Rápido, porque no lo vamos a configurar. Al DNS del 83 le faltan dos propiedades: las respuestas
+  no están autenticadas y viajan en texto plano. <b>DNSSEC</b> agrega firmas: autentica, no cifra, y
+  cuando la validación falla el resolver contesta SERVFAIL — anótenlo, es un SERVFAIL que no
+  significa "servidor roto". <b>DoT</b> y <b>DoH</b> cifran el canal.</p>
+  <p class="cortable"><span class="clave">Esto redistribuye la confianza, no la elimina.</span>
+  "¿Quién ve mis consultas DNS?" nunca se contesta "nadie": se contesta "el que vos elegiste como
+  resolver".</p>
+</div>
+
+<div class="diapo">
+  <div class="num">22<small>2:39</small></div>
+  <div class="titulo-diapo">Registros comodín: dos conceptos distintos <span class="tc">2:39 – 3:16</span></div>
+  <p>Esta diapositiva existe para evitarles perder media clase.
+  <span class="clave">La palabra <i>wildcard</i> designa dos cosas diferentes.</span> El
+  <b>registro</b> es trivial y lo usamos; el <b>certificado</b> requiere validación DNS-01, es
+  bastante más complicado, y no lo usamos.</p>
+  <div class="ej">El registro comodín es la lista del portero: "cualquiera que pregunte por esta
+  familia, tercer piso". El certificado comodín es que el documento diga "válido para cualquier
+  integrante de la familia". Dos trámites distintos, y el complicado es el segundo.</div>
+  <p>La documentación de Easypanel sobre <i>wildcard domains</i> habla de credenciales de API, pero
+  eso es para el <b>certificado</b>. Por ahí van a pelear una complejidad que no necesitan.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">23<small>3:16</small></div>
+  <div class="titulo-diapo">Semántica del registro comodín <span class="tc">3:16 – 3:32</span></div>
+  <p>El comodín es una <b>respuesta de último recurso</b>: solo se sintetiza cuando no hubo
+  coincidencia explícita. De ahí las dos reglas.
+  <span class="clave">No cubre el dominio raíz</span> — por eso van a cargar también el registro
+  arroba. Y un registro explícito le gana al comodín.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">24<small>3:32</small></div>
+  <div class="titulo-diapo">Obtención del dominio: GitHub Student Pack <span class="tc">3:32 – 3:58</span></div>
+  <p>El dominio sale del GitHub Student Developer Pack: uno gratis por un año. Namecheap da un
+  <code>.me</code> y <b>es el que recomiendo</b>: panel más simple, menos pasos.</p>
+  <p>Un aviso que les ahorra un diagnóstico equivocado: <span class="clave">.app y .dev están en la
+  lista de precarga HSTS</span>, y el navegador exige HTTPS obligatorio. En la Clase 4, mientras el
+  certificado no salió, van a ver un error que no es el que parece.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">25<small>3:58</small></div>
+  <div class="titulo-diapo">Verificación de la condición de estudiante <span class="tc">3:58 – 4:11</span></div>
+  <p>Los papeles están en la diapositiva. Lo único que les pido que hagan hoy:
+  <span class="clave">el trámite tarda entre tres días y tres semanas, y a un porcentaje nada
+  despreciable lo rechazan.</span> Cuatro semanas de anticipación.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">26<small>4:11</small></div>
+  <div class="titulo-diapo">Figura 1.6 — Carga de los registros <span class="tc">4:11 – 4:33</span></div>
+  <p>Dos registros, los dos tipo A, los dos a la IP del VPS: uno asterisco, otro arroba, TTL
+  trescientos. Esto lo hacemos juntos en clase, con el panel abierto.</p>
+  <p>Un detalle que si no lo digo pierden diez minutos: en Namecheap el TTL no se tipea, se elige de
+  una lista, y los trescientos segundos son la opción "5 min".</p>
+</div>
+
+<div class="diapo">
+  <div class="num">27<small>4:33</small></div>
+  <div class="titulo-diapo">Errores frecuentes al cargar registros <span class="tc">4:33 – 4:57</span></div>
+  <p>Cuatro errores, y los cuatro los vi el año pasado. Los tres primeros los leen de la
+  diapositiva: nombre completo en el campo Nombre, arroba confundido con el correo, TTL en cuatro
+  horas.</p>
+  <p>El cuarto es distinto y por eso lo digo: cargar en el panel equivocado.
+  <span class="clave">Ojo con ese, porque no da error: la carga se guarda, se ve bien, y no tiene
+  ningún efecto.</span></p>
+</div>
+
+<div class="diapo">
+  <div class="num">28<small>4:57</small></div>
+  <div class="titulo-diapo">Verificación final: cuatro comprobaciones <span class="tc">4:57 – 5:23</span></div>
+  <p>Cada comprobación valida una pieza distinta de la teoría. Los NS validan la delegación. El
+  dominio raíz validan el registro arroba. Un subdominio inventado valida el comodín. Y repetirlo
+  contra 8.8.8.8 valida que no están mirando su propia caché.</p>
+  <p><span class="clave">No se avanza a la Clase 4 sin estas cuatro en verde.</span> Let's Encrypt
+  valida la titularidad conectándose al dominio: si el nombre no resuelve hacia el servidor, el
+  certificado no se emite.</p>
+</div>
+
+<div class="diapo">
+  <div class="num">29<small>5:23</small></div>
+  <div class="titulo-diapo">Tabla de errores frecuentes <span class="tc">5:23 – 5:35</span></div>
+  <p>Esta tabla no se la voy a leer: es de consulta y está en el apunte. Es la que van a abrir cuando
+  algo no ande. Ténganla a mano durante la clase.</p>
+  <div class="nota"><b>🎬 Dirección:</b> dejala unos segundos en pantalla, en silencio, para que se
+  pueda pausar y leer. No la narres.</div>
+</div>
+
+<div class="diapo">
+  <div class="num">30<small>5:35</small></div>
+  <div class="titulo-diapo">Síntesis del capítulo <span class="tc">5:35 – 6:01</span></div>
+  <p>Cinco ideas. Las tres decisiones del 83 explican todo lo observable. La resolución es previa e
+  independiente: cuando falla, el servidor no registra nada. Siempre hay un resolver en el medio que
+  puede cachear, fallar o filtrar. NXDOMAIN es una respuesta y un timeout no lo es. Y el dominio
+  propio es un requisito.</p>
+  <p>El desarrollo está en el apunte. Nos vemos en la Clase 2, con la VPS. Vengan con el dominio
+  resolviendo.</p>
+  <div class="nota"><b>🎬 Cierre:</b> sostené la diapositiva de síntesis dos o tres segundos después
+  de terminar de hablar, antes de cortar.</div>
+</div>
+
+<div class="cierre">
+  <b>Fin del video 3 y del capítulo.</b> 994 palabras: es el más largo. Las tijeras acá suman solo
+  46, así que si venís justo, el recorte real es bajar las diapositivas 24 a 27 a una frase cada una
+  — son procedimiento, y el procedimiento se hace en clase con el panel abierto, no se narra.
+</div>
+</div>
+
+</body>
+</html>

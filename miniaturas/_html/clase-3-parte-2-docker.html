@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es-AR"><head><meta charset="utf-8"><style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", "Arial", sans-serif;
+    background: #0B131D;
+    position: relative;
+  }
+
+  /* resplandor del acento, arriba a la derecha */
+  .glow {
+    position: absolute; top: -320px; right: -260px;
+    width: 900px; height: 900px; border-radius: 50%;
+    background: radial-gradient(circle, #25C2A055 0%, #25C2A000 62%);
+  }
+  /* banda diagonal sutil, da profundidad sin ensuciar */
+  .banda {
+    position: absolute; top: 0; right: 0; width: 560px; height: 720px;
+    background: linear-gradient(200deg, #25C2A018 0%, transparent 55%);
+    clip-path: polygon(38% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  /* número gigante de fondo */
+  .fantasma {
+    position: absolute; right: 34px; top: 50%; transform: translateY(-52%);
+    font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    font-size: 560px; font-weight: 900; line-height: .78;
+    color: #25C2A0; opacity: .16; letter-spacing: -22px;
+  }
+
+  .marco { position: absolute; inset: 0; padding: 62px 68px; display: flex;
+            flex-direction: column; justify-content: space-between; }
+
+  .arriba { display: flex; align-items: center; gap: 18px; }
+  .chip {
+    background: #25C2A0; color: #0B131D;
+    font-size: 27px; font-weight: 800; letter-spacing: 3.5px;
+    padding: 11px 22px 10px; border-radius: 7px;
+  }
+  .chip-parte {
+    background: transparent; color: #25C2A0;
+    border: 3px solid #25C2A0;
+  }
+
+  .centro { margin-top: -14px; }
+  .tema {
+    font-family: "Segoe UI Black", "Arial Black", sans-serif;
+    font-size: 172px; font-weight: 900; line-height: .88;
+    color: #FFFFFF; letter-spacing: -5px;
+    text-shadow: 0 6px 34px rgba(0,0,0,.55);
+  }
+  .barra { width: 132px; height: 9px; background: #25C2A0;
+            border-radius: 5px; margin: 26px 0 22px; }
+  .bajada {
+    font-size: 42px; font-weight: 600; color: #C4D3E2;
+    line-height: 1.18; max-width: 800px;
+    text-shadow: 0 3px 18px rgba(0,0,0,.6);
+  }
+
+  .pie { display: flex; align-items: center; gap: 16px;
+          font-size: 25px; font-weight: 700; letter-spacing: 4.5px;
+          color: #6F8296; }
+  .pie .punto { color: #25C2A0; }
+</style></head><body>
+  <div class="glow"></div>
+  <div class="banda"></div>
+  <div class="fantasma">2</div>
+  <div class="marco">
+    <div class="arriba">
+      <div class="chip">CLASE 3</div>
+      <div class="chip chip-parte">PARTE 2</div>
+    </div>
+    <div class="centro">
+      <div class="tema">DOCKER</div>
+      <div class="barra"></div>
+      <div class="bajada">Escribir el Dockerfile</div>
+    </div>
+    <div class="pie">
+      PROGRAMACIÓN 3 <span class="punto">•</span> DESPLIEGUE <span class="punto">•</span> DEVOPS
+    </div>
+  </div>
+</body></html>

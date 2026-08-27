@@ -1,0 +1,240 @@
+<!--
+  ============================================================================
+  CLASE 3 - DOCKER: LA RECETA REPRODUCIBLE  |  Bloque para el aula virtual
+  ============================================================================
+  ANTES DE PUBLICAR, reemplazar los enlaces marcados con REEMPLAZAR-*:
+    - REEMPLAZAR-VIDEO-1 / 2 / 3 ....... URLs de YouTube de los tres videos
+    - REEMPLAZAR-INFOGRAFIA ............ imagen de la infografia en el campus
+    - REEMPLAZAR-PDF ................... apunte "Clase 3.pdf" en el campus
+    - REEMPLAZAR-NOTEBOOKLM ............ cuaderno de NotebookLM de la clase
+    - REEMPLAZAR-FILMINAS-1 / 2 / 3 .... .pptx de cada video
+  VERIFICAR ADEMAS que los dos repositorios de GitHub esten publicos antes de
+  publicar el bloque (los enlaces estan escritos, no son placeholders).
+  Los IDs llevan el sufijo -clase-3-docker.
+  ============================================================================
+-->
+<details
+  style="background-color: #faf7f8; border: 1px solid #eadfe3; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: sans-serif; color: #000000; line-height: 1.6;">
+  <!-- TÍTULO DE ACTIVIDAD -->
+  <summary style="color: #7b1e2b; font-size: 1.5em; cursor: pointer;">🐳
+    Clase 3 – Docker: la receta reproducible 📦</summary>
+  <!-- TIEMPO ESTIMADO -->
+  <div
+    style="background-color: #f8edef; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #7B1E2B;">
+    <p style="margin: 0; font-size: 1rem; color: #5c0120;">⏱️ <strong>Tiempo
+        estimado:</strong> 115 minutos (Videos: 18 min + Lectura del apunte: 42
+      min + Actividades y verificación: 55 min)</p>
+  </div>
+  <br><!-- DESCRIPCIÓN -->
+  <p style="font-size: 1rem; text-align: left;">"En mi máquina funciona" deja de
+    ser una excusa cuando la aplicación viaja con su entorno adentro. En esta
+    clase vas a entender qué es realmente un <strong>contenedor</strong>, en qué
+    se diferencia de una máquina virtual y cuál es la distinción entre
+    <strong>imagen</strong>, <strong>contenedor</strong> y
+    <strong>volumen</strong>.</p>
+  <p style="font-size: 1rem; text-align: left;">El centro de la clase es
+    práctico: vas a <strong>escribir el Dockerfile</strong> del back-end y el
+    del front-end —uno en cada repositorio—, construir las imágenes y ejecutar
+    la aplicación completa en contenedores sobre tu propia máquina, antes de
+    llevarla al servidor.</p>
+  <!-- TEMAS -->
+  <p style="font-size: 1rem; text-align: left; color: #7b1e2b;">📌 <strong>Temas
+      que abordaremos:</strong></p>
+  <ul style="padding-left: 20px; font-size: 1rem; line-height: 1.6;">
+    <li>Por qué existen los contenedores: origen y diseño</li>
+    <li>Qué es un contenedor: el modelo formal frente a la máquina virtual</li>
+    <li>Anatomía de la construcción: capas, caché y contexto de build</li>
+    <li>El Dockerfile del back-end (FastAPI)</li>
+    <li>El archivo <code>.dockerignore</code> y por qué importa</li>
+    <li>El Dockerfile del front-end</li>
+    <li>Construcción y ejecución local de las imágenes</li>
+    <li>Buenas prácticas, verificación y errores frecuentes</li>
+  </ul>
+  <br><!-- RECURSOS -->
+  <p style="font-size: 1rem; text-align: left;">🚀 Recursos obligatorios:</p>
+  <ul>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-1" target="_blank"
+        rel="noopener">Video 1 – Qué es un contenedor y por qué
+        existe</a></li>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-2" target="_blank"
+        rel="noopener">Video 2 – El Dockerfile del back-end: capas, caché y
+        <code>.dockerignore</code></a></li>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-3" target="_blank"
+        rel="noopener">Video 3 – El Dockerfile del front-end, construcción y
+        ejecución local</a></li>
+  </ul>
+  <p
+    style="font-size: 1rem; text-align: left; margin-top: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 15px; color: #7b1e2b;">
+    <strong>👇 Seleccioná un recurso para comenzar:</strong></p>
+  <!-- CARDS DE RECURSOS -->
+  <div
+    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px; margin-bottom: 15px;">
+    <!-- INFOGRAFÍA -->
+    <div id="btn-infografia-clase-3-docker"
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s; cursor: pointer;"
+      tabindex="0" role="button">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">📊</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Infografía</h5>
+        <span style="font-size: 0.8em; color: #000000;">Ver esquema</span>
+      </div>
+    </div>
+    <!-- MODAL INFOGRAFÍA -->
+    <details id="details-infografia-clase-3-docker"
+      style="border: none; padding: 0; margin: 0;">
+      <summary style="display: none;"> </summary>
+      <div class="infografia-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+        <div
+          style="background: white; border-radius: 10px; max-width: 900px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.5); position: relative;">
+          <div
+            style="background: #fcfcfc; padding: 10px 15px; border-bottom: 1px solid #e5e7eb; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: bold; color: #000000;">📊 Infografía –
+              Imagen, contenedor y capas</span> <button
+              id="btn-cerrar-infografia-clase-3-docker"
+              style="background-color: #7b1e2b; color: #ffffff; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.85em;"
+              type="button">✕ CERRAR</button></div>
+          <div
+            style="overflow-y: auto; padding: 10px; text-align: center; background: #fff; height: 100%;">
+            <img class="img-fluid"
+              style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+              src="REEMPLAZAR-INFOGRAFIA"
+              alt="Infografía"></div>
+        </div>
+      </div>
+    </details>
+    <script>
+      (function() {
+        var details = document.getElementById(
+          'details-infografia-clase-3-docker');
+        var openBtn = document.getElementById(
+          'btn-infografia-clase-3-docker');
+        var closeBtn = document.getElementById(
+          'btn-cerrar-infografia-clase-3-docker');
+        var overlay = details ? details.querySelector('.infografia-overlay') :
+          null;
+
+        if (!details || !openBtn) return;
+
+        function openModal() {
+          details.setAttribute('open', '');
+        }
+
+        function closeModal() {
+          details.removeAttribute('open');
+        }
+
+        openBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal();
+        });
+
+        openBtn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal();
+          }
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeModal();
+        });
+
+        if (overlay) overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && details.hasAttribute('open'))
+            closeModal();
+        });
+      })();
+    </script>
+    <!-- PDF --><a
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s;"
+      href="REEMPLAZAR-PDF"
+      target="_blank" rel="noopener">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">📕</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Lectura PDF</h5>
+        <span style="font-size: 0.8em; color: #000000;">Material
+          obligatorio</span>
+      </div>
+    </a><!-- IA --><a
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s;"
+      href="REEMPLAZAR-NOTEBOOKLM"
+      target="_blank" rel="noopener">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">🤖</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Asistente IA</h5>
+        <span style="font-size: 0.8em; color: #000000;">Repaso
+          interactivo</span>
+      </div>
+    </a>
+  </div>
+  <!-- REQUISITO PREVIO -->
+  <div
+    style="margin-top: 20px; background-color: #fff4e5; padding: 12px; border-radius: 6px; border-left: 4px solid #d97706;">
+    <p style="margin: 0;">⚠️ <strong>Antes de esta clase:</strong> tenés que
+      tener <strong>Docker instalado y funcionando</strong> en tu máquina, y los
+      <strong>dos repositorios clonados</strong>. La primera construcción baja
+      varios cientos de megabytes: hacela en tu casa, con tiempo, no en el aula.
+    </p>
+  </div>
+  <!-- ADVERTENCIA CRÍTICA -->
+  <div
+    style="margin-top: 15px; background-color: #fdecea; padding: 12px; border-radius: 6px; border-left: 4px solid #c0392b;">
+    <p style="margin: 0;">🔥 <strong>El orden de las instrucciones no es
+        decorativo.</strong> Docker construye por capas y reutiliza las que no
+      cambiaron. Si copiás todo el código antes de instalar las dependencias,
+      cada modificación mínima te invalida la caché y te obliga a reinstalar
+      todo de nuevo. Copiá primero el archivo de dependencias, instalá, y recién
+      después copiá el código. Son dos líneas de diferencia y cambian minutos por
+      segundos en cada build.</p>
+  </div>
+  <!-- CONTENIDO ADICIONAL -->
+  <div
+    style="margin-top: 20px; background-color: #f9eef2; padding: 10px; border-radius: 6px;">
+    <p style="color: #7b1e2b;">📘 <strong>Contenido adicional:</strong></p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-1"
+        target="_blank" rel="noopener"> Filminas del video 1 – Contenedores</a>
+    </p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-2"
+        target="_blank" rel="noopener"> Filminas del video 2 – Dockerfile del
+        back-end</a></p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-3"
+        target="_blank" rel="noopener"> Filminas del video 3 – Dockerfile del
+        front-end</a></p>
+    <p>🖥️ <a style="color: #000000;"
+        href="https://github.com/MatyAlts/calculadora-backend" target="_blank"
+        rel="noopener"> Repositorio del back-end</a></p>
+    <p>🖥️ <a style="color: #000000;"
+        href="https://github.com/MatyAlts/calculadora-frontend" target="_blank"
+        rel="noopener"> Repositorio del front-end</a></p>
+    <p style="font-size: 1rem; text-align: left;">Son <strong>dos repositorios
+        separados</strong>, cada uno con su propio Dockerfile en la raíz. No es
+      un monorepo: esa decisión se toma acá y condiciona toda la configuración
+      del despliegue de la clase siguiente.</p>
+  </div>
+  <!-- CIERRE -->
+  <div style="text-align: center; margin-top: 25px;">
+    <p style="font-size: 1.1rem; color: #7b1e2b; font-weight: bold;">✨ Tu
+      aplicación ya viaja con su entorno adentro</p>
+  </div>
+</details>

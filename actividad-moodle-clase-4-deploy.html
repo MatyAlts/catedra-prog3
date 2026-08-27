@@ -1,0 +1,244 @@
+<!--
+  ============================================================================
+  CLASE 4 - EL DESPLIEGUE  |  Bloque para el aula virtual
+  ============================================================================
+  ANTES DE PUBLICAR, reemplazar los enlaces marcados con REEMPLAZAR-*:
+    - REEMPLAZAR-VIDEO-1 / 2 / 3 ....... URLs de YouTube de los tres videos
+    - REEMPLAZAR-INFOGRAFIA ............ imagen de la infografia en el campus
+    - REEMPLAZAR-PDF ................... apunte "Clase 4.pdf" en el campus
+    - REEMPLAZAR-NOTEBOOKLM ............ cuaderno de NotebookLM de la clase
+    - REEMPLAZAR-FILMINAS-1 / 2 / 3 .... .pptx de cada video
+  Los IDs llevan el sufijo -clase-4-deploy.
+  ============================================================================
+-->
+<details
+  style="background-color: #faf7f8; border: 1px solid #eadfe3; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-family: sans-serif; color: #000000; line-height: 1.6;">
+  <!-- TÍTULO DE ACTIVIDAD -->
+  <summary style="color: #7b1e2b; font-size: 1.5em; cursor: pointer;">🌍
+    Clase 4 – El despliegue: de GitHub a tu dominio con HTTPS 🔒</summary>
+  <!-- TIEMPO ESTIMADO -->
+  <div
+    style="background-color: #f8edef; padding: 15px; border-radius: 8px; margin-top: 20px; border-left: 4px solid #7B1E2B;">
+    <p style="margin: 0; font-size: 1rem; color: #5c0120;">⏱️ <strong>Tiempo
+        estimado:</strong> 100 minutos (Videos: 18 min + Lectura del apunte: 37
+      min + Actividades y verificación: 45 min)</p>
+  </div>
+  <br><!-- DESCRIPCIÓN -->
+  <p style="font-size: 1rem; text-align: left;">Esta es la clase donde todo lo
+    anterior se junta. El dominio de la Clase 1, el servidor de la Clase 2 y las
+    imágenes de la Clase 3 se combinan para que tu aplicación quede
+    <strong>publicada en internet</strong>, accesible desde cualquier navegador
+    del mundo y protegida con <strong>HTTPS</strong>.</p>
+  <p style="font-size: 1rem; text-align: left;">Vas a entender qué es un
+    <strong>proxy inverso</strong> y por qué es la pieza que permite que muchos
+    servicios convivan detrás de una sola dirección IP. Vas a conectar
+    <strong>Easypanel</strong> con GitHub, desplegar el back-end y el front-end
+    como servicios independientes, y comprender cómo <strong>Traefik</strong>
+    decide, ante cada petición que llega, a cuál de todos los contenedores
+    entregarla.</p>
+  <!-- TEMAS -->
+  <p style="font-size: 1rem; text-align: left; color: #7b1e2b;">📌 <strong>Temas
+      que abordaremos:</strong></p>
+  <ul style="padding-left: 20px; font-size: 1rem; line-height: 1.6;">
+    <li>Por qué existe un proxy inverso: origen y diseño</li>
+    <li>Qué hace Easypanel y qué resuelve por vos</li>
+    <li>Organización de los repositorios y conexión con GitHub</li>
+    <li>Creación del proyecto y despliegue del back-end</li>
+    <li>Anatomía del enrutamiento: cómo decide Traefik a dónde va cada
+      petición</li>
+    <li>Despliegue del front-end y asignación del dominio propio</li>
+    <li>Certificado HTTPS automático</li>
+    <li>La política de mismo origen y el mecanismo <strong>CORS</strong></li>
+    <li>Verificación funcional, operación y errores frecuentes</li>
+  </ul>
+  <br><!-- RECURSOS -->
+  <p style="font-size: 1rem; text-align: left;">🚀 Recursos obligatorios:</p>
+  <ul>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-1" target="_blank"
+        rel="noopener">Video 1 – El proxy inverso y qué hace Easypanel</a></li>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-2" target="_blank"
+        rel="noopener">Video 2 – Despliegue del back-end y enrutamiento con
+        Traefik</a></li>
+    <li style="margin-bottom: 8px;"><span style="color: #000000;">▶️</span> <a
+        style="color: #000000;" href="REEMPLAZAR-VIDEO-3" target="_blank"
+        rel="noopener">Video 3 – Despliegue del front-end, CORS y
+        HTTPS</a></li>
+  </ul>
+  <p
+    style="font-size: 1rem; text-align: left; margin-top: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 15px; color: #7b1e2b;">
+    <strong>👇 Seleccioná un recurso para comenzar:</strong></p>
+  <!-- CARDS DE RECURSOS -->
+  <div
+    style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 20px; margin-bottom: 15px;">
+    <!-- INFOGRAFÍA -->
+    <div id="btn-infografia-clase-4-deploy"
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s; cursor: pointer;"
+      tabindex="0" role="button">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">📊</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Infografía</h5>
+        <span style="font-size: 0.8em; color: #000000;">Ver esquema</span>
+      </div>
+    </div>
+    <!-- MODAL INFOGRAFÍA -->
+    <details id="details-infografia-clase-4-deploy"
+      style="border: none; padding: 0; margin: 0;">
+      <summary style="display: none;"> </summary>
+      <div class="infografia-overlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;">
+        <div
+          style="background: white; border-radius: 10px; max-width: 900px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.5); position: relative;">
+          <div
+            style="background: #fcfcfc; padding: 10px 15px; border-bottom: 1px solid #e5e7eb; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: bold; color: #000000;">📊 Infografía – Del
+              dominio al contenedor</span> <button
+              id="btn-cerrar-infografia-clase-4-deploy"
+              style="background-color: #7b1e2b; color: #ffffff; border: none; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; font-size: 0.85em;"
+              type="button">✕ CERRAR</button></div>
+          <div
+            style="overflow-y: auto; padding: 10px; text-align: center; background: #fff; height: 100%;">
+            <img class="img-fluid"
+              style="max-width: 100%; height: auto; display: block; margin: 0 auto;"
+              src="REEMPLAZAR-INFOGRAFIA"
+              alt="Infografía"></div>
+        </div>
+      </div>
+    </details>
+    <script>
+      (function() {
+        var details = document.getElementById(
+          'details-infografia-clase-4-deploy');
+        var openBtn = document.getElementById(
+          'btn-infografia-clase-4-deploy');
+        var closeBtn = document.getElementById(
+          'btn-cerrar-infografia-clase-4-deploy');
+        var overlay = details ? details.querySelector('.infografia-overlay') :
+          null;
+
+        if (!details || !openBtn) return;
+
+        function openModal() {
+          details.setAttribute('open', '');
+        }
+
+        function closeModal() {
+          details.removeAttribute('open');
+        }
+
+        openBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          openModal();
+        });
+
+        openBtn.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal();
+          }
+        });
+
+        if (closeBtn) closeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeModal();
+        });
+
+        if (overlay) overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && details.hasAttribute('open'))
+            closeModal();
+        });
+      })();
+    </script>
+    <!-- PDF --><a
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s;"
+      href="REEMPLAZAR-PDF"
+      target="_blank" rel="noopener">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">📕</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Lectura PDF</h5>
+        <span style="font-size: 0.8em; color: #000000;">Material
+          obligatorio</span>
+      </div>
+    </a><!-- IA --><a
+      style="text-decoration: none; flex: 1 1 140px; max-width: 180px; min-width: 130px; background: white; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #e5e7eb; overflow: hidden; transition: transform 0.2s;"
+      href="REEMPLAZAR-NOTEBOOKLM"
+      target="_blank" rel="noopener">
+      <div
+        style="background-color: #f9eef2; height: 80px; display: flex; align-items: center; justify-content: center;">
+        <span style="font-size: 40px;">🤖</span></div>
+      <div style="padding: 12px; text-align: center;">
+        <h5
+          style="margin: 0; color: #7b1e2b; font-size: 0.95em; font-weight: bold;">
+          Asistente IA</h5>
+        <span style="font-size: 0.8em; color: #000000;">Repaso
+          interactivo</span>
+      </div>
+    </a>
+  </div>
+  <!-- REQUISITO PREVIO -->
+  <div
+    style="margin-top: 20px; background-color: #fff4e5; padding: 12px; border-radius: 6px; border-left: 4px solid #d97706;">
+    <p style="margin: 0;">⚠️ <strong>Esta clase depende de las tres
+        anteriores.</strong> Antes de empezar necesitás: el <strong>dominio con
+        sus registros apuntando a la IP del VPS</strong> (Clase 1), el
+      <strong>servidor accesible y asegurado</strong> (Clase 2) y los
+      <strong>dos Dockerfile funcionando y subidos a GitHub</strong> (Clase 3).
+      Si algo de eso falta, el despliegue no arranca.</p>
+  </div>
+  <!-- ADVERTENCIA CRÍTICA -->
+  <div
+    style="margin-top: 15px; background-color: #fdecea; padding: 12px; border-radius: 6px; border-left: 4px solid #c0392b;">
+    <p style="margin: 0;">🔥 <strong>El error que te va a hacer perder media
+        tarde: CORS.</strong> Vas a ver el front-end desplegado y andando, vas a
+      probar la API por separado y también anda, y sin embargo la página no
+      muestra nada. No está roto ninguno de los dos: es el navegador el que
+      bloquea la petición porque el front y la API están en orígenes distintos.
+      Antes de tocar el código, abrí la consola del navegador y leé el mensaje.
+      Ahí está la respuesta.</p>
+  </div>
+  <!-- CONTENIDO ADICIONAL -->
+  <div
+    style="margin-top: 20px; background-color: #f9eef2; padding: 10px; border-radius: 6px;">
+    <p style="color: #7b1e2b;">📘 <strong>Contenido adicional:</strong></p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-1"
+        target="_blank" rel="noopener"> Filminas del video 1 – Proxy inverso y
+        Easypanel</a></p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-2"
+        target="_blank" rel="noopener"> Filminas del video 2 – Despliegue y
+        Traefik</a></p>
+    <p>📽️ <a style="color: #000000;" href="REEMPLAZAR-FILMINAS-3"
+        target="_blank" rel="noopener"> Filminas del video 3 – CORS y
+        HTTPS</a></p>
+    <p style="font-size: 1rem; text-align: left;">📌 <strong>No confundas
+        <em>registro</em> comodín con <em>certificado</em> comodín.</strong> El
+      registro DNS <code>*.tudominio.me</code> apuntando a la IP del servidor es
+      trivial de cargar y te da todos los subdominios que quieras, cada uno con
+      su propio certificado emitido automáticamente. El certificado comodín es
+      otra cosa, requiere validación por DNS con un token de tu proveedor y
+      <strong>no lo necesitás para el práctico</strong>. Si leés la documentación
+      de Easypanel sin tener clara esa diferencia, te vas a frenar sin
+      motivo.</p>
+    <p style="font-size: 1rem; text-align: left;">Verificá el despliegue desde
+      una red distinta a la del aula y desde el celular con datos móviles. Si
+      falla en un lado y funciona en el otro, el problema no está en el
+      servidor.</p>
+  </div>
+  <!-- CIERRE -->
+  <div style="text-align: center; margin-top: 25px;">
+    <p style="font-size: 1.1rem; color: #7b1e2b; font-weight: bold;">🔒 Tu
+      aplicación ya está en internet, con tu nombre y con candado</p>
+  </div>
+</details>
