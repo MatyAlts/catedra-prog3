@@ -373,8 +373,8 @@ flowchart LR
 
     style NAV fill:#DEEBF7,stroke:#2E74B5,stroke-width:3px
     style DB fill:#F3F8EF,stroke:#538135,stroke-width:3px
-    linkStyle 2 stroke:#538135,stroke-width:4px
-    linkStyle 3 stroke:#C0392B,stroke-width:3px
+    linkStyle 1 stroke:#538135,stroke-width:4px
+    linkStyle 2 stroke:#C0392B,stroke-width:3px
 ```
 
 **Ya viene resaltado:** la flecha gruesa verde es el camino que sí existe; la punteada roja,
@@ -386,6 +386,6 @@ flecha punteada.
 
 > **⚠️ OJO ACÁ**
 > Los índices de `linkStyle` cuentan **todas** las flechas del diagrama en el orden en que
-> están escritas, incluidas las de adentro de los `subgraph`. Acá la flecha `api → db` es la
-> número 2 y la punteada es la 3. Si agregás o movés una sola línea, los colores se corren
+> están escritas, incluidas las de adentro de los `subgraph`, y **arrancan en 0**. Acá la
+> flecha `api → db` es la 0, la gruesa `nav ⇒ api` es la **1** y la punteada es la **2**. Si agregás o movés una sola línea, los colores se corren
 > de lugar y no salta ningún error: simplemente se pinta la flecha equivocada.
