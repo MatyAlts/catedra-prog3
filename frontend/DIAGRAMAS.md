@@ -595,9 +595,9 @@ Dentro de cada rama el compilador sabe exactamente qué propiedades existen. El
 flowchart TB
     U["<b>type Resultado</b><br/>tres formas con la misma<br/>propiedad discriminante"]
     U --> S{"switch (r.estado)"}
-    S -->|'"cargando"'| C["sólo existe<br/><b>r.estado</b>"]
-    S -->|'"exito"'| E["existe además<br/><b>r.pedidos</b>"]
-    S -->|'"error"'| R["existe además<br/><b>r.mensaje</b>"]
+    S -->|"&quot;cargando&quot;"| C["sólo existe<br/><b>r.estado</b>"]
+    S -->|"&quot;exito&quot;"| E["existe además<br/><b>r.pedidos</b>"]
+    S -->|"&quot;error&quot;"| R["existe además<br/><b>r.mensaje</b>"]
     S -->|"default"| N["<b>const x: never = r</b><br/><i>falla al compilar si se<br/>agregó un caso sin contemplar</i>"]
 
     classDef tipo fill:#DEEBF7,stroke:#2E74B5,color:#1F4E79
