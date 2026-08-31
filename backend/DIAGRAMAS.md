@@ -148,7 +148,7 @@ inválida.** El `422` sale antes.
 flowchart TB
     R["Petición HTTP<br/><i>todo llega como texto</i>"]
     P1["<b>1 · Parseo</b><br/>el cuerpo se interpreta<br/>según Content-Type"]
-    P2["<b>2 · Coerción</b><br/>conversión al tipo declarado<br/><i>\"5\" → 5</i>"]
+    P2["<b>2 · Coerción</b><br/>conversión al tipo declarado<br/><i>&quot;5&quot; → 5</i>"]
     P3["<b>3 · Validación</b><br/>se comprueban las restricciones<br/><i>reporta TODOS los errores</i>"]
     P4["<b>4 · Construcción</b><br/>se arma la instancia"]
     H["<b>Handler</b><br/><i>los datos ya son confiables</i>"]
@@ -205,7 +205,7 @@ por punto flotante.**
 flowchart LR
     A["<b>PostgreSQL</b><br/>DECIMAL(10,2)<br/><i>exacto</i>"]
     B["<b>Modelo</b><br/>Decimal('1234.50')<br/><i>exacto</i>"]
-    C["<b>JSON</b><br/>\"1234.50\"<br/><i>cadena, no número</i>"]
+    C["<b>JSON</b><br/>&quot;1234.50&quot;<br/><i>cadena, no número</i>"]
     D["<b>TypeScript</b><br/>total: string<br/><i>no se puede multiplicar</i>"]
     A --> B --> C --> D
     F["<b>float</b><br/>1234.4999999999998<br/><i>acá se pierde la exactitud</i>"]
@@ -394,6 +394,61 @@ flowchart TB
     class A3,G1 nota
     class C3 casc
 ```
+
+## Figura 4.2 — Las cinco diferencias del desajuste
+
+Las dos columnas son el mismo dominio dicho en dos lenguajes. **La quinta fila es
+la figura**: las cuatro primeras son diferencias de representación, y esa es una
+diferencia de costo.
+
+```mermaid
+flowchart LR
+    subgraph O["EN OBJETOS · memoria del proceso"]
+        O1["<b>1 · Identidad</b><br/>el objeto la tiene<br/>por ser ese objeto"]
+        O2["<b>2 · Referencias</b><br/>punteros en memoria"]
+        O3["<b>3 · Herencia</b><br/>existe"]
+        O4["<b>4 · Colecciones</b><br/>son un atributo<br/>del objeto padre"]
+        O5["<b>5 · Navegación</b><br/>pedido.usuario.direccion.calle<br/><i>tres saltos de puntero:<br/>nanosegundos</i>"]
+    end
+    subgraph R["EN RELACIONAL · la base"]
+        R1["la fila se identifica<br/>por su <b>clave</b>"]
+        R2["<b>valores de clave foránea</b>"]
+        R3["<b>no hay herencia</b>"]
+        R4["el uno a muchos vive<br/><b>en la tabla hija</b>"]
+        R5["<b>tres consultas</b><br/><i>con red de por medio<br/>cada vez</i>"]
+    end
+
+    O1 --> R1
+    O2 --> R2
+    O3 --> R3
+    O4 --> R4
+    O5 --> R5
+
+    ORM["Un ORM <b>no elimina</b> el desajuste: <b>lo esconde</b>.<br/>Las dos columnas se escriben igual y cuestan<br/>cuatro órdenes de magnitud distinto"]
+    EA["<b>Por eso existe EA-05</b><br/>la carga perezosa está prohibida: toda relación<br/>que la respuesta vaya a leer se precarga<br/>con <b>selectinload()</b> en el repositorio"]
+
+    R5 --> EA
+    ORM -.- O5
+
+    classDef obj fill:#DEEBF7,stroke:#2E74B5,color:#1F4E79
+    classDef fila fill:#E2F0DC,stroke:#538135,color:#375623
+    classDef caro fill:#FDECEA,stroke:#C00000,stroke-width:3px,color:#C00000
+    classDef nota fill:#EFEFEF,stroke:#595959,stroke-dasharray:4,color:#333333
+    classDef regla fill:#FFF2CC,stroke:#BF8F00,stroke-width:3px,color:#7F6000
+    class O1,O2,O3,O4 obj
+    class R1,R2,R3,R4 fila
+    class O5,R5 caro
+    class ORM nota
+    class EA regla
+```
+
+**Ya viene resaltado:** la quinta fila en rojo a los dos lados, porque es la única
+en la que el desajuste no se paga en traducción sino en tiempo, y `EA-05` colgando
+de ella como consecuencia, no como regla suelta.
+
+**Después de generar:** verificá que las filas 1 a 4 queden en azul contra verde y
+sólo la 5 en rojo. Si el rojo se reparte, la figura deja de decir lo que tiene que
+decir.
 
 ## Figura 4.3 — Carga perezosa y anticipada
 
