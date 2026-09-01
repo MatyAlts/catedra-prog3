@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Figura 8.7 - Buzón Drenando</title>
+<style>
+  body { 
+    background-color: #f5f7f9; /* Fondo de la página gris muy claro */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    padding: 30px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .consola { 
+    background-color: #ffffff; /* Tema blanco para la consola */
+    border: 1px solid #d1d5db; 
+    border-radius: 8px; 
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+    width: 680px;
+    overflow: hidden;
+  }
+
+  .consola-header {
+    background-color: #f3f4f6;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 8px 15px;
+    font-size: 13px;
+    color: #6b7280;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .botones {
+    display: flex;
+    gap: 6px;
+  }
+
+  .boton {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+  }
+  .b-rojo { background-color: #ff5f56; }
+  .b-amarillo { background-color: #ffbd2e; }
+  .b-verde { background-color: #27c93f; }
+
+  .consola-body {
+    padding: 20px;
+    font-family: 'Consolas', 'Courier New', monospace; 
+    font-size: 14px;
+    color: #1f2937; /* Texto gris muy oscuro/negro */
+    line-height: 1.5;
+    white-space: pre;
+  }
+
+  /* Resaltados didácticos */
+  .null-text { 
+    color: #ef4444; /* Rojo para destacar el estado nulo */
+  }
+  
+  .timestamp-text { 
+    background-color: #fef08a; /* Resaltador amarillo */
+    font-weight: bold;
+    color: #000;
+    padding: 0 4px;
+    border-radius: 3px;
+  }
+
+  .flecha {
+    font-size: 40px;
+    color: #9ca3af;
+  }
+</style>
+</head>
+<body>
+
+  <!-- CONSOLA IZQUIERDA: ACUMULADO -->
+  <div class="consola">
+    <div class="consola-header">
+      <div class="botones">
+        <div class="boton b-rojo"></div>
+        <div class="boton b-amarillo"></div>
+        <div class="boton b-verde"></div>
+      </div>
+      Terminal - La Caída (Publicador Detenido)
+    </div>
+    <div class="consola-body">
+========================================================================
+Buzón acumulado: 3 filas sin publicar (profundidad = 3).
+========================================================================
+id  tipo               canal          pub                    intentos
+------------------------------------------------------------------------
+42  pedido.confirmado  pedidos        <span class="null-text">NULL (sin publicar)</span>    0
+43  pedido.confirmado  pedidos        <span class="null-text">NULL (sin publicar)</span>    0
+44  pedido.confirmado  pedidos        <span class="null-text">NULL (sin publicar)</span>    0
+    </div>
+  </div>
+
+  <div class="flecha">➔</div>
+
+  <!-- CONSOLA DERECHA: DRENADO -->
+  <div class="consola">
+    <div class="consola-header">
+      <div class="botones">
+        <div class="boton b-rojo"></div>
+        <div class="boton b-amarillo"></div>
+        <div class="boton b-verde"></div>
+      </div>
+      Terminal - Revivís (Publicador Drenando)
+    </div>
+    <div class="consola-body">
+========================================================================
+Buzón drenado: TODO marcado como publicado (nada se borró).
+========================================================================
+id  tipo               canal          pub                    intentos
+------------------------------------------------------------------------
+42  pedido.confirmado  pedidos        <span class="timestamp-text">21:41:15</span>               1
+43  pedido.confirmado  pedidos        <span class="timestamp-text">21:41:15</span>               1
+44  pedido.confirmado  pedidos        <span class="timestamp-text">21:41:15</span>               1
+    </div>
+  </div>
+
+</body>
+</html>

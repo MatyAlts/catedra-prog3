@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { 
+    background-color: #282a36; /* Fondo oscuro estilo terminal */
+    color: #f8f8f2; 
+    font-family: 'Consolas', 'Courier New', monospace; 
+    padding: 40px; 
+    font-size: 15px;
+  }
+  .log-container { 
+    background-color: #1e1f29; 
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid #444; 
+    line-height: 1.6; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  }
+  .timestamp { color: #6272a4; }
+  .error-rojo { color: #ff5555; font-weight: bold; }
+  .victima { 
+    background-color: rgba(255, 85, 85, 0.2); 
+    border: 1px solid #ff5555; 
+    padding: 1px 4px; 
+    border-radius: 3px; 
+  }
+  .transaccion { color: #f1fa8c; } /* Amarillo */
+  .recurso { color: #50fa7b; } /* Verde */
+  .anotacion { 
+    color: #8be9fd; /* Celeste */
+    font-style: italic; 
+    margin-left: 15px; 
+  }
+</style>
+</head>
+<body>
+
+  <div class="log-container">
+    <span class="timestamp">2026-08-31 21:23:45 -03</span> <span class="error-rojo">ERROR:  se ha detectado un deadlock</span> <span class="anotacion">&lt;-- (1) La víctima elegida aborta con ERROR</span><br>
+    
+    <span class="timestamp">2026-08-31 21:23:45 -03</span> DETALLE:  El <span class="victima">proceso 14624</span> espera ShareLock en transacción 1177; bloqueado por <span class="transaccion">proceso 2392</span>.<br>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;El <span class="transaccion">proceso 2392</span> espera ShareLock en transacción 1176; bloqueado por <span class="victima">proceso 14624</span>. <span class="anotacion">&lt;-- (2) El ciclo de bloqueo</span><br>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;Proceso 14624: <span class="recurso">SELECT id FROM captura_producto WHERE id = $1 FOR UPDATE</span> <span class="anotacion">&lt;-- (3) Los recursos disputados</span><br>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;Proceso 2392: <span class="recurso">SELECT id FROM captura_producto WHERE id = $1 FOR UPDATE</span><br>
+    
+    <span class="timestamp">2026-08-31 21:23:45 -03</span> HINT:  Vea el registro del servidor para obtener detalles de las consultas.<br>
+    <span class="timestamp">2026-08-31 21:23:45 -03</span> CONTEXTO:  mientras se bloqueaba la tupla (0,2) de la relación «captura_producto»<br>
+    <span class="timestamp">2026-08-31 21:23:45 -03</span> SENTENCIA:  SELECT id FROM captura_producto WHERE id = $1 FOR UPDATE
+  </div>
+
+</body>
+</html>

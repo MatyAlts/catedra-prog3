@@ -1,0 +1,20 @@
+# Capturas — Backend desde POO
+# Dependencias mínimas por figura (ver README.md). Instalá todo de una:
+#     pip install -r requirements.txt
+
+# Figuras 1.5, 2.5, 2.6 (mini-app HTTP) y 6.6 (registro de transacción)
+fastapi>=0.111
+uvicorn>=0.40
+sqlmodel>=0.0.22
+sqlalchemy>=2.0
+pydantic>=2
+
+# Figura 3.6 (traza de MissingGreenlet — motor async mínimo)
+aiosqlite>=0.20
+
+# Figura 6.6 (registro de transacción en PostgreSQL)
+psycopg2-binary>=2.9
+
+# Figura 7.6 (interbloqueo en PostgreSQL)
+psycopg[binary]>=3.1
+alembic
