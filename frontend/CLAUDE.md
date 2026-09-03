@@ -6,6 +6,14 @@ Food Store con agentes de IA.
 
 Antes de escribir una sola línea, leer [`TEMARIO.md`](TEMARIO.md).
 
+> **El 2026-09-02 la Dirección cambió el registro de todo el módulo al criollo.**
+> Los ocho capítulos de `capitulos/` están escritos en ese registro; los originales
+> académicos quedaron respaldados en `capitulos/_academico/`. El método de
+> traducción está formalizado en [`CRIOLLO.md`](CRIOLLO.md), y el Capítulo 1 es su
+> ejemplo canónico. Este archivo sigue siendo la fuente de los **nueve rasgos** y
+> de las reglas de contenido; `CRIOLLO.md` gobierna la **forma**. Donde los dos
+> difieren —el registro de §2 y las referencias en prosa de §1— manda `CRIOLLO.md`.
+
 ---
 
 ## 1. Qué es una unidad de estudio
@@ -43,19 +51,31 @@ Los **nueve rasgos obligatorios** de cada capítulo:
 Verificación · Errores frecuentes · Actividades (5-7, las últimas de exploración,
 pidiendo relacionar lo observado con una sección teórica citada por número) ·
 Síntesis (**abre por la decisión de diseño, no por el procedimiento**) ·
-Referencias y lecturas complementarias **en prosa, no en lista** (un párrafo de
-normas citadas por número, otro de bibliografía con edición, editorial y año,
-cada obra con una línea de para qué sirve).
+Referencias y lecturas complementarias.
 
-## 2. Registro: cuerpo impersonal, recuadros en voseo
+**Cambio del 2026-09-02:** el estándar académico las pedía **en prosa, no en
+lista**. El registro criollo las pide **priorizadas y en lista**, bajo los tres
+encabezados `Si leés una sola cosa` / `Si leés tres` / `Las fuentes normativas`
+(ver [`CRIOLLO.md`](CRIOLLO.md) §10). Cada obra conserva edición, editorial, año
+y su línea de para qué sirve.
 
-El cuerpo del capítulo es **académico impersonal**. Los recuadros van en **voseo,
-dirigidos al alumno**. El contraste es deliberado y la Dirección lo confirmó.
+## 2. Registro: todo en criollo
 
-Si alguien propone "unificar el registro", la respuesta es **no**.
+**Desde el 2026-09-02, todo el capítulo va en voseo.** La Dirección revisó el
+Capítulo 1, lo reescribió entero en registro criollo y pidió que el resto del
+módulo lo siguiera. El contraste anterior —cuerpo impersonal, recuadros en
+voseo— **quedó sin efecto**.
 
-Los cuatro recuadros y su emoji: ⚠️ advertencia · 💡 tip · 🧪 experimento ·
-📌 nota.
+La única excepción son los bloques `### Qué dice`, que se mantienen impersonales
+**a propósito**: representan la voz del texto académico que después se traduce.
+
+Los cuatro recuadros y su emoji siguen siendo los mismos: ⚠️ advertencia ·
+💡 tip · 🧪 experimento · 📌 nota. Lo que cambia es que **el emoji ya no se
+imprime en el Word** —sólo elige el color— y que el título del recuadro lleva su
+etiqueta en mayúscula (`OJO ACÁ`, `PARA EL PIZARRÓN`, `PARA ENTENDER`,
+`EXPERIMENTO`, `LA IDEA MADRE`). El generador se invoca con `--sin-emoji`.
+
+El detalle completo, en [`CRIOLLO.md`](CRIOLLO.md).
 
 ## 3. Ortografía
 
@@ -138,10 +158,12 @@ arriba, y comparte estándar y formato).
 | Archivo | Contiene |
 | --- | --- |
 | `TEMARIO.md` | El recorrido de las 8 clases y su trazabilidad con el TPI |
-| `CLAUDE.md` | Este archivo |
+| `CLAUDE.md` | Este archivo: los nueve rasgos y las reglas de contenido |
+| `CRIOLLO.md` | El manual de estilo del registro criollo: gobierna la forma |
 | `FIGURAS.md` | Catálogo de figuras: número, título, qué muestra, quién la toma |
 | `DIAGRAMAS.md` | Código Mermaid de los diagramas |
-| `capitulos/` | `01-…` a `08-…` |
+| `capitulos/` | `01-…` a `08-…`, en registro criollo |
+| `capitulos/_academico/` | Respaldo de los ocho capítulos en el registro académico anterior |
 
 ## 10. Memoria
 
@@ -156,11 +178,12 @@ engram save "<título>" "<contenido>" --type <tipo> --project tpi-foodstore
 - [ ] Los nueve rasgos presentes, el cierre en el orden obligatorio
 - [ ] Cada afirmación tiene su porqué
 - [ ] Ningún concepto enunciado antes de su problema
-- [ ] Cuerpo impersonal, recuadros en voseo
+- [ ] Todo el capítulo en voseo, salvo los bloques `### Qué dice`
 - [ ] Acentos y ñ correctos
 - [ ] Recuadros contados **por su emoji**, no por líneas que empiezan con `> **`:
-      `grep -cP '^> \*\*[⚠💡🧪📌]' capitulos/NN-*.md` — entre 10 y 14
+      `grep -c '^> \*\*[⚠💡🧪📌]' capitulos/NN-*.md` — entre 14 y 18
 - [ ] Cero arte ASCII; los esquemas están en `FIGURAS.md` y `DIAGRAMAS.md`
 - [ ] Referencias cruzadas en las dos direcciones, sin enlaces rotos
 - [ ] Las secciones del TPI se citan y se enlazan, no se copian
-- [ ] Referencias finales en prosa, no en lista
+- [ ] Referencias finales priorizadas en lista (`CRIOLLO.md` §10)
+- [ ] El checklist propio del registro criollo (`CRIOLLO.md` §12) también pasa

@@ -1,97 +1,113 @@
-# Capítulo 5 — Asincronía y red: promesas, `fetch`, errores y eventos del servidor
+# Capítulo 5 — GUÍA DE LECTURA
 
-*Unidad de estudio · Edición ampliada con fundamentos teóricos*
+## Asincronía y red
 
-## 5.1. Alcance de la clase
+### Promesas, `fetch`, errores y eventos del servidor, explicados en criollo
 
-Este capítulo cierra el arco que abrió el primero. El Capítulo 1 describió el
-protocolo que trae los documentos; este estudia cómo se emiten peticiones **desde
-el código**, sin recargar la página, y cómo se reacciona a lo que el servidor
-manda por iniciativa propia.
+*Traducción didáctica del texto académico, sección por sección. Mismos conceptos,
+otro idioma.*
 
-El punto de partida es la restricción del Capítulo 3: **un solo hilo, que además
-dibuja la pantalla**. Una petición de red tarda entre decenas y miles de
-milisegundos, y durante todo ese tiempo el hilo no puede quedarse esperando: si lo
-hiciera, la página estaría muerta. Toda la maquinaria que este capítulo estudia
-—promesas, `async`/`await`, el bucle de eventos— existe para resolver esa tensión.
+## Antes de empezar: cómo usar esta guía
 
-Conviene enunciar de entrada la distinción que más confusión genera, porque
-atraviesa el capítulo entero: **asincronía no es concurrencia.** No hay dos cosas
-ejecutándose a la vez. Hay una sola cosa ejecutándose, que en algún momento cede el
-control y vuelve más tarde. Quien piense en hilos paralelos va a predecir mal el
-orden de ejecución de casi todo.
+Este documento no reemplaza al capítulo original: lo traduce. El texto académico está
+escrito en el idioma de los papers —denso, comprimido—. Esta guía lo desarma y lo
+cuenta como se lo contarías a alguien en un café.
 
-Tres de las once reglas obligatorias del TPI nacen en este capítulo, todas en torno
-al canal de eventos del servidor:
+La regla es una sola: **no se pierde ni un concepto.** Si el original nombra la
+RN-F09, acá se nombra la RN-F09. Cada sección conceptual tiene tres partes:
 
-**RN-F09** establece que un evento recibido nunca escribe datos en la caché de
-consultas: invalida la clave y deja que se recargue. **RN-F10** exige una sola
-conexión de eventos por sesión. **RN-F11** exige que la interfaz nunca dependa de
-haber recibido un evento, declarando además un intervalo de recarga de respaldo.
+- **Qué dice** — la idea del original, en dos o tres oraciones.
+- **En criollo** — la explicación larga, con la analogía que la hace pegar.
+- **Para el pizarrón** — la frase que te tenés que llevar.
 
-Las tres parecen restricciones arbitrarias hasta que se entiende una limitación del
-diseño que el propio TPI declara en su sección 11.3: **el mecanismo de publicación
-del backend no persiste los mensajes.** Lo que se publica mientras un cliente no
-está conectado, ese cliente no lo recibe. Las tres reglas son la respuesta del
-frontend a ese hecho.
-
-El capítulo también resuelve un problema que el Capítulo 1 dejó planteado y no
-cerró: **el servidor no puede iniciar la conversación.** La sección 5.9 estudia el
-mecanismo que el TPI eligió para hacerlo posible, y por qué eligió ese y no el
-más conocido.
-
-Al finalizar la clase, el alumno debe poder escribir una función que consulte la
-API, **distinga un fallo de red de un error de aplicación**, se cancele si la vista
-se desmonta, y traduzca los códigos del catálogo de errores del TPI a mensajes
-útiles.
-
-**Contenidos**
-
-1. Origen y objetivos de diseño de la petición en segundo plano.
-2. Promesas: estados, encadenamiento y combinadores.
-3. `async` y `await`: qué resuelven y qué esconden.
-4. Anatomía de `fetch` y su decisión más polémica.
-5. Cancelación y plazos de espera.
-6. La política de mismo origen y CORS.
-7. Errores de red, de protocolo y de aplicación.
-8. El catálogo de errores del TPI y dónde se traduce.
-9. Almacenamiento del token y sus riesgos.
-10. Eventos enviados por el servidor: protocolo y reconexión.
-11. Las tres reglas del canal de eventos.
-12. Herramientas de diagnóstico.
+> **💡 LA IDEA MADRE DE TODO EL CAPÍTULO**
+> **Hay un solo hilo, y ese hilo además dibuja la pantalla. Toda la maquinaria de
+> este capítulo existe para que ese hilo nunca se quede esperando.**
+>
+> Una petición tarda entre decenas y miles de milisegundos, y si el hilo se quedara
+> parado esperándola la página estaría muerta. Las promesas, `async`/`await` y el
+> bucle de eventos del Capítulo 3 no son tres temas: son tres capas de ese problema.
+>
+> Y de ahí la advertencia que atraviesa el capítulo: **asincronía no es
+> concurrencia.** No hay dos cosas a la vez; hay una que cede el control y vuelve.
 
 ---
 
-## 5.2. Por qué existe la petición en segundo plano
+# 5.1 — De qué se trata esta clase
+
+### Qué dice
+
+El Capítulo 1 describió el protocolo que trae los documentos; este estudia cómo se
+emiten peticiones **desde el código**, sin recargar la página, y cómo se reacciona a
+lo que el servidor manda por iniciativa propia. El punto de partida es la restricción
+del Capítulo 3: un solo hilo, que además dibuja la pantalla.
+
+### En criollo
+
+En el Capítulo 1 el que emitía la petición era **el navegador**; acá sos vos. Y en la
+segunda mitad aparece lo que aquel capítulo dejó sin resolver: **qué se hace cuando
+el que tiene algo para decir es el servidor.**
+
+| Si no sabés esto… | …no vas a entender esto otro |
+| --- | --- |
+| Que `await` **no espera**: cede el control y vuelve | Por qué una `async` con un cálculo pesado adentro **bloquea igual**, y por qué el orden de ejecución no es el de escritura |
+| Que `fetch` **no considera un error** un 500 | Por qué tu `try`/`catch` no atrapa nada y el objeto de error termina procesado como si fuera la lista de productos |
+| Que el mecanismo de eventos del backend **no guarda lo que publicó** | Por qué existen RN-F09, RN-F10 y RN-F11, y por qué el panel de cocina puede mostrar pedidos viejos **sin un mensaje de error** |
+
+Tres de las once reglas obligatorias del TPI nacen acá. **RN-F09**: un evento nunca
+escribe datos en la caché de consultas, invalida la clave y deja que se recargue.
+**RN-F10**: una sola conexión de eventos por sesión. **RN-F11**: la interfaz nunca
+depende de haber recibido un evento, y declara un intervalo de recarga de respaldo.
+
+Parecen arbitrarias hasta que entendés una limitación que **el propio TPI declara**
+en su sección 11.3: el mecanismo de publicación del backend **no persiste los
+mensajes**. Lo que se publica mientras un cliente no está conectado, ese cliente no lo
+recibe. La sección 5.9.4 hace el razonamiento completo.
+
+> **💡 PARA EL PIZARRÓN**
+> El objetivo se mide con una función: al terminar tenés que poder escribir una que
+> consulte la API y haga **cuatro cosas a la vez**. Que **distinga un fallo de red de
+> un error de aplicación**, que **se cancele sola** si la vista que la pidió se
+> desmontó, que **traduzca los códigos del catálogo de errores del TPI** —su sección
+> 14.1— a mensajes útiles, y que **lleve plazo de espera**.
+>
+> Si hace las cuatro, entendiste el capítulo. Si hace tres, te falta la que más caro
+> sale.
+
+---
+
+# 5.2 — Por qué existe la petición en segundo plano
+
+### Qué dice
 
 Hasta fines de los noventa, toda interacción con un servidor implicaba **reemplazar
-la página entera**. Marcar una casilla, filtrar una lista, agregar un producto al
-carrito: cada acción enviaba un formulario, el servidor construía un documento
-nuevo y el navegador lo pintaba desde cero. La pantalla parpadeaba en blanco, la
-posición de desplazamiento se perdía y todo lo escrito en otros campos se
-descartaba.
+la página entera**. La técnica que lo cambió nació en Microsoft en 1999, existió seis
+años sin nombre y se volvió ubicua cuando un ensayo de 2005 la bautizó. De ahí salen
+cuatro decisiones de diseño que gobiernan el capítulo.
 
-El costo no era sólo de comodidad. Cada interacción **transmitía el documento
-completo** —cabecera, menú, pie— aunque hubiera cambiado una sola línea.
+### En criollo: la génesis, en tres movimientos
 
-La solución llegó de un lugar inesperado. Microsoft necesitaba que **Outlook Web
-Access** se pareciera al cliente de escritorio, y para eso hacía falta traer correos
-nuevos sin recargar. El equipo agregó a Internet Explorer 5, en 1999, un objeto que
-permitía emitir una petición HTTP desde el código: **`XMLHTTP`**, disponible como
-componente ActiveX. Mozilla lo implementó de forma nativa poco después con el
-nombre `XMLHttpRequest`, y los demás navegadores lo copiaron. **Se estandarizó
-años después de ser universal**, y el nombre quedó pegado a XML aunque casi nunca se
-usó para eso.
+**Antes.** Marcar una casilla o agregar un producto al carrito hacía que **la página
+entera se fuera y viniera otra**: parpadeo en blanco, posición de desplazamiento
+perdida y lo escrito en otros campos descartado. Y cada interacción **transmitía el
+documento completo** —cabecera, menú, pie— aunque hubiera cambiado una línea.
 
-La técnica existió durante años sin nombre y sin uso masivo. Lo que la volvió
-ubicua fue un ensayo: en febrero de 2005, Jesse James Garrett publicó *Ajax: A New
-Approach to Web Applications*, que le puso nombre y mostró que Google Maps y Gmail
-ya la usaban a gran escala. **La técnica tenía seis años; el nombre le dio
-visibilidad.**
+**El invento.** Microsoft necesitaba que **Outlook Web Access** se pareciera al
+cliente de escritorio, y en 1999 le agregó a Internet Explorer 5 un objeto que emitía
+una petición HTTP desde el código: **`XMLHTTP`**, como componente ActiveX. Mozilla lo
+implementó de forma nativa con el nombre `XMLHttpRequest` y los demás lo copiaron.
+Fijate en el orden, que es el de casi toda la plataforma: **se estandarizó años
+después de ser universal**, y el nombre quedó pegado a XML aunque casi nunca se usó
+para eso.
 
-El problema siguiente fue de forma, no de capacidad. `XMLHttpRequest` se programaba
-con funciones de retorno, y como cada petición dependía del resultado de la
-anterior, el código se anidaba:
+**El nombre.** En febrero de 2005 Jesse James Garrett publicó *Ajax: A New Approach to
+Web Applications*, que la bautizó y mostró que Google Maps y Gmail ya la usaban a gran
+escala. **La técnica tenía seis años; el nombre le dio visibilidad.**
+
+### El problema siguiente fue de forma, no de capacidad
+
+`XMLHttpRequest` se programaba con funciones de retorno, y como cada petición dependía
+del resultado de la anterior, el código se anidaba:
 
 ```js
 obtenerUsuario(id, function (usuario) {
@@ -103,58 +119,54 @@ obtenerUsuario(id, function (usuario) {
 }, alFallar);
 ```
 
-Ese patrón se conoció como **infierno de funciones de retorno**, y su problema real
-no era la indentación sino el manejo de errores: **cada nivel necesitaba su propio
-tratamiento**, no había forma de capturar un fallo de todo el conjunto, y una
-excepción lanzada dentro de una función de retorno no podía atraparse desde afuera.
+Se lo llamó **infierno de funciones de retorno**, y su problema real **no era la
+indentación**: era el manejo de errores. **Cada nivel necesitaba su propio
+tratamiento** —contá los `alFallar`—, **no había forma de capturar un fallo de todo el
+conjunto**, y **una excepción lanzada adentro de una función de retorno no se podía
+atrapar desde afuera**.
 
-Las **promesas** resolvieron eso con una idea precisa: **representar el resultado
-futuro como un valor**. Un valor se puede guardar en una variable, pasar como
-argumento, devolver de una función y combinar con otros. Se especificaron primero
-como acuerdo comunitario —Promises/A+, 2012— y se incorporaron al lenguaje en
-ES2015. **`async`/`await`** llegó en ES2017 para escribirlas con la forma del código
-secuencial, y **`fetch`** reemplazó a `XMLHttpRequest` con una interfaz basada en
-promesas.
+Las **promesas** lo resolvieron con una idea de una línea: **representar el resultado
+futuro como un valor**. Un valor se guarda, se pasa, se devuelve y se combina; una
+función de retorno no, porque es una instrucción que le dejás a otro. Es el **ticket
+de la tintorería**: no te llevás el saco, te llevás un papel, y con el papel podés
+hacer cosas que con el saco todavía no.
 
-De ese recorrido salen cuatro decisiones de diseño que gobiernan el capítulo.
+Se especificaron como acuerdo comunitario —Promises/A+, 2012— y entraron al lenguaje
+en ES2015. **`async`/`await`** llegó en ES2017 para escribirlas con la forma del
+código secuencial, y **`fetch`** reemplazó a `XMLHttpRequest` con una interfaz basada
+en promesas.
 
-**Primera: la asincronía no es concurrencia.** Sigue habiendo un solo hilo. Una
-operación asincrónica no corre en paralelo: **cede el control y se reanuda después**,
-mediante el bucle de eventos de la sección 3.10.
+### Las cuatro decisiones que explican todo el capítulo
 
-**Segunda: el resultado futuro es un valor.** Es la diferencia esencial con las
-funciones de retorno, y lo que permite componer operaciones.
+| Decisión | Qué gana | Qué cuesta |
+| --- | --- | --- |
+| **1. La asincronía no es concurrencia:** la operación **cede el control y se reanuda después**, por el bucle de eventos de la 3.10 | Un modelo simple, sin carreras entre hilos | Que el orden de ejecución **no es el de escritura** |
+| **2. El resultado futuro es un valor** | Se pueden **componer** operaciones: los combinadores de la 5.3.3 | Que una promesa **no se puede reiniciar ni cancelar** (5.3.1) |
+| **3. `fetch` no considera un error el del servidor:** un 404 o un 500 **cumplen** la promesa | Coherencia: modela el transporte, y ahí todo salió bien | **La fuente de errores más frecuente** del capítulo (5.5.3) |
+| **4. El navegador restringe por origen** de forma predeterminada | Que un sitio cualquiera no lea tu correo con tu sesión | Verificaciones previas y errores que **no se arreglan desde el frontend** (5.6) |
 
-**Tercera: `fetch` no considera un error el error del servidor.** Una respuesta 404
-o 500 **cumple** la promesa. Es la decisión más discutida de la interfaz y la fuente
-de errores más frecuente; la sección 5.5.3 explica su lógica.
-
-**Cuarta: el navegador restringe por origen de forma predeterminada.** Un documento
-de un sitio no puede leer respuestas de otro salvo autorización explícita. La
-sección 5.6 explica a quién protege eso, que no es a quien parece.
-
-> **💡 PARA ENTENDER**
-> Guardate la primera decisión, porque es la que más gente entiende mal y la que te
-> va a hacer predecir bien el orden de ejecución.
+> **💡 PARA ENTENDER: `await` no significa «esperá acá»**
+> Significa: *«guardá dónde estoy, soltá el hilo para que haga otra cosa, y volvé a
+> este punto cuando llegue el resultado»*.
 >
-> **`await` no significa "esperá acá".** Significa: *"guardá dónde estoy, soltá el
-> hilo para que haga otra cosa, y volvé a este punto cuando llegue el resultado"*.
+> Pensalo como un restaurante con **un solo mozo**: lleva tu pedido a la cocina y **no
+> se queda parado en la ventanilla**, atiende otras mesas y vuelve cuando el plato
+> está listo. No hay dos mozos: hay uno que se va y vuelve.
 >
-> Es la misma idea del Capítulo 3: nadie corre en paralelo. Hay uno solo que se va y
-> vuelve.
->
-> Y de ahí sale algo práctico: si adentro de una función `async` hacés un cálculo
-> pesado y sincrónico, **la función es `async` y bloquea igual**. La palabra no tiene
-> ningún poder mágico sobre el hilo. Sólo el `await` cede el control, y sólo en el
-> punto exacto donde está escrito.
+> Y de ahí algo práctico: si adentro de una `async` hacés un cálculo pesado y
+> sincrónico, **la función es `async` y bloquea igual**. Sólo el `await` cede el
+> control, y sólo donde está escrito.
 
 ---
 
-## 5.3. Promesas
+# 5.3 — Las promesas
 
-### 5.3.1. Estados
+## 5.3.1 — Los tres estados, y por qué no se pueden deshacer
 
-Una promesa está en uno de tres estados:
+### Qué dice
+
+Una promesa está siempre en uno de tres estados; la transición es de una sola vía y
+las continuaciones se ejecutan como microtareas.
 
 | Estado | Significado |
 | --- | --- |
@@ -162,23 +174,23 @@ Una promesa está en uno de tres estados:
 | Cumplida | Terminó bien y tiene un valor |
 | Rechazada | Terminó mal y tiene un motivo |
 
-Dos propiedades importan. La transición es **de una sola vía**: una vez que una
-promesa se resuelve, su estado y su valor no cambian más. Y las continuaciones se
-ejecutan como **microtareas**, lo que —por el algoritmo de la sección 3.10.2—
-significa que una promesa ya resuelta siempre se procesa antes que un
-`setTimeout(0)`.
+### En criollo
+
+**De una sola vía:** una vez resuelta, su estado y su valor **no cambian nunca más**.
+Es un partido ya jugado: se puede discutir, no cambiar.
+
+**Como microtareas:** por el algoritmo de la 3.10.2, **una promesa ya resuelta siempre
+se procesa antes que un `setTimeout(0)`**, porque las microtareas se vacían enteras
+antes de la próxima tarea. Por eso el orden de tu consola te sorprende.
 
 *(Ver Figura 5.1: los estados de una promesa y sus transiciones.)*
 
-La inmutabilidad tiene una consecuencia que conviene tener presente: **una promesa
-no se puede reiniciar ni cancelar.** Es un valor, no una operación en curso. Lo que
-sí se puede cancelar es la operación subyacente —una petición de red— mediante el
-mecanismo de la sección 5.5.4, pero la promesa en sí simplemente termina rechazada.
+La inmutabilidad tiene un precio: **una promesa no se puede reiniciar ni cancelar.** No
+cancelás un ticket de tintorería; llamás a la tintorería. Lo que se cancela es **la
+operación subyacente**, con el mecanismo de la 5.5.4.
 
-De ahí sale también una fuente de confusión: **llamar a la función que crea la
-promesa dispara la operación de inmediato**, aunque nadie haga `await`. Guardar una
-promesa en una variable no es guardar una intención de pedir algo; el pedido ya
-salió.
+Y **llamar a la función que crea la promesa dispara la operación de inmediato**, aunque
+nadie haga `await`.
 
 ```js
 const promesa = obtenerPedido(id);   // la petición YA se emitió acá
@@ -186,13 +198,16 @@ const promesa = obtenerPedido(id);   // la petición YA se emitió acá
 const pedido = await promesa;        // acá sólo se espera el resultado
 ```
 
-Ese comportamiento, que sorprende a quien viene de lenguajes con evaluación
-perezosa, es en realidad útil: permite **lanzar varias operaciones y esperarlas
-después**, que es la base de los combinadores de la sección 5.3.3.
+Guardar una promesa **no es guardar una intención de pedir algo**: el pedido ya salió.
+Y eso es la herramienta que permite **lanzar varias operaciones y esperarlas después**
+— la base de los combinadores de la 5.3.3.
 
-### 5.3.2. Encadenamiento
+## 5.3.2 — Encadenar: un solo `catch` para toda la cadena
 
-`then` devuelve **una promesa nueva**, y de ahí sale el encadenamiento:
+### Qué dice
+
+`then` devuelve **una promesa nueva**, y de ahí sale el encadenamiento. Un solo
+manejador de error cubre la cadena completa.
 
 ```js
 obtenerUsuario(id)
@@ -202,17 +217,22 @@ obtenerUsuario(id)
   .finally(() => ocultarCargando());             // se ejecuta siempre
 ```
 
-La diferencia con las funciones de retorno está en la línea del `catch`: **un solo
-manejador cubre toda la cadena.** Si cualquiera de los pasos falla, el control salta
-directamente ahí. Eso es lo que el patrón anterior no podía hacer.
+### En criollo
 
-`finally` se ejecuta tanto si la cadena terminó bien como si terminó mal, y es el
-lugar correcto para ocultar un indicador de carga.
+Mirá la línea del `catch` y compará con los tres `alFallar` de la 5.2: **ésa es toda
+la diferencia**. Si cualquiera de los pasos falla, el control salta ahí, igual que una
+excepción sube por la pila en código sincrónico.
 
-### 5.3.3. Combinadores
+`finally` se ejecuta **termine bien o mal**: es el lugar correcto para ocultar un
+indicador de carga, porque si lo ocultás sólo en el camino feliz, el día que falle el
+usuario se queda mirando un spinner eterno.
+
+## 5.3.3 — Los cuatro combinadores, y cuándo va cada uno
+
+### Qué dice
 
 Cuatro funciones combinan varias promesas, y elegir la equivocada produce
-comportamientos difíciles de diagnosticar:
+comportamientos difíciles de diagnosticar.
 
 | Combinador | Espera a | Falla si | Devuelve |
 | --- | --- | --- | --- |
@@ -221,14 +241,15 @@ comportamientos difíciles de diagnosticar:
 | `Promise.race` | La primera en resolverse | Si esa primera falla | El valor de esa |
 | `Promise.any` | La primera **cumplida** | Fallan todas | El valor de esa |
 
-La distinción entre las dos primeras es la que importa en la práctica. `Promise.all`
-falla apenas una de las promesas falla, y **descarta los resultados de las que sí
-funcionaron**. Sirve cuando el conjunto no tiene sentido incompleto: no se puede
-mostrar una pantalla de pedido sin el pedido.
+### En criollo: la distinción que de verdad se usa
 
-`Promise.allSettled` espera a todas y devuelve el resultado de cada una, exitoso o
-no. Sirve cuando cada resultado es útil por separado: un panel con cuatro tarjetas
-de estadísticas puede mostrar tres y un mensaje de error en la cuarta.
+**`Promise.all` falla apenas una falla** y **descarta los resultados de las que sí
+funcionaron**: es una receta, si falta la harina no hay torta. Sirve cuando el
+conjunto **no tiene sentido incompleto**: no hay pantalla de pedido sin el pedido.
+
+**`Promise.allSettled` espera a todas y devuelve el resultado de cada una**, exitoso o
+no: es el tablero de llegadas del aeropuerto, donde un vuelo cancelado no borra la
+información de los otros siete.
 
 ```js
 const [productos, categorias] = await Promise.all([
@@ -240,37 +261,38 @@ const resultados = await Promise.allSettled([
 ]);   // cada tarjeta se muestra o falla por su cuenta
 ```
 
-> **⚠️ OJO ACÁ**
-> El error más caro de esta sección no es elegir mal el combinador: es **no usar
-> ninguno.**
+`Promise.race` devuelve **la primera que se resuelva**, gane o pierda —se usaba para
+armar plazos de espera a mano, y hoy hay algo mejor en la 5.5.4—; `Promise.any`
+devuelve **la primera que se cumpla**, ignorando las que fallen.
+
+> **⚠️ OJO ACÁ: el error caro no es elegir mal el combinador**
+> Es **no usar ninguno.**
 >
 > ```js
 > const productos  = await listarProductos();
 > const categorias = await listarCategorias();
 > ```
 >
-> Eso se ve prolijo y es **el doble de lento de lo necesario**. Las dos peticiones no
-> dependen una de la otra, pero la segunda no arranca hasta que termina la primera.
-> Si cada una tarda 300 ms, tenés 600 ms de espera para algo que podía tardar 300.
+> Se ve prolijo y es **el doble de lento de lo necesario**: la segunda no arranca
+> hasta que termina la primera, aunque no dependa de ella. Con 300 ms cada una tenés
+> 600 ms de espera para algo que podía tardar 300.
 >
-> Con cuatro peticiones independientes en un panel de estadísticas, la diferencia es
-> más de un segundo de pantalla en blanco.
->
-> **Regla: si dos peticiones no dependen entre sí, van juntas en un combinador.**
-> Sólo encadenás con `await` cuando la segunda realmente necesita el resultado de la
-> primera. Y ojo, que **este error un agente de IA te lo va a escribir siempre**: es
-> lo que sale natural al traducir "traé A y traé B".
+> **Regla: si dos peticiones no dependen entre sí, van juntas en un combinador.** Y
+> ojo, que **este error un agente de IA te lo va a escribir siempre**: es lo que sale
+> de traducir «traé A y traé B».
 
 ---
 
-## 5.4. `async` y `await`
+# 5.4 — `async` y `await`
 
-### 5.4.1. Qué son exactamente
+## 5.4.1 — Qué son exactamente
+
+### Qué dice
 
 Una función `async` **siempre devuelve una promesa**, aunque su cuerpo devuelva un
-valor común. `await` suspende la función hasta que la promesa se resuelva, y
-devuelve su valor. Si la promesa se rechaza, `await` **lanza** el motivo como una
-excepción, lo que permite usar `try`/`catch`:
+valor común. `await` suspende la función hasta que la promesa se resuelva y devuelve
+su valor; si se rechaza, **lanza** el motivo como excepción, lo que permite usar
+`try`/`catch`.
 
 ```js
 async function cargarCatalogo() {
@@ -285,13 +307,18 @@ async function cargarCatalogo() {
 }
 ```
 
-Esa última propiedad es lo que hace valiosa la sintaxis. Antes de `async`/`await`,
-un error asincrónico **no se podía capturar con `try`/`catch`**, porque para cuando
-ocurría, el bloque ya había terminado.
+### En criollo
 
-### 5.4.2. El `await` en un bucle
+Lo valioso de la sintaxis es que `await` convierta el rechazo en excepción. Antes, un
+error asincrónico **no se podía capturar con `try`/`catch`**: para cuando ocurría, el
+bloque `try` ya había terminado. Con `await`, la función **se reanuda lanzando** en el
+punto donde te fuiste. `async`/`await` **no agrega capacidad, agrega legibilidad**:
+debajo son las mismas promesas de la 5.3.
 
-El error de rendimiento más común del código asincrónico:
+## 5.4.2 — El `await` adentro de un bucle
+
+Es **el error de rendimiento más común del código asincrónico**, y no hay nada que un
+linter pueda marcarte.
 
 ```js
 // Serializa: cada petición espera a la anterior
@@ -305,18 +332,16 @@ const pedidos = await Promise.all(idsDePedidos.map(id => obtenerPedido(id)));
 pedidos.forEach(procesar);
 ```
 
-Con veinte pedidos y 200 milisegundos cada uno, la primera versión tarda **cuatro
-segundos** y la segunda **doscientos milisegundos**. El código de arriba no está
-mal escrito en el sentido sintáctico: está mal en el sentido de que serializa algo
-que no necesitaba ser serializado.
+Con **veinte pedidos y 200 milisegundos cada uno**, la primera versión tarda **cuatro
+segundos** y la segunda **doscientos milisegundos**. Sintácticamente está bien: está
+mal porque **serializa algo que no necesitaba ser serializado**. Es la cola del banco
+con veinte cajas abiertas y todo el mundo formado en una sola.
 
-Hay un caso donde la versión secuencial es la correcta: cuando cada petición depende
-del resultado de la anterior, o cuando emitir veinte peticiones simultáneas superaría
-un límite del servidor —como el de la sección 5.7.4—.
+La versión secuencial corresponde en dos casos: **cuando cada petición depende de la
+anterior**, y **cuando veinte peticiones simultáneas superarían un límite del
+servidor**, como el de la 5.7.3 — ahí no dan veinte respuestas: dan un `429`.
 
-> **📌 NOTA**
-> Un detalle que muerde y que casi nadie ve venir: **`forEach` no espera nada.**
->
+> **📌 NOTA: `forEach` no espera nada**
 > ```js
 > pedidos.forEach(async (p) => {
 >   await guardar(p);
@@ -325,23 +350,23 @@ un límite del servidor —como el de la sección 5.7.4—.
 > ```
 >
 > `forEach` no sabe qué hacer con la promesa que le devuelve la función: la ignora y
-> sigue. El `console.log` sale de inmediato, con las veinte operaciones todavía en el
-> aire.
->
-> Si necesitás esperar, tenés dos formas según lo que quieras:
+> sigue, con las veinte operaciones en el aire. Lo grave no es el `console.log`: es
+> cuando lo que sigue es «mostrá el mensaje de éxito».
 >
 > ```js
 > for (const p of pedidos) await guardar(p);              // de a uno, en orden
 > await Promise.all(pedidos.map(p => guardar(p)));        // todas juntas
 > ```
 >
-> `for...of` **sí** respeta el `await`. `forEach`, `map`, `filter` y compañía, no.
+> `for...of` **sí** respeta el `await`; `forEach`, `map` y compañía, no: el primero es
+> sintaxis del lenguaje y el motor sabe suspenderla, el segundo es **una función
+> común** que tira a la basura lo que le devuelven.
 
 ---
 
-## 5.5. `fetch`
+# 5.5 — `fetch`
 
-### 5.5.1. La petición
+## 5.5.1 — La petición, campo por campo
 
 ```js
 const respuesta = await fetch("/api/v1/pedidos", {
@@ -355,16 +380,18 @@ const respuesta = await fetch("/api/v1/pedidos", {
 });
 ```
 
-Cada campo corresponde a un elemento de la anatomía de la sección 1.5. El
-`Idempotency-Key` es el de la sección 1.4.2, que la regla RN-F07 exige en el
-checkout; nótese que `crypto.randomUUID()` es una función del navegador y no de una
-biblioteca.
+Esto es **la anatomía de la sección 1.5 escrita en JavaScript**. `Authorization` con
+esquema `Bearer` es la pulsera de la 1.4.1: el token que viaja **en cada petición**,
+porque el protocolo no se acuerda de nada. El `Idempotency-Key` es el de la 1.4.2, el
+que **RN-F07** exige en el checkout — y `crypto.randomUUID()` es una función **del
+navegador**, no de una biblioteca.
 
-Un detalle que produce errores: **`body` debe ser una cadena.** Pasar un objeto
-directamente no falla con un mensaje claro; envía el resultado de convertirlo a
-texto, que es `[object Object]`.
+En el `body` está el detalle que más errores produce: **el cuerpo tiene que ser una
+cadena.** Si le pasás un objeto, `fetch` no falla con un mensaje claro: manda el
+resultado de convertirlo a texto, que es `[object Object]`. El servidor contesta un
+400 que vas a buscar media hora en el cliente, donde no está.
 
-### 5.5.2. La respuesta
+## 5.5.2 — La respuesta
 
 ```js
 respuesta.ok         // true si el código está entre 200 y 299
@@ -373,13 +400,15 @@ respuesta.headers    // los encabezados
 await respuesta.json();   // parsea el cuerpo como JSON
 ```
 
-El cuerpo llega como flujo y **se puede consumir una sola vez**. Un segundo intento
-lanza un error. Si hace falta leerlo dos veces —por ejemplo, intentar `json()` y
-caer a `text()` si falla— hay que clonar la respuesta antes con `respuesta.clone()`.
+`respuesta.ok` es «el código está en la familia 2xx» de la 1.4.3. Y algo que
+sorprende: el cuerpo llega **como flujo** y **se puede consumir una sola vez**; un
+segundo intento lanza un error. Un flujo es agua que pasa, no un archivo que queda. Si
+necesitás leerlo dos veces —intentar `json()` y caer a `text()`—, hay que **clonar la
+respuesta antes** con `respuesta.clone()`.
 
-### 5.5.3. La decisión más discutida
+## 5.5.3 — La decisión más discutida de toda la interfaz
 
-Esta es la fuente de errores más frecuente de toda la interfaz:
+Acá está la fuente de errores más frecuente de todo el capítulo:
 
 > **`fetch` no rechaza la promesa ante un error HTTP.** Un 404, un 422 o un 500
 > **cumplen** la promesa.
@@ -394,16 +423,16 @@ try {
 }
 ```
 
-`fetch` rechaza únicamente en tres situaciones: **fallo de red** —no hubo
-respuesta—, **bloqueo por origen** (sección 5.6) y **cancelación** (sección 5.5.4).
+`fetch` rechaza **únicamente en tres situaciones**, las tres únicas veces que tu
+`catch` se va a ejecutar: **fallo de red** —no hubo respuesta—, **bloqueo por origen**
+(sección 5.6) y **cancelación** (sección 5.5.4).
 
 *(Ver Figura 5.2: cuándo `fetch` rechaza y cuándo cumple.)*
 
-La lógica de la decisión, una vez explicada, es coherente: **un 404 es una respuesta
-exitosa del protocolo.** La petición viajó, el servidor la entendió y contestó. Que
-la respuesta comunique un problema de la aplicación es información, no un fallo de
-la operación de red. `fetch` modela la capa de transporte, y en esa capa todo salió
-bien.
+La lógica existe aunque moleste: **un 404 es una respuesta exitosa del protocolo.** Es
+el correo: **el cartero entregó la carta e hizo su trabajo perfecto**, y que la carta
+diga «su solicitud fue rechazada» no es problema del correo. Que la respuesta comunique
+un problema de la aplicación es información, no un fallo de la operación de red.
 
 Coherente o no, obliga a comprobar siempre:
 
@@ -416,37 +445,24 @@ if (!respuesta.ok) {
 return respuesta.json();
 ```
 
-Esa comprobación **se escribe una sola vez**, en la capa `api/` que el Capítulo 8
-estudia. Repetirla en cada vista es la garantía de que en algún lado va a faltar.
+Lo importante no es el código sino **dónde va**: **se escribe una sola vez**, en la
+capa `api/` que el Capítulo 8 estudia. Repetirla en cada vista garantiza que en algún
+lado va a faltar — justo en la que nadie probó.
 
-> **📌 NOTA**
-> Un aviso para cuando abras el TPI y no te lleves una sorpresa: **el stack declara
-> Axios, no `fetch`.**
+> **📌 NOTA: el TPI declara Axios, no `fetch`**
+> ¿Y entonces por qué estudiamos `fetch`? Porque es **la interfaz de la plataforma**
+> —Axios está construido sobre ella— y porque el comportamiento que acabás de ver es
+> el que Axios decidió cambiar: **Axios sí rechaza ante un `4xx` o un `5xx`**, y el
+> error trae `error.response.status` y `error.response.data`.
 >
-> ¿Y entonces por qué estudiamos `fetch`? Por dos razones. Es **la interfaz de la
-> plataforma** —Axios está construido sobre ella y en algún momento vas a leer un
-> error que viene de abajo—, y porque el comportamiento que acabás de ver es
-> justamente el que Axios decidió cambiar:
->
-> **Axios sí rechaza ante un `4xx` o un `5xx`.** Con Axios, un 500 cae en el `catch`,
-> que es lo que la mayoría espera. Y el error trae `error.response.status` y
-> `error.response.data`.
->
-> Fijate lo que eso significa: **no son dos interfaces distintas, son dos decisiones
-> distintas sobre el mismo problema.** `fetch` modela la capa de transporte; Axios
-> modela lo que uno quiere de un cliente HTTP.
->
-> Lo que **no** cambia es el principio de la sección 5.7: distinguir red, protocolo y
-> aplicación sigue siendo tu trabajo. Axios te lo acerca al `catch`; no lo resuelve.
-> Y el TPI usa además sus **interceptores**, que son el lugar donde el token y la
-> traducción de errores se aplican una sola vez para toda la aplicación.
+> **No son dos interfaces distintas: son dos decisiones distintas sobre el mismo
+> problema.** Lo que **no** cambia es el principio de la 5.7: distinguir red,
+> protocolo y aplicación sigue siendo tu trabajo. Y el TPI usa sus **interceptores**,
+> donde el token y la traducción de errores se aplican una sola vez para toda la
+> aplicación.
 
-> **⚠️ OJO ACÁ**
-> Este es el error más común del código que escriben los agentes de IA, así que
-> prestale atención especial.
->
-> Cuando le pidas "escribime una función que traiga los productos", te va a salir
-> algo así:
+> **⚠️ OJO ACÁ: el error más común del código que escriben los agentes**
+> Cuando le pidas «escribime una función que traiga los productos», va a salir esto:
 >
 > ```js
 > try {
@@ -459,17 +475,17 @@ estudia. Repetirla en cada vista es la garantía de que en algún lado va a falt
 >
 > Se ve perfecto. Tiene su `try`/`catch`. **Y no maneja ningún error del servidor.**
 >
-> Si el backend responde 401 porque venció el token, ese `catch` no se ejecuta. La
+> Si el backend responde 401 porque venció el token, ese `catch` no se ejecuta: la
 > función devuelve el objeto de error parseado como si fuera la lista de productos, y
-> el bug aparece tres capas más arriba, donde algo espera un arreglo y recibe otra
-> cosa.
+> el bug aparece tres capas más arriba. Vas a depurar el componente de la lista, que
+> es el único lugar donde el problema **no** está.
 >
-> **Si no ves un `if (!respuesta.ok)`, el código está mal.** No importa lo prolijo que
-> se vea el resto.
+> **Si no ves un `if (!respuesta.ok)`, el código está mal.**
 
-### 5.5.4. Cancelación
+## 5.5.4 — Cancelar, y el plazo de espera que `fetch` no tiene
 
-El `AbortController` de la sección 4.9.4 también cancela peticiones:
+El `AbortController` de la sección 4.9.4 —el mismo objeto con el que dabas de baja
+escuchas de eventos— **también cancela peticiones**:
 
 ```js
 const controlador = new AbortController();
@@ -478,70 +494,90 @@ fetch(url, { signal: controlador.signal });
 controlador.abort();   // la promesa se rechaza con un AbortError
 ```
 
-El caso que lo hace necesario es concreto: **una vista que se desmonta mientras
-espera una respuesta.** Sin cancelación, la respuesta llega, el código intenta
-actualizar un elemento que ya no está en el documento, y en el mejor caso falla
-silenciosamente; en el peor, mantiene vivo todo el subárbol, que es la fuga de la
-sección 4.9.
+El caso que lo hace necesario: **una vista que se desmonta mientras espera una
+respuesta.** La respuesta llega igual e intenta actualizar un elemento que **ya no está
+en el documento**. En el mejor caso falla en silencio; en el peor, la continuación
+retiene los nodos de la vista vieja y **todo el subárbol sigue vivo en memoria**. Eso
+es la fuga de la sección 4.9: **un pedido de delivery a una casa de la que ya te
+mudaste.**
 
-El otro caso es la búsqueda mientras se escribe: cada tecla dispara una petición y
+> **💡 PARA ENTENDER: cancelar no es ahorrar — es RN-F01 otra vez**
+> **RN-F01** exige que toda suscripción guarde su función de baja y la ejecute al
+> destruir el componente. La escribiste pensando en `addEventListener`, pero **una
+> petición en vuelo es exactamente lo mismo**. Y el mecanismo es uno solo:
+>
+> ```js
+> const controlador = new AbortController();
+> elemento.addEventListener("click", alHacerClic, { signal: controlador.signal });
+> fetch(url, { signal: controlador.signal });
+>
+> controlador.abort();   // se van las dos cosas de una
+> ```
+>
+> Un controlador por vista y `abort()` al desmontar cubre las escuchas **y** las
+> peticiones; por eso el Capítulo 7 mete las dos en la misma clase base. **La
+> cancelación no es una optimización: es corrección.**
+
+El otro caso es la **búsqueda mientras se escribe**: cada tecla dispara una petición y
 las respuestas pueden llegar **desordenadas**, de modo que un resultado viejo pise a
-uno nuevo. Cancelar la anterior antes de emitir la siguiente resuelve las dos cosas.
+uno nuevo.
 
-Para un plazo de espera existe una función nativa que evita armarlo a mano:
+Para el plazo de espera hay una función nativa que evita armarlo a mano:
 
 ```js
 fetch(url, { signal: AbortSignal.timeout(5000) });
 ```
 
-Vale la pena señalar por qué hace falta: **`fetch` no tiene plazo de espera
-propio.** Sin uno, una petición puede quedar pendiente hasta que el sistema
-operativo decida cortarla, que pueden ser minutos.
+Hace falta porque **`fetch` no tiene plazo de espera propio.** Sin uno, una petición
+queda pendiente hasta que el sistema operativo la corte, que pueden ser minutos.
 
-> **⚠️ OJO ACÁ**
-> Que `fetch` no tenga plazo de espera propio suena a detalle y produce el peor tipo
-> de falla: **la que no falla.**
+> **⚠️ OJO ACÁ: la peor falla es la que no falla**
+> El usuario aprieta «Confirmar pedido» con mala señal. La petición sale y **queda
+> colgada**: el botón sigue en «Enviando…», no hay error que mostrar porque no hubo
+> error, y el `catch` no se ejecuta porque nada se rechazó. El usuario espera treinta
+> segundos, se cansa, y **aprieta de nuevo**.
 >
-> Pensá el caso. El usuario aprieta "Confirmar pedido" con mala señal. La petición
-> sale y **queda colgada**. No falla, no responde, no pasa nada.
+> Y ahí tenés dos pedidos. Por eso RN-F07 —la clave de idempotencia del Capítulo 1—
+> existe: porque este escenario **va a pasar**. El plazo de espera evita que el usuario
+> quede colgado; la clave lo protege el día que igual apriete dos veces.
 >
-> - El botón sigue en "Enviando…"
-> - No hay error que mostrar, porque no hubo error
-> - El `catch` no se ejecuta, porque nada se rechazó
-> - El usuario espera treinta segundos, se cansa, y **aprieta de nuevo**
->
-> Y ahí tenés dos pedidos. Por eso RN-F07 —la clave de idempotencia— existe: porque
-> este escenario **va a pasar**, no es hipotético.
->
-> Regla: **toda petición lleva plazo de espera.** Sin excepciones. Un error explícito
-> a los cinco segundos es infinitamente mejor que un botón que gira para siempre.
+> Regla: **toda petición lleva plazo de espera.** Un error explícito a los cinco
+> segundos es infinitamente mejor que un botón que gira para siempre.
 
 ---
 
-## 5.6. La política de mismo origen y CORS
+# 5.6 — La política de mismo origen y CORS
 
-### 5.6.1. Qué protege
+## 5.6.1 — A quién protege, que no es a quien parece
 
-Dos direcciones tienen el **mismo origen** si coinciden en esquema, host y puerto.
-Por defecto, un documento no puede leer respuestas de otro origen.
+### Qué dice
 
-La razón se entiende con un escenario. Alguien tiene sesión abierta en su banco y
-visita un sitio cualquiera. Ese sitio emite una petición al banco desde el
-navegador de la víctima, con sus cookies, y lee el saldo. **Sin la política de mismo
-origen, eso funcionaría.**
+Dos direcciones tienen el **mismo origen** si coinciden en **esquema, host y puerto**.
+Por defecto, un documento no puede leer respuestas de otro origen. La política no
+protege al servidor: protege al usuario.
 
-De ahí la precisión que casi nadie tiene clara: **CORS no protege al servidor.
-Protege al usuario de que un sitio lea respuestas de otro sitio usando sus
-credenciales.** El servidor debe autorizar cada petición por su cuenta —lo hace el
-token del Capítulo 1—, porque un programa fuera del navegador ignora CORS por
-completo. Un `curl` no tiene política de mismo origen.
+### En criollo
 
-### 5.6.2. Verificación previa
+Los tres tienen que coincidir: `https://foodstore.example` y
+`http://foodstore.example` son orígenes distintos, y también lo son el puerto 5173 y
+el 8000 — por eso en desarrollo te comés un error de CORS el primer día.
 
-Algunas peticiones se emiten directamente y otras van precedidas de una consulta.
-La distinción es histórica: **las peticiones que un formulario HTML podía hacer
-antes de que CORS existiera se admiten sin consulta**, porque prohibirlas habría
-roto la web.
+La razón se ve con un escenario. Alguien tiene la sesión abierta en su banco y en otra
+pestaña visita un sitio cualquiera, que desde el navegador de la víctima emite una
+petición al banco: **viaja con las cookies de la víctima** y el banco contesta el
+saldo. **Sin la política de mismo origen, eso funcionaría.**
+
+De ahí la precisión que casi nadie tiene clara: **CORS no protege al servidor. Protege
+al usuario de que un sitio lea respuestas de otro sitio usando sus credenciales.** El
+servidor debe autorizar cada petición por su cuenta —con el token del Capítulo 1—,
+porque un programa fuera del navegador ignora CORS: **un `curl` no tiene política de
+mismo origen.**
+
+## 5.6.2 — La verificación previa
+
+Algunas peticiones se emiten directamente y otras van precedidas de una consulta. La
+distinción es **histórica**: las que un formulario HTML podía hacer **antes de que
+CORS existiera** se admiten sin consulta, porque prohibirlas habría roto la web.
 
 | Se emite directo | Requiere verificación previa |
 | --- | --- |
@@ -549,51 +585,48 @@ roto la web.
 | Sin encabezados propios | Con encabezados propios: `Authorization`, `Idempotency-Key` |
 | `Content-Type` de formulario o texto plano | `Content-Type: application/json` |
 
-La consecuencia práctica es que **casi toda petición a la API del TPI dispara una
-verificación previa**, porque manda JSON y lleva `Authorization`.
+Mirá la columna derecha y después el código de la 5.5.1: **casi toda petición a la API
+del TPI dispara una verificación previa**, porque manda JSON y lleva `Authorization`.
 
-Esa verificación es una petición `OPTIONS` que el navegador emite solo, declarando
-qué método y qué encabezados pretende usar. El servidor responde qué admite, y sólo
-entonces se emite la petición real. El encabezado `Access-Control-Max-Age` permite
-al navegador recordar la respuesta y no repetir la consulta en cada petición.
+Esa verificación es una petición `OPTIONS` que **el navegador emite solo**, declarando
+qué método y qué encabezados pretende usar; el servidor responde qué admite y **sólo
+entonces** se emite la petición real. El encabezado `Access-Control-Max-Age` le permite
+al navegador recordar la respuesta y no repetir la consulta cada vez.
 
 *(Ver Figura 5.3: la verificación previa y la petición real.)*
 
-Esa distinción explica un detalle que confunde al diagnosticar: **en el panel de red
-aparecen dos peticiones donde el código escribió una sola.** La primera, con método
-`OPTIONS`, no la emitió el código: la emitió el navegador. Y si esa primera falla, la
-segunda **nunca se emite**, de modo que el servidor jamás se entera de que alguien
-quiso hacer algo.
+Eso explica un detalle que confunde al diagnosticar: **en el panel de red aparecen dos
+peticiones donde tu código escribió una sola.** La primera, `OPTIONS`, la emitió el
+navegador. Y si esa primera falla, la segunda **nunca se emite**, de modo que el
+servidor **jamás se entera** de que alguien quiso hacer algo.
 
-Cuando se envían cookies, la configuración se vuelve estricta: **el servidor no
-puede responder con el comodín `*`**; debe devolver el origen exacto y declarar
+Cuando se envían cookies la configuración se vuelve estricta: **el servidor no puede
+responder con el comodín `*`**; debe devolver el origen exacto y declarar
 explícitamente que admite credenciales.
 
-> **💡 PARA ENTENDER**
-> Tres cosas sobre los errores de CORS que te van a ahorrar horas.
+> **💡 PARA ENTENDER: tres cosas sobre los errores de CORS**
+> **Una: el error es del navegador, no del servidor.** El servidor contestó perfecto;
+> el navegador recibió la respuesta, no encontró la autorización y **decidió no dejarte
+> leerla**. Por eso el mensaje aparece en la consola y no en el panel de red. Es el
+> mensajero que trajo el sobre y no te lo entrega porque el remitente no puso tu
+> nombre en la lista.
 >
-> **Una: el error es del navegador, no del servidor.** El servidor contestó
-> perfecto. El navegador recibió la respuesta, no encontró la autorización, y
-> **decidió no dejarte leerla**. Por eso el mensaje aparece en la consola y no en el
-> panel de red como un código de error.
+> **Dos: la petición sí llegó.** En una petición simple el servidor la procesó: si era
+> un `POST` que creaba algo, **lo creó**.
 >
-> **Dos: la petición sí llegó.** En una petición simple, el servidor la recibió y la
-> procesó. Si era un `POST` que creaba algo, **lo creó** — vos no viste la respuesta,
-> pero el efecto ocurrió.
->
-> **Tres, y es la que importa: CORS se arregla en el servidor. Siempre.** No hay nada
-> que puedas escribir en el frontend que lo resuelva. Cuando busques el error y
-> encuentres un plugin del navegador que "desactiva CORS", entendé lo que estás
-> haciendo: **lo desactivás para vos, en tu máquina.** Tus usuarios lo van a seguir
-> teniendo. Es tapar el testigo del tablero.
+> **Tres, y es la que importa: CORS se arregla en el servidor. Siempre.** Cuando
+> encuentres un plugin que «desactiva CORS», entendé lo que hace: **lo desactiva para
+> vos, en tu máquina.** Tus usuarios lo van a seguir teniendo.
 
 ---
 
-## 5.7. Errores: tres categorías distintas
+# 5.7 — Los errores: tres categorías distintas
 
-### 5.7.1. La clasificación
+## 5.7.1 — La clasificación
 
-Un cliente serio distingue tres cosas que suelen tratarse igual:
+### Qué dice
+
+Un cliente serio distingue tres cosas que suelen tratarse igual.
 
 | Categoría | Qué pasó | Cómo se detecta | ¿Reintentar? |
 | --- | --- | --- | --- |
@@ -601,28 +634,26 @@ Un cliente serio distingue tres cosas que suelen tratarse igual:
 | **Protocolo** | Llegó y el servidor falló | `!respuesta.ok` con `5xx` | A veces |
 | **Aplicación** | Llegó, se entendió, y la operación no procede | `!respuesta.ok` con `4xx` | **No** |
 
-La tercera fila es la que más se maltrata. Un `409` porque el producto se quedó sin
-stock **no es un error técnico**: es información de negocio que el usuario tiene que
-ver. Mostrar "error de conexión" ante un `409` es mentirle.
+### En criollo
 
-### 5.7.2. El catálogo del TPI
+La tabla continúa la 1.4.3 —4xx sos vos, 5xx soy yo— y le agrega la fila de arriba, la
+red, que en el Capítulo 1 no existía porque ahí el que emitía la petición era el
+navegador.
 
-La sección 14.1 del TPI define un catálogo de códigos de error, cada uno con su
-código HTTP y la situación que lo produce. Que exista ese catálogo tiene una
-consecuencia de diseño importante para el frontend: **el cliente puede distinguir
-casos por un código estable en lugar de leer el texto del mensaje.**
+**La tercera fila es la que más se maltrata.** Un `409` porque el producto se quedó sin
+stock **no es un error técnico**: es información de negocio que el usuario necesita
+ver. Mostrar «error de conexión» ante un `409` **es mentirle**: la conexión anduvo
+perfecto, y el usuario va a revisar su wifi y reintentar para nada.
 
-Comparar textos es frágil —cambian, se traducen, se corrigen— y el código no. La
-capa `api/` traduce el código a un tipo de error propio, y las vistas deciden qué
-mostrar según ese tipo.
+## 5.7.2 — El catálogo del TPI, y dónde se traduce
 
-La sección 14.2 del TPI responde la pregunta de **dónde** ocurre esa traducción, y
-la respuesta es la misma que este capítulo viene sosteniendo: en un solo lugar. Un
-error que llega a la vista ya debe ser un objeto con significado, no una respuesta
-HTTP cruda.
-
-En la práctica eso se resuelve con un tipo de error propio que conserva el código y
-lo que haga falta para decidir:
+La sección 14.1 del TPI define un **catálogo de códigos de error**, cada uno con su
+código HTTP y la situación que lo produce, y eso tiene una consecuencia de diseño
+importante: **el cliente puede distinguir casos por un código estable en lugar de leer
+el texto del mensaje.** La sección 14.2 contesta la otra mitad —**dónde** ocurre esa
+traducción—, y la respuesta es la que este capítulo viene sosteniendo: **en un solo
+lugar.** Un error que llega a una vista ya debe ser un objeto con significado, no una
+respuesta HTTP cruda.
 
 ```js
 export class ErrorDeApi extends Error {
@@ -637,7 +668,7 @@ export class ErrorDeApi extends Error {
 }
 ```
 
-Con eso, la vista deja de mirar números y pasa a preguntar por significado:
+Con eso, la vista deja de mirar números y pasa a **preguntar por significado**:
 
 ```js
 try {
@@ -649,32 +680,45 @@ try {
 }
 ```
 
-Nótese lo que **no** hace esa vista: no revisa `respuesta.ok`, no parsea el cuerpo,
-no compara textos de mensajes. Todo eso ocurrió una vez, en la capa `api/`. Ese es
-el sentido de la respuesta de la sección 14.2.
+Mirá lo que esa vista **no** hace: no revisa `respuesta.ok`, no parsea el cuerpo, no
+compara textos. Todo eso ocurrió **una sola vez**, en la capa `api/`.
 
-### 5.7.3. Reintento y el `429`
+> **📌 El código es estable; el mensaje, no**
+> `"No hay stock suficiente"` se puede corregir por una falta de ortografía, traducir
+> o reescribir para que suene más amable: las tres son cosas **legítimas** que el
+> backend hace sin avisar.
+>
+> Y sin embargo, si tu vista dice `if (error.message === "No hay stock suficiente")`,
+> cada uno de esos cambios **rompe la aplicación en silencio**: el `if` deja de dar
+> verdadero y no hay error en ningún log.
+>
+> Es la diferencia entre el código postal y el nombre de la calle. **Compará códigos,
+> mostrá mensajes.**
 
-Ante un `429`, el servidor indica cuánto esperar mediante el encabezado
-`Retry-After`. El TPI lo usa en su límite de intentos de autenticación, descrito en
-su sección 4.4.
+## 5.7.3 — El reintento y el `429`
 
-**Un cliente que ignora ese encabezado y reintenta de inmediato empeora exactamente
-el problema que el límite intenta contener.** Y como el límite del TPI cuenta por
-dirección de red además de por cuenta, un cliente mal escrito puede dejar sin
-servicio a todos los usuarios de la misma red.
+Ante un `429`, el servidor indica cuánto esperar mediante el encabezado `Retry-After`
+de la 1.4.3. El TPI lo usa en su límite de intentos de autenticación, descrito en su
+sección 4.4.
 
-Cuando el reintento corresponde —fallo de red, o `5xx`—, la práctica correcta es
-esperar cada vez más entre intentos, con una pequeña variación aleatoria. Sin esa
-variación, todos los clientes que fallaron a la vez reintentan a la vez, y el
-servidor que se estaba recuperando recibe otra avalancha.
+**Un cliente que ignora ese encabezado y reintenta de inmediato empeora exactamente el
+problema que el límite intenta contener.** Y como el límite del TPI cuenta **por
+dirección de red además de por cuenta**, un cliente mal escrito puede dejar sin
+servicio a **todos los usuarios de la misma red**.
+
+Cuando el reintento corresponde —fallo de red o `5xx`—, la práctica correcta es esperar
+cada vez más entre intentos, con una **pequeña variación aleatoria**. Eso último es lo
+que más se olvida: sin la variación, todos los clientes que fallaron a la vez
+reintentan a la vez y el servidor que se estaba recuperando **recibe otra avalancha**.
+Es el aplauso: si todos aplauden al mismo tiempo, el ruido es máximo.
 
 ---
 
-## 5.8. El token: dónde vive y qué implica
+# 5.8 — El token: dónde vive y qué implica
 
 El Capítulo 1 estableció que el token viaja en cada petición. Queda por resolver
-dónde se guarda entre una y otra, y ninguna opción es enteramente satisfactoria.
+**dónde se guarda entre una y otra**, y **ninguna opción es enteramente
+satisfactoria.**
 
 | Lugar | Sobrevive al cierre | Accesible por script | Se envía solo |
 | --- | --- | --- | --- |
@@ -684,80 +728,86 @@ dónde se guarda entre una y otra, y ninguna opción es enteramente satisfactori
 | Cookie `HttpOnly` | Sí | **No** | Sí |
 | Memoria | No | Sí | No |
 
-Las tres primeras filas comparten un riesgo: **si hay un XSS, el token se puede
-leer**, que es exactamente el ataque de la sección 4.7.2. La cookie `HttpOnly` es
-inaccesible desde el código, pero al enviarse automáticamente introduce otro
-problema —la falsificación de petición entre sitios— que exige su propia defensa.
+Las tres primeras filas comparten un riesgo: **si hay un XSS, el token se puede leer**,
+que es exactamente el ataque de la sección 4.7.2. La cookie `HttpOnly` es inaccesible
+desde el código, pero al enviarse automáticamente introduce **otro** problema —la
+falsificación de petición entre sitios— que exige su propia defensa.
 
-**No hay una opción sin costo**, y por eso la defensa de fondo no es dónde se guarda
-sino **que no haya XSS**: RN-F02 otra vez.
+**No hay una opción sin costo**, y por eso la defensa de fondo no es dónde se guarda el
+token sino **que no haya XSS**: RN-F02 otra vez.
 
-> **⚠️ OJO ACÁ**
-> Vas a encontrar mucha discusión en internet sobre dónde guardar el token, con gente
-> muy segura de que su opción es la correcta. Quedate con esto:
+> **⚠️ OJO ACÁ: si tenés un XSS, ya perdiste**
+> Vas a encontrar mucha discusión sobre dónde guardar el token. Quedate con esto:
+> **si tenés un XSS, ya perdiste, guardes el token donde lo guardes.**
 >
-> **Si tenés un XSS, ya perdiste, guardes el token donde lo guardes.**
+> ¿Lo tenés en una cookie `HttpOnly` que el script no puede leer? El atacante no lee
+> el token — **hace las peticiones desde tu propia página, con tu sesión.** No necesita
+> robarlo: le alcanza con usarlo. Es el ladrón que ya está adentro de tu casa: **da
+> igual qué tan buena sea la cerradura.**
 >
-> ¿Lo tenés en una cookie `HttpOnly` que el script no puede leer? Bárbaro. El
-> atacante no lee el token — **hace las peticiones desde tu propia página, con tu
-> sesión.** No necesita robarlo: le alcanza con usarlo.
->
-> Por eso la discusión sobre `localStorage` contra cookies es secundaria. Cambia
-> **qué** puede hacer el atacante, no **si** puede hacer algo.
->
-> La defensa que importa es la del Capítulo 4: que no haya XSS. Todo lo demás es
-> reducir el daño de algo que no debería poder pasar.
+> La discusión cambia **qué** puede hacer el atacante, no **si** puede hacer algo.
 
-Sobre esto, el TPI hace una elección explícita que conviene entender. Su sección
-11.4 establece que, como la interfaz nativa de eventos **no permite fijar
-encabezados**, el token viaja como parámetro de consulta **únicamente en el endpoint
-de eventos**. Eso contradice lo que el Capítulo 1 advirtió sobre no poner datos
-sensibles en la cadena de consulta, y la contradicción es real: es una concesión a
-una limitación de la plataforma, acotada a un solo endpoint y acompañada de
-mitigaciones del lado del servidor.
+### La concesión que el TPI hace, y por qué la hace
 
-Y queda la regla **RN-F04**, que el Capítulo 1 anticipó y que acá se completa:
+Su sección 11.4 establece que, como la interfaz nativa de eventos **no permite fijar
+encabezados** —no hay forma de mandarle un `Authorization` a un `EventSource`—, el
+token viaja **como parámetro de consulta**, y **únicamente en el endpoint de eventos**.
+
+Eso contradice lo que el Capítulo 1 advirtió sobre no poner datos sensibles en la
+cadena de consulta, y la contradicción **es real**: es una concesión a una limitación
+de la plataforma, **acotada a un solo endpoint** y acompañada de mitigaciones del lado
+del servidor. Guardate la forma de esa decisión: cuando la plataforma no te deja hacer
+lo correcto, se elige el mal menor, **se acota y se documenta**.
+
+### Y RN-F04, que acá se completa
 
 > Las guardas de ruta son usabilidad, no seguridad: el backend revalida siempre el
 > rol y la propiedad del recurso.
 
-Ocultar un botón de administración evita que un usuario común se confunda. **No
-evita nada más.** Cualquiera puede emitir la petición con `curl`, y el único lugar
-donde esa petición se puede rechazar es el servidor.
+Ocultar un botón de administración evita que un usuario común se confunda. **No evita
+nada más.** Cualquiera puede emitir la petición con `curl` —que, como vimos en la
+5.6.1, ni siquiera tiene política de mismo origen—, y el único lugar donde esa petición
+se puede rechazar es el servidor.
 
 ---
 
-## 5.9. Eventos enviados por el servidor
+# 5.9 — Los eventos que manda el servidor
 
-### 5.9.1. Por qué SSE y no WebSockets
+## 5.9.1 — Por qué SSE y no WebSockets
 
-El Capítulo 1 dejó planteado que el servidor no puede iniciar la conversación. Hay
-dos formas de sortearlo, y el TPI documenta en su sección 11.1 los cinco criterios
-por los que eligió la menos conocida:
+### Qué dice
 
-**Dirección.** El flujo es unidireccional: el servidor avisa y el cliente no manda
-nada por ese canal. Todo lo que el cliente quiere hacer ya tiene su endpoint REST.
-Un canal bidireccional resolvería un problema que no existe.
+El Capítulo 1 dejó planteado que el servidor no puede iniciar la conversación. El TPI
+documenta en su sección 11.1 los cinco criterios por los que eligió la alternativa
+menos conocida.
 
-**Protocolo.** SSE **es HTTP**. Pasa por los mismos intermediarios, la misma
-infraestructura y la misma autenticación. WebSockets exige un cambio de protocolo
-que a menudo hay que habilitar explícitamente.
+### En criollo: primero, el abanico completo
 
-**Reconexión.** La interfaz nativa reconecta sola y reenvía el identificador del
-último evento recibido, sin escribir una línea. Con WebSockets, la reconexión con
-recuperación de estado es código propio.
+«El servidor no puede hablar primero» se sorteó históricamente de cuatro maneras, y
+cada una resigna algo:
 
-**Costo por conexión.** Sobre un backend asincrónico, una conexión abierta cuesta
-una corrutina y un socket.
+| Mecanismo | Cómo hace que el servidor «hable» | Qué cuesta |
+| --- | --- | --- |
+| **Consulta periódica** (*polling*) | El cliente pregunta cada N segundos si hay novedad | Casi todo es «no», y la novedad llega tarde: medio intervalo |
+| **Consulta larga** (*long polling*) | El servidor **no contesta hasta que hay novedad** | Una conexión ocupada por cliente, y reconectar tras cada respuesta |
+| **Eventos del servidor** (*SSE*) | Deja **una respuesta abierta** y escribe eventos | Canal **unidireccional** y límite de conexiones por dominio en HTTP/1.1 |
+| **WebSocket** | Cambia de protocolo: canal **bidireccional** permanente | Ya no es HTTP: infraestructura propia y **reconexión a mano** |
 
-**Lo que se pierde.** El cliente no puede mandar nada por el canal, y existe un
-límite histórico de seis conexiones por dominio sobre HTTP/1.1. El TPI señala que
-ese límite es irrelevante en su caso **porque el frontend abre una sola**, que es
-justamente RN-F10.
+El TPI eligió el tercero, y sus cinco criterios explican por qué:
 
-### 5.9.2. El protocolo y su uso
+| Criterio | Por qué favorece a SSE |
+| --- | --- |
+| **Dirección** | El flujo es unidireccional: el servidor avisa y el cliente **no manda nada por ese canal**, porque todo lo que quiere hacer ya tiene su endpoint REST. Un canal bidireccional resolvería un problema que no existe |
+| **Protocolo** | SSE **es HTTP**: una respuesta común que no se termina de cerrar. Pasa por los mismos intermediarios, infraestructura y autenticación; WebSocket exige un cambio de protocolo que hay que habilitar aparte |
+| **Reconexión** | La interfaz nativa **reconecta sola** y reenvía el identificador del último evento, sin escribir una línea. Con WebSocket eso es código propio |
+| **Costo por conexión** | Sobre un backend asincrónico, una conexión abierta cuesta **una corrutina y un socket**: una función suspendida, no un hilo esperando |
+| **Lo que se pierde** | El cliente no puede mandar nada por el canal, y hay un límite de **seis conexiones por dominio en HTTP/1.1** — irrelevante acá **porque el frontend abre una sola**, que es RN-F10 |
 
-El formato es texto plano. Cada evento es un bloque de líneas con etiqueta, y un
+La analogía conviene dibujarla: **SSE es la radio; WebSocket es el teléfono.**
+
+## 5.9.2 — El protocolo y su uso
+
+El formato es **texto plano**. Cada evento es un bloque de líneas con etiqueta, y un
 **doble salto de línea** lo cierra:
 
 ```
@@ -767,7 +817,7 @@ data: {"pedido_id": 1043, "estado": "en_preparacion"}
 
 ```
 
-Del lado del cliente, la interfaz nativa es breve:
+Del lado del cliente, la interfaz nativa es igual de breve:
 
 ```js
 const canal = new EventSource(`/api/v1/eventos?token=${token}`);
@@ -780,35 +830,36 @@ canal.addEventListener("pedido_actualizado", (evento) => {
 canal.addEventListener("error", () => { /* reconecta solo */ });
 ```
 
-Dos detalles: **`event.data` es siempre una cadena** y hay que parsearla; y el
-`token` en la dirección corresponde a la concesión de la sección 5.8.
+Dos detalles: **`event.data` es siempre una cadena** y hay que parsearla, y el `token`
+en la dirección corresponde a la concesión de la sección 5.8.
 
-### 5.9.3. El hueco de la reconexión
+## 5.9.3 — El hueco de la reconexión
 
-Acá está la limitación que funda las tres reglas, y el TPI la declara sin
-disimulo en su sección 11.3: **el mecanismo de publicación del backend no persiste
-los mensajes.** Lo que se publica mientras un cliente no está suscripto, ese cliente
-no lo recibe.
+Acá está la limitación que funda las tres reglas, y el TPI la declara **sin disimulo**
+en su sección 11.3: **el mecanismo de publicación del backend no persiste los
+mensajes.** Volvé a la radio y se entiende sola: **lo que se transmitió mientras tenías
+la radio apagada, no lo escuchaste** — y, peor, no tenés forma de saber que te lo
+perdiste.
 
-El TPI resuelve el hueco **del lado del servidor**, y conviene conocer el
-mecanismo porque explica qué puede y qué no puede esperar el cliente:
+El TPI resuelve el hueco **del lado del servidor**, y el mecanismo define qué puede
+esperar el cliente:
 
-- En la **conexión inicial** el servidor emite un evento de sincronización.
-- En una **reconexión**, el navegador reenvía el identificador del último evento
-  recibido, y el servidor emite lo que haya quedado pendiente desde ese punto.
-- Si el cliente estuvo desconectado **mucho tiempo**, la recuperación se acota: pasado
-  cierto límite el servidor emite un evento de resincronización y el cliente vuelve a
-  cargar desde cero.
-- Un **comentario periódico** cada quince segundos mantiene viva la conexión, porque
-  sin él un intermediario cierra la conexión inactiva y el cliente entra en un ciclo
-  de reconexión permanente.
+| Momento | Qué hace el servidor | Qué puede esperar el cliente |
+| --- | --- | --- |
+| **Conexión inicial** | Emite un evento de sincronización | Arrancar con el estado al día |
+| **Reconexión** | El navegador reenvía el identificador del último evento y el servidor emite lo pendiente desde ahí | Recuperar lo perdido **si la desconexión fue corta** |
+| **Desconexión larga** | Pasado cierto límite emite un evento de **resincronización** | Recargar desde cero: **los intermedios no vuelven** |
+| **Conexión ociosa** | Manda un **comentario periódico** cada quince segundos | Que el canal siga vivo: sin eso un intermediario la cierra y empieza la **reconexión permanente** |
 
 *(Ver Figura 5.4: el hueco de la reconexión y su recuperación.)*
 
 **Ninguno de esos mecanismos garantiza la entrega en todos los casos.** El propio
-diseño admite que puede haber un salto. De ahí las tres reglas.
+diseño admite que puede haber un salto. **De ahí las tres reglas.**
 
-### 5.9.4. Las tres reglas
+## 5.9.4 — Las tres reglas
+
+Fijate que recién ahora, después de ver la limitación funcionando, las reglas se pueden
+enunciar. Antes habrían sido tres caprichos.
 
 **RN-F09 — el evento invalida, no escribe.**
 
@@ -816,10 +867,10 @@ diseño admite que puede haber un salto. De ahí las tres reglas.
 > la clave correspondiente y deja que se recargue. El evento dice **qué** cambió, no
 > **cuál** es el valor nuevo.
 
-La razón es directa: si un evento se pierde, escribir con el contenido de los
-eventos que sí llegaron deja la interfaz mostrando un estado **inventado**, que no
-corresponde a ningún momento real del servidor. Invalidar y recargar produce siempre
-un estado consistente, aunque se hayan perdido eventos por el camino.
+Si un evento se pierde y escribís la caché con los que **sí** llegaron, la interfaz
+muestra un estado **inventado**, que no corresponde a ningún momento real del servidor;
+invalidar y recargar siempre produce uno consistente. La analogía: **el evento es el
+timbre, no el paquete.**
 
 ```js
 // MAL: si se perdió un evento intermedio, el estado queda inventado
@@ -840,299 +891,342 @@ canal.addEventListener("pedido_actualizado", (e) => {
 > La conexión de eventos es una sola por sesión: se abre en el arranque si hay
 > sesión, contra el único endpoint de la sección 6.11, y se cierra en el logout.
 
-Dos razones. El límite de seis conexiones por dominio sobre HTTP/1.1, que con
-varias pestañas y varias vistas se alcanza rápido y **deja al resto de la aplicación
-sin poder hacer peticiones**. Y el diseño del servidor: la sección 11.4 del TPI
-establece que el servidor resuelve a qué canales corresponde suscribir a cada actor
-y **multiplexa todo por la misma conexión**.
+Dos razones. **El límite de seis conexiones por dominio sobre HTTP/1.1**: si cada vista
+abre la suya, el efecto no es que falle el canal — es que **el resto de la aplicación
+se queda sin poder hacer peticiones**. Y **el diseño del servidor**: su sección 11.4
+establece que el servidor resuelve a qué canales suscribir a cada actor y **multiplexa
+todo por la misma conexión**.
 
 **RN-F11 — la interfaz nunca depende del evento.**
 
 > Toda vista que muestra datos vivos declara además su intervalo de recarga de
 > respaldo, más largo; si el canal se cae, la pantalla se actualiza igual.
 
-Es la consecuencia lógica de todo lo anterior. Si el canal puede fallar y el
-mecanismo no garantiza la entrega, **una interfaz que sólo se actualiza por eventos
-puede quedarse mostrando información vieja indefinidamente**, sin que nadie lo note.
+Si el canal puede fallar y el mecanismo no garantiza la entrega, **una interfaz que
+sólo se actualiza por eventos puede quedarse mostrando información vieja
+indefinidamente**, sin que nadie lo note. De ahí la frase que resume la sección: **el
+canal es una optimización de latencia, no la fuente de verdad.** Con canal la pantalla
+se actualiza en el momento; sin canal, más lento; **nunca deja de actualizarse.** Es el
+reloj de la estación que se paró: no muestra un error, **muestra una hora**, y vos le
+creés hasta que perdés el tren.
 
-El canal es una **optimización de latencia**, no la fuente de verdad: con canal, la
-pantalla se actualiza en el momento; sin canal, se actualiza más lento. Nunca deja
-de actualizarse.
-
-> **💡 PARA ENTENDER**
-> Fijate en el razonamiento completo, porque es el mejor ejemplo del módulo de cómo
-> una limitación técnica se convierte en tres reglas:
->
+> **💡 PARA ENTENDER: cómo una limitación se convierte en tres reglas**
 > **El mecanismo de publicación no persiste** → un evento se puede perder → por lo
-> tanto:
+> tanto: no escribas con lo que llega (**RN-F09**), porque construirías un estado que
+> nunca existió; no abras más canales de los necesarios (**RN-F10**), porque cada uno
+> es otra cosa que se puede caer; no dependas del canal (**RN-F11**), porque se va a
+> caer alguna vez.
 >
-> - No escribas con lo que llega (**RN-F09**), porque construirías un estado que
->   nunca existió en el servidor.
-> - No abras más canales de los necesarios (**RN-F10**), porque cada uno es otra
->   cosa que se puede caer, y encima te comés el límite de conexiones.
-> - No dependas del canal (**RN-F11**), porque se va a caer alguna vez.
->
-> Y ahora lo importante para el TPI: **el panel de cocina va a funcionar perfecto en
-> tu demo de quince minutos aunque violes las tres.** Los eventos van a llegar todos,
-> nada se va a caer, y va a parecer que las reglas sobran.
->
-> Se rompe a las tres horas de turno, cuando el wifi de la cocina parpadea y la
-> pantalla queda mostrando pedidos viejos. **Y nadie se va a dar cuenta de que está
-> mostrando pedidos viejos**, porque no hay ningún error: hay una pantalla que dejó
+> Y lo importante para el TPI: **el panel de cocina va a funcionar perfecto en tu demo
+> de quince minutos aunque violes las tres.** Se rompe a las tres horas de turno,
+> cuando el wifi de la cocina parpadea y la pantalla queda mostrando pedidos viejos.
+> **Y nadie se va a dar cuenta**, porque no hay ningún error: hay una pantalla que dejó
 > de actualizarse.
 
 ---
 
-## 5.10. Herramientas de diagnóstico
+# 5.10 — Herramientas de diagnóstico
 
-El **panel de red** es el instrumento central. Cuatro observaciones que se usan
-poco y rinden mucho:
+El **panel de red** es el instrumento central, igual que en el Capítulo 1 — pero acá se
+usa distinto: allá mirabas qué pedía el navegador, acá qué pide **tu código**.
 
-- El filtro **Fetch/XHR** aísla las peticiones del código de las del documento y sus
-  recursos.
-- La columna de **tiempos**, desplegada, separa la espera de resolución, la conexión,
-  el tiempo hasta el primer byte y la descarga. Distinguirlos dice si la lentitud es
-  del servidor o de la red.
-- La **limitación de red** simula una conexión lenta. Es la única forma práctica de
-  probar los estados de carga y los plazos de espera de la sección 5.5.4.
-- El modo **sin conexión** provoca el fallo de red de la sección 5.7.1 y permite
-  verificar que el cliente lo distingue de un error del servidor.
+| Qué mirar | Qué te dice | Cuándo lo usás |
+| --- | --- | --- |
+| El filtro **Fetch/XHR** | Aísla las peticiones de tu código de las del documento | Siempre que depures la capa `api/` |
+| La columna de **tiempos**, desplegada | Separa resolución, conexión, tiempo hasta el primer byte y descarga | **Primer byte tardío = el servidor; descarga larga = la red** |
+| La **limitación de red** | Simula una conexión lenta | **Única forma práctica** de probar los estados de carga y los plazos de espera (5.5.4) |
+| El modo **sin conexión** | Provoca el fallo de red de la 5.7.1 | Para verificar que el cliente lo **distingue** de un error del servidor |
 
 *(Ver Figura 5.5: el panel de red con la limitación activada.)*
 
-Para SSE, el panel tiene una vista específica: al seleccionar la conexión del canal
-aparece una pestaña de **eventos recibidos**, con su identificador, tipo y contenido
-en orden cronológico. Es donde se comprueba que la reconexión de la sección 5.9.3
-funcionó: **tras reconectar deben aparecer los eventos que se habían perdido**.
+Para SSE el panel tiene una vista específica: al seleccionar la conexión del canal
+aparece una pestaña de **eventos recibidos**, con identificador, tipo y contenido en
+orden cronológico. Ahí se comprueba que la reconexión de la 5.9.3 funcionó: **tras
+reconectar deben aparecer los eventos que se habían perdido**.
 
 *(Ver Figura 5.6: el flujo de eventos en el panel de red.)*
 
-> **🧪 EXPERIMENTO**
-> Este es el experimento que hace tangible RN-F11, y conviene hacerlo sobre el TPI
-> apenas tengas el canal andando.
+> **🧪 EXPERIMENTO — hacé tangible RN-F11**
+> Conviene hacerlo sobre el TPI apenas tengas el canal andando.
 >
-> 1. Abrí la vista de pedidos con el canal conectado y verificá en el panel de red
->    que los eventos llegan.
+> 1. Abrí la vista de pedidos con el canal conectado y verificá que los eventos
+>    llegan.
 > 2. Activá el modo **sin conexión** en el panel de red.
 > 3. Desde otra pestaña o con `curl`, hacé avanzar un pedido de estado.
 > 4. Volvé a la vista. **Sigue mostrando el estado viejo, y no hay ningún error.**
 > 5. Desactivá el modo sin conexión y mirá cuánto tarda en actualizarse.
 >
-> Ese paso 4 es el punto. **No hay mensaje, no hay ícono rojo, no hay nada**: hay una
-> pantalla que se ve perfectamente normal y está mintiendo.
->
-> Ahora imaginate esa pantalla en la cocina, con el cocinero mirándola para saber qué
-> preparar. Por eso RN-F11 no es opcional.
+> Ese paso 4 es el punto: **no hay mensaje, no hay ícono rojo, no hay nada**; hay una
+> pantalla que se ve normal y está mintiendo. Imaginátela en la cocina, con el
+> cocinero mirándola para saber qué preparar. Por eso RN-F11 no es opcional.
 
 ---
 
-## 5.11. Seguridad y evolución
+# 5.11 — Seguridad y evolución
 
-Tres consideraciones cierran el capítulo.
+**Todo lo que llega al cliente es visible.** El token, las respuestas, la lógica de las
+guardas. Es la base de **RN-F04** y **no tiene solución técnica del lado del cliente**,
+porque el código se ejecuta en una máquina que el atacante controla.
 
-**Todo lo que llega al cliente es visible.** El token, las respuestas, la lógica de
-las guardas. Es la base de RN-F04 y no tiene solución técnica del lado del cliente:
-la autorización se decide en el servidor.
-
-**La cancelación es también una cuestión de corrección.** Una petición que se
-resuelve después de que su vista desapareció puede escribir sobre estado que ya no
-corresponde. El `AbortController` de la sección 5.5.4 evita esa clase de error, no
-sólo el desperdicio.
+**La cancelación es también una cuestión de corrección.** Una petición que se resuelve
+después de que su vista desapareció puede **escribir sobre estado que ya no
+corresponde**: eso es un bug, no un desperdicio. El `AbortController` de la 5.5.4 evita
+esa clase de error además de la fuga de RN-F01.
 
 **El límite de intentos es una defensa compartida.** El servidor lo impone, pero un
-cliente que respeta `Retry-After` y espera cada vez más entre reintentos es parte de
-la defensa. Un cliente que no lo hace es parte del problema.
+cliente que respeta `Retry-After` **es parte de la defensa**; uno que no, es parte del
+problema, aunque sea de buena fe.
 
-En cuanto a la evolución, tres incorporaciones recientes resuelven cosas que hasta
-hace poco exigían código propio: **`AbortSignal.timeout()`** reemplaza el plazo de
-espera armado a mano; **`Array.fromAsync()`** permite recorrer flujos asincrónicos
-con la comodidad de un arreglo; y la **interfaz de flujos** permite procesar una
-respuesta grande a medida que llega, en lugar de esperar a tenerla completa en
-memoria.
+Y tres incorporaciones recientes resuelven cosas que hasta hace poco exigían código
+propio:
 
-Vale una observación final sobre el diseño del TPI. Un canal de eventos con
-recuperación por identificador, sincronización inicial y recarga de respaldo es
-**la misma estrategia que usa cualquier sistema distribuido serio**: no confiar en la
-entrega, sino diseñar para que la pérdida sea recuperable. Lo que se aprende acá no
-es una particularidad del TPI.
+| Novedad | Qué reemplaza | Por qué importa |
+| --- | --- | --- |
+| **`AbortSignal.timeout()`** | El plazo de espera armado a mano | Menos código para algo que **toda** petición necesita (5.5.4) |
+| **`Array.fromAsync()`** | Los bucles manuales sobre iterables asincrónicos | Recorrer flujos con la comodidad de un arreglo |
+| **La interfaz de flujos** | Esperar la respuesta completa en memoria | **Procesar una respuesta grande a medida que llega** |
 
----
-
-## 5.12. Verificación
-
-1. Predecir el orden de salida de un fragmento con código síncrono, `setTimeout`,
-   promesas y `await`, y verificarlo.
-2. Emitir una petición a un endpoint inexistente y **comprobar que el `catch` no se
-   ejecuta**; corregirlo con `respuesta.ok`.
-3. Convertir dos `await` independientes en un `Promise.all` y **medir la diferencia**
-   con la limitación de red activada.
-4. Provocar un error de CORS y explicar, mirando el panel de red, **si la petición
-   llegó al servidor**.
-5. Cancelar una petición en curso con `AbortController` y verificar en el panel de
-   red que figura como cancelada.
-6. Distinguir en el código el manejo de un fallo de red, un `500` y un `409`,
-   mostrando un mensaje distinto para cada uno.
-7. Simular un `429` y verificar que el cliente respeta el `Retry-After`.
-8. Abrir un canal de eventos, cortar la conexión, provocar un cambio y **verificar
-   tras reconectar que el evento perdido se recupera**.
-9. Explicar por qué RN-F09 exige invalidar en vez de escribir, con un ejemplo de
-   estado inconsistente concreto.
+Una observación final: un canal con recuperación por identificador, sincronización
+inicial y recarga de respaldo es **la misma estrategia que usa cualquier sistema
+distribuido serio** —no confiar en la entrega, sino diseñar para que la pérdida sea
+recuperable—. **Lo que se aprende acá no es una particularidad del TPI.**
 
 ---
 
-## 5.13. Errores frecuentes
+# 5.12 — Verificación: el checklist honesto
 
-**Creer que `fetch` falla ante un `500`.** No lo hace: la promesa se cumple. Sin
-`if (!respuesta.ok)` el cuerpo del error se procesa como si fuera un resultado
-válido (sección 5.5.3).
+Nueve comprobaciones. **No son ejercicios: son el criterio para saber si el capítulo se
+entendió.**
 
-**Encadenar `await` de peticiones independientes.** Duplica o cuadruplica el tiempo
-de carga sin ninguna razón (sección 5.4.2).
-
-**Usar `forEach` con una función `async`.** No espera nada; el código sigue con las
-operaciones en el aire (sección 5.4.2).
-
-**Elegir `Promise.all` cuando corresponde `allSettled`.** Un fallo descarta todos
-los resultados, incluidos los que sí funcionaron (sección 5.3.3).
-
-**Mostrar "error de conexión" ante un `4xx`.** El servidor respondió, y con
-información que el usuario necesita ver (sección 5.7.1).
-
-**Intentar arreglar CORS desde el frontend.** No se puede. Y el complemento que lo
-desactiva sólo lo desactiva en la máquina de quien lo instaló (sección 5.6.2).
-
-**Omitir el plazo de espera.** `fetch` no tiene uno propio; una petición puede
-quedar pendiente durante minutos (sección 5.5.4).
-
-**No cancelar al desmontar.** Produce escrituras sobre estado obsoleto y la fuga de
-la sección 4.9 (sección 5.5.4).
-
-**Reintentar de inmediato ante un `429`.** Empeora la situación que el límite intenta
-contener, y puede afectar a todos los usuarios de la misma red (sección 5.7.3).
-
-**Escribir en la caché con el contenido del evento.** Si se perdió un evento
-intermedio, el estado resultante no corresponde a ningún momento real del servidor.
-Viola RN-F09 (sección 5.9.4).
-
-**Abrir un canal de eventos por vista.** Consume el límite de conexiones y
-contradice el diseño del servidor. Viola RN-F10 (sección 5.9.4).
-
-**Confiar en que el evento siempre llega.** La pantalla se queda con datos viejos y
-**sin ningún error visible**. Viola RN-F11 (sección 5.9.4).
+- Predecir el orden de salida de un fragmento con código síncrono, `setTimeout`,
+  promesas y `await`, y verificarlo. *(5.3.1)*
+- Pedir un endpoint inexistente y **comprobar que el `catch` no se ejecuta**;
+  corregirlo con `respuesta.ok`. *(5.5.3)*
+- Convertir dos `await` independientes en un `Promise.all` y **medir la diferencia**
+  con la limitación de red activada. *(5.3.3 y 5.4.2)*
+- Provocar un error de CORS y explicar, mirando el panel de red, **si la petición llegó
+  al servidor**. *(5.6.2)*
+- Cancelar una petición con `AbortController` y verificar en el panel de red que figura
+  como cancelada. *(5.5.4)*
+- Distinguir en el código un fallo de red, un `500` y un `409`, con **un mensaje
+  distinto para cada uno**. *(5.7.1)*
+- Simular un `429` y verificar que el cliente **respeta el `Retry-After`**. *(5.7.3)*
+- Abrir un canal, cortar la conexión, provocar un cambio y **verificar tras reconectar
+  que el evento perdido se recupera**. *(5.9.3)*
+- Explicar por qué RN-F09 exige invalidar en vez de escribir, **con un ejemplo de
+  estado inconsistente concreto**. *(5.9.4)*
 
 ---
 
-## 5.14. Actividades
+# 5.13 — Los doce errores frecuentes
 
-1. **Predicción de orden.** Dado un fragmento que combine `setTimeout`, tres
-   promesas y dos `await`, escribir el orden de salida antes de ejecutarlo y explicar
-   cada diferencia con lo observado, usando el modelo de la sección 3.10.2.
+Todos tienen algo en común: **en el momento, no parecen errores**. Por eso son
+frecuentes.
 
-2. **Capa `api/` mínima.** Escribir una función `pedir(ruta, opciones)` que agregue
-   el token, verifique `respuesta.ok`, traduzca el código del catálogo del TPI a un
-   error propio y aplique un plazo de espera. Usarla para tres endpoints distintos y
-   verificar que ninguna vista repite esa lógica.
-
-3. **Serie contra paralelo.** Implementar la carga de un panel con cuatro
-   estadísticas de las dos formas. Medir ambas con la limitación de red en tres
-   megabits y documentar la diferencia. Justificar cuál combinador corresponde.
-
-4. **Las tres categorías.** Construir una vista que muestre un mensaje distinto ante
-   un fallo de red, un `500` y un `409` por falta de stock. Provocar los tres casos y
-   documentar cómo se distingue cada uno en el código.
-
-5. **Cancelación en una búsqueda.** Implementar un buscador de productos que cancele
-   la petición anterior en cada tecla. Verificar en el panel de red que las
-   peticiones aparecen canceladas, y explicar qué problema evita además del
-   desperdicio.
-
-6. **Exploración: el hueco de la reconexión.** Con el canal de eventos abierto,
-   cortar la conexión, provocar tres cambios de estado desde otra pestaña, y
-   reconectar. Documentar qué eventos se recuperan y cuáles no, y relacionar lo
-   observado con el mecanismo de la sección 11.3 del TPI y con la regla RN-F11.
-   *(Requiere el backend del TPI en ejecución.)*
-
-7. **Exploración: qué protege CORS.** Emitir la misma petición desde una página de
-   otro origen y desde `curl`. Documentar cuál es bloqueada y cuál no, y explicar a
-   partir de eso a quién protege la política de mismo origen y por qué el servidor
-   debe autorizar igual. *(Requiere `curl` y un servidor local.)*
+| El error | Por qué duele | Sección |
+| --- | --- | --- |
+| **Creer que `fetch` falla ante un `500`** | La promesa **se cumple**: sin `if (!respuesta.ok)` el cuerpo del error pasa por resultado válido | 5.5.3 |
+| **Encadenar `await` de peticiones independientes** | Duplica el tiempo de carga sin razón, y se ve prolijo | 5.4.2 |
+| **Usar `forEach` con una función `async`** | No espera nada: el usuario ve un éxito que no ocurrió | 5.4.2 |
+| **Elegir `Promise.all` cuando corresponde `allSettled`** | Un fallo descarta **todos** los resultados, incluidos los buenos | 5.3.3 |
+| **Mostrar «error de conexión» ante un `4xx`** | El servidor respondió, con información que el usuario necesita | 5.7.1 |
+| **Comparar el texto del mensaje en vez del código** | Una traducción rompe tu `if` sin dejar ningún error visible | 5.7.2 |
+| **Intentar arreglar CORS desde el frontend** | No se puede: el complemento lo desactiva **sólo en la máquina de quien lo instaló** | 5.6.2 |
+| **Omitir el plazo de espera** | `fetch` no tiene uno propio: la petición queda pendiente durante minutos | 5.5.4 |
+| **No cancelar al desmontar** | Escrituras sobre estado obsoleto **y** la fuga del Capítulo 4. Viola RN-F01 | 5.5.4 |
+| **Reintentar de inmediato ante un `429`** | Empeora lo que el límite contiene y, como cuenta por red, **afecta a todos** | 5.7.3 |
+| **Escribir en la caché con el contenido del evento** | El estado no corresponde a ningún momento real del servidor. Viola RN-F09 | 5.9.4 |
+| **Abrir un canal de eventos por vista** | Consume el límite de conexiones y contradice al servidor. Viola RN-F10 | 5.9.4 |
+| **Confiar en que el evento siempre llega** | Datos viejos **sin ningún error visible**. Viola RN-F11 | 5.9.4 |
 
 ---
 
-## 5.15. Síntesis
+# 5.14 — Las actividades, y qué busca cada una
 
-1. La petición en segundo plano nació para que Outlook Web Access se pareciera a un
-   cliente de escritorio, existió seis años sin nombre, y se volvió ubicua cuando un
+### 1. Predicción de orden
+
+Dado un fragmento con `setTimeout`, tres promesas y dos `await`, escribir el orden de
+salida **antes** de ejecutarlo y explicar cada diferencia con lo observado, según el
+modelo de la sección 3.10.2.
+
+**Qué busca:** *que compruebes que el orden de ejecución no es el de escritura, y que
+el modelo del Capítulo 3 lo predice exactamente.*
+
+### 2. Capa `api/` mínima
+
+Escribir `pedir(ruta, opciones)`: que agregue el token, verifique `respuesta.ok`,
+traduzca el código del catálogo del TPI —sección 14.1— a un error propio y aplique
+plazo de espera. Usarla en tres endpoints y verificar que **ninguna vista repite esa
+lógica**.
+
+**Qué busca:** *que sientas la diferencia entre escribir la comprobación una vez y
+escribirla tres.*
+
+### 3. Serie contra paralelo
+
+Cargar un panel de cuatro estadísticas **de las dos formas**, medir ambas con la
+limitación de red en tres megabits y justificar cuál combinador corresponde.
+
+**Qué busca:** *el número. Leer «es más lento» no convence a nadie; verlo, sí.*
+
+### 4. Las tres categorías
+
+Una vista que muestre un mensaje distinto ante un fallo de red, un `500` y un `409` por
+falta de stock. Provocar los tres casos y documentar **cómo se distingue cada uno en el
+código**.
+
+**Qué busca:** *que el manejo de errores deje de ser un `catch` que dice «hubo un
+problema».*
+
+### 5. Cancelación en una búsqueda
+
+Un buscador que cancele la petición anterior en cada tecla. Verificar en el panel de
+red que aparecen canceladas y explicar **qué problema evita además del desperdicio**.
+
+**Qué busca:** *que descubras el problema de las respuestas desordenadas, que es el que
+de verdad rompe la pantalla.*
+
+### 6. Exploración: el hueco de la reconexión
+
+Con el canal abierto, cortar la conexión, provocar **tres** cambios de estado desde
+otra pestaña y reconectar. Documentar qué eventos se recuperan y cuáles no, y
+relacionarlo con la **sección 11.3 del TPI** y con RN-F11. *(Requiere el backend del
+TPI en ejecución.)*
+
+**Qué busca:** *que veas el hueco con tus ojos. Después de eso, RN-F11 no hay que
+justificarla.*
+
+### 7. Exploración: qué protege CORS
+
+Emitir la misma petición desde una página de otro origen y desde `curl`. Documentar
+cuál se bloquea y cuál no, y explicar **a quién protege** la política de mismo origen y
+por qué el servidor debe autorizar igual. *(Requiere `curl` y un servidor local.)*
+
+**Qué busca:** *que quede claro que CORS vive en el navegador, y que el servidor no
+puede delegarle ni un gramo de su seguridad.*
+
+---
+
+# 5.15 — Síntesis: las once frases
+
+1. La petición en segundo plano nació para que **Outlook Web Access se pareciera a un
+   cliente de escritorio**, existió seis años sin nombre y se volvió ubicua cuando un
    ensayo de 2005 la nombró.
 
 2. **Asincronía no es concurrencia.** Sigue habiendo un solo hilo: `await` no espera,
-   **cede el control y vuelve**. Una función `async` con un cálculo pesado adentro
-   bloquea igual.
+   **cede el control y vuelve**. Una `async` con un cálculo pesado adentro bloquea
+   igual.
 
-3. Las promesas resolvieron el manejo de errores, no la indentación: **un solo
-   `catch` cubre toda la cadena**, algo que las funciones de retorno no podían hacer.
+3. Las promesas resolvieron **el manejo de errores, no la indentación**: un solo
+   `catch` cubre toda la cadena, con una idea sola: **el resultado futuro es un
+   valor.**
 
 4. **`fetch` no rechaza ante un error HTTP.** Un 404 o un 500 cumplen la promesa,
-   porque la operación de red salió bien. Sin `respuesta.ok`, el cuerpo del error se
-   procesa como resultado válido.
+   porque la operación de red salió bien; sin `respuesta.ok`, el cuerpo del error pasa
+   por resultado válido.
 
-5. Encadenar `await` de peticiones independientes **multiplica el tiempo de carga
-   sin motivo**, y `forEach` no espera promesas.
+5. Encadenar `await` de peticiones independientes **multiplica el tiempo de carga sin
+   motivo**, y `forEach` no espera promesas.
 
 6. **CORS no protege al servidor: protege al usuario** de que un sitio lea respuestas
    de otro con sus credenciales. Se arregla en el servidor y sólo ahí, y el error lo
    emite el navegador después de que la respuesta llegó.
 
-7. Red, protocolo y aplicación son **tres categorías distintas** de error. Un `409`
-   por falta de stock es información de negocio, no una falla técnica.
+7. Red, protocolo y aplicación son **tres categorías distintas** de error. Un `409` por
+   falta de stock es información de negocio, y se compara **por código**, nunca por el
+   texto del mensaje.
 
-8. **Todo lo que llega al cliente es visible.** Las guardas de ruta son usabilidad
-   —RN-F04— y ninguna forma de guardar el token es segura si hay un XSS.
+8. **Toda petición lleva plazo de espera**, porque la peor falla no es la que falla: es
+   la que queda colgada, sin error, con el usuario apretando el botón otra vez.
 
-9. El TPI eligió SSE por cinco criterios, y el decisivo es que **SSE es HTTP**: pasa
-   por la misma infraestructura y la misma autenticación, y reconecta solo.
+9. **Todo lo que llega al cliente es visible.** Las guardas de ruta son usabilidad
+   —RN-F04— y ninguna forma de guardar el token es segura si hay un XSS: la defensa
+   real es RN-F02.
 
-10. El mecanismo de publicación **no persiste los mensajes**, y de ese hecho salen
-    las tres reglas: invalidar en vez de escribir (RN-F09), una sola conexión
-    (RN-F10) y no depender del canal (RN-F11).
+10. El TPI eligió SSE por cinco criterios, y el decisivo es que **SSE es HTTP**. El
+    mecanismo de publicación **no persiste los mensajes**, y de ahí salen las tres
+    reglas: invalidar en vez de escribir (RN-F09), una sola conexión (RN-F10) y no
+    depender del canal (RN-F11).
 
-11. El canal es una **optimización de latencia, no la fuente de verdad**. Una
-    interfaz que sólo se actualiza por eventos puede quedarse mostrando datos viejos
-    **sin ningún error visible**, que es la peor forma de fallar.
+11. El canal es una **optimización de latencia, no la fuente de verdad**. Una interfaz
+    que sólo se actualiza por eventos puede quedarse mostrando datos viejos **sin
+    ningún error visible**, que es la peor forma de fallar.
 
 ---
 
-## 5.16. Referencias y lecturas complementarias
+# 5.16 — Qué leer, y en qué orden
 
-Las fuentes normativas son estándares vivientes del WHATWG. El **Fetch Standard**,
-en `fetch.spec.whatwg.org`, define la interfaz de la sección 5.5, el modelo de
-respuestas y —lo más pertinente acá— el algoritmo de intercambio de recursos entre
-orígenes de la sección 5.6, incluida la lista de condiciones que evitan la
-verificación previa. La interfaz de eventos enviados por el servidor de la sección
-5.9 está en el **HTML Living Standard**, en su sección sobre `EventSource`, que
-documenta el formato del flujo, el reenvío del último identificador y el
-comportamiento de reconexión. Las promesas y `async`/`await` están en **ECMA-262**,
-mientras que el bucle de eventos que determina su orden de ejecución está en el
-estándar HTML, distinción ya señalada en el Capítulo 3. La política de mismo origen
-está descrita en la **RFC 6454** del IETF, y los códigos de estado citados
-corresponden a la **RFC 9110**.
+### Si leés una sola cosa
 
-Del TPI conviene tener presentes cuatro secciones al leer este capítulo: la **11.1**,
-con los cinco criterios de la elección de SSE; la **11.3**, que documenta el hueco de
-la reconexión y su recuperación del lado del servidor; la **11.4**, sobre la
-autorización del canal y la concesión del token en la cadena de consulta; y la
-**14.1** con su catálogo de errores, que es lo que la capa `api/` traduce.
+**Archibald**, *Tasks, microtasks, queues and schedules* (2015): la explicación más
+precisa del orden de ejecución de la sección 5.3.1, y **se puede ejecutar mientras se
+lee**.
 
-Como bibliografía de estudio, Archibald, *Tasks, microtasks, queues and schedules*
-(2015) sigue siendo la explicación más precisa del orden de ejecución de la sección
-5.3.1. Para el diseño de clientes resistentes a fallos, el capítulo sobre reintentos
-y espera creciente de Beyer y otros, *Site Reliability Engineering* (O'Reilly, 2016,
-de lectura libre en `sre.google/books`) explica por qué la variación aleatoria de la
-sección 5.7.3 no es un detalle. Sobre CORS, la documentación de MDN y la
-**OWASP HTML5 Security Cheat Sheet** cubren los casos que la especificación deja
-implícitos. Y el ensayo original de Garrett, *Ajax: A New Approach to Web
-Applications* (Adaptive Path, 2005), se lee en veinte minutos y muestra con claridad
-qué se consideraba imposible antes de que la técnica se difundiera.
+### Si leés tres
+
+- **Beyer y otros**, *Site Reliability Engineering* (O'Reilly, 2016 — libre en
+  `sre.google/books`), el capítulo sobre reintentos y espera creciente: explica **por
+  qué la variación aleatoria de la sección 5.7.3 no es un detalle**.
+- **MDN** sobre CORS y la **OWASP HTML5 Security Cheat Sheet**: cubren los casos que la
+  especificación deja implícitos, que son los que te vas a encontrar.
+- **Garrett**, *Ajax: A New Approach to Web Applications* (Adaptive Path, 2005): **se
+  lee en veinte minutos** y muestra qué se consideraba imposible antes de la técnica.
+
+### Las fuentes normativas (para consultar, no para leer de corrido)
+
+- **Fetch Standard** del WHATWG, en `fetch.spec.whatwg.org`: un **estándar viviente**,
+  no una RFC. Define la interfaz de la 5.5, el modelo de respuestas y el intercambio de
+  recursos entre orígenes de la 5.6, **incluida la lista de condiciones que evitan la
+  verificación previa**.
+- **HTML Living Standard**, su sección sobre `EventSource`: el formato del flujo de la
+  5.9.2, el reenvío del último identificador y la reconexión.
+- **ECMA-262**: las promesas y `async`/`await`. Ojo con la distinción que ya señaló el
+  Capítulo 3: **el bucle de eventos que determina el orden no está acá**, está en el
+  estándar HTML.
+- **RFC 6454** del IETF: la política de mismo origen de la 5.6.1. Y **RFC 9110**: los
+  códigos de estado, la misma norma del Capítulo 1.
+
+### Y del TPI, cuatro secciones para tener abiertas
+
+- **11.1** — los cinco criterios de la elección de SSE (5.9.1).
+- **11.3** — el hueco de la reconexión y su recuperación (5.9.3).
+- **11.4** — la autorización del canal, la multiplexación y la concesión del token en la
+  cadena de consulta (5.8 y 5.9.4).
+- **14.1** — el catálogo de errores que la capa `api/` traduce, con la **14.2**, que dice
+  dónde (5.7.2).
+
+---
+
+# Cierre: las siete cosas que hay que recordar
+
+> **💡 LAS SIETE**
+> **1.** **Hay un solo hilo.** `await` no espera: **cede el control y vuelve**.
+>
+> **2.** **La promesa es un valor, no una operación.** Por eso se puede guardar, pasar
+> y combinar — y por eso **no se puede cancelar**: se cancela la petición de abajo.
+>
+> **3.** **Si no dependen, van juntas.** Dos `await` seguidos de peticiones
+> independientes son el doble de tiempo regalado. Y `forEach` no espera nada.
+>
+> **4.** **`fetch` cumple con un 500.** El cartero entregó la carta; que traiga una
+> mala noticia no es problema del correo. **Si no ves un `if (!respuesta.ok)`, el
+> código está mal.**
+>
+> **5.** **CORS protege al usuario, no al servidor**, vive en el navegador y se arregla
+> del otro lado. Un `curl` ni se entera de que existe.
+>
+> **6.** **Toda petición lleva plazo de espera**, y toda petición que puede quedar
+> huérfana lleva `AbortController`: es RN-F01 con otra ropa.
+>
+> **7.** **El canal de eventos es una optimización, no la verdad.** El evento es el
+> timbre, no el paquete (RN-F09); uno solo por sesión (RN-F10); y la pantalla se
+> actualiza igual si el canal se cae (RN-F11).
+
+Y una octava, que no está escrita en el capítulo pero está en todas sus páginas: **la
+peor falla no es la que falla.** Un error explícito te dice dónde mirar; lo que arruina
+un sistema es el botón que gira para siempre, la lista que muestra resultados de otra
+búsqueda y el reloj de la estación que se paró marcando una hora creíble. Todo este
+capítulo es una sola disciplina: **hacer que las fallas se vean.**
 
 ---
 
